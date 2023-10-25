@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using JiraClone.utils;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace JiraClone
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        public App() {
+            MainWindow window = new();
+            window.Show();
+            InterfaceController.CreateController(window);
+        }
     }
 }

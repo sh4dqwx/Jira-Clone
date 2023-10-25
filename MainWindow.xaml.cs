@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JiraClone.utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +16,18 @@ using System.Windows.Shapes;
 
 namespace JiraClone
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (e.Key == Key.I)
+                InterfaceController.CreateController().ChangeInterface();
         }
     }
 }

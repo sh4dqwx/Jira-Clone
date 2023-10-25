@@ -5,6 +5,18 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="models\" />
+    <Folder Include="db\" />
+    <Folder Include="viewmodels\" />
+    <Folder Include="views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.13" />
+  </ItemGroup>
 
 </Project>
