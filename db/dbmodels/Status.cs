@@ -12,5 +12,7 @@ namespace JiraClone.db.dbmodels
 		public int IdProject { get; set; }
 		public int Order { get; set; }
 		public string? Name { get; set; }
+		public Project? Project { get; set; }
+		public List<Ticket>? Tickets { get; set; }
 	}
 }
