@@ -54,7 +54,7 @@ namespace JiraClone.db
 			modelBuilder.Entity<AccountProject>()
 				.HasOne(ap => ap.Project)
 				.WithMany(p => p.AccountProjects)
-				.HasForeignKey(ap => ap.Project);
+				.HasForeignKey(ap => ap.IdProject);
 
 			modelBuilder.Entity<Ticket>()
 				.ToTable("Ticket");
@@ -69,11 +69,11 @@ namespace JiraClone.db
 				.HasForeignKey(t => t.IdProject);
 			modelBuilder.Entity<Ticket>()
 				.HasOne(t => t.Reporter)
-				.WithMany(a => a.Tickets)
+				.WithMany(a => a.ReporterTickets)
 				.HasForeignKey(t => t.IdReporter);
 			modelBuilder.Entity<Ticket>()
 				.HasOne(t => t.Asignee)
-				.WithMany(a => a.Tickets)
+				.WithMany(a => a.AsigneeTickets)
 				.HasForeignKey(t => t.IdAsignee);
 			modelBuilder.Entity<Ticket>()
 				.HasOne(t => t.Status)

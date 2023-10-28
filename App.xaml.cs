@@ -20,7 +20,7 @@ namespace JiraClone
 				services.AddDbContext<SqliteDbContext>(options =>
 				{
 					//dodać connection string
-					options.UseSqlite();
+					options.UseSqlite("Data Source=sqlite.db");
 				});
 			});
 			return builder.Build();

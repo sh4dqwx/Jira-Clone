@@ -16,7 +16,8 @@ namespace JiraClone.db.dbmodels
         public string? Surname { get; set; }
         public long CreationTimestamp { get; set; }
         public List<AccountProject>? AccountProjects { get; set; }
-        public List<Ticket>? Tickets { get; set; }
+        public List<Ticket>? ReporterTickets { get; set; }
+        public List<Ticket>? AsigneeTickets { get; set; }
         public List<Comment>? Comments { get; set; }
     }
 }
