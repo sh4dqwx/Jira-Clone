@@ -1,5 +1,6 @@
 ﻿using JiraClone.db;
 using JiraClone.utils;
+using JiraClone.views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,8 +31,10 @@ namespace JiraClone
             AppHost = BuildAppHost();
 
             MainWindow window = new();
-            window.Show();
             InterfaceController.CreateController(window);
+
+            WelcomeScreenView console = new();
+            console.Start();
         }
 
         protected override async void OnStartup(StartupEventArgs e)

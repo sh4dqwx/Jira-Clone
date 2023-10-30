@@ -43,6 +43,8 @@ namespace JiraClone.utils
         private InterfaceController(MainWindow window)
         {
             this.window = window;
+            if(!window.IsVisible) 
+                ShowConsole();
         }
 
         public void ChangeInterface()
