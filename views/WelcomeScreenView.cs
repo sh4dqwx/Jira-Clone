@@ -2,6 +2,7 @@
 using JiraClone.viewmodels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,13 @@ namespace JiraClone.views
         public WelcomeScreenView()
         {
             viewModel = new();
+
+            viewModel.PropertyChanged += EventHandler;
+        }
+
+        private void EventHandler(object sender, PropertyChangedEventArgs e)
+        {
+            Console.WriteLine(e.PropertyName);
         }
 
         public void Start()
