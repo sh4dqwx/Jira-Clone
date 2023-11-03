@@ -17,6 +17,9 @@ namespace JiraClone.utils
         [DllImport("kernel32.dll")]
         private static extern IntPtr GetConsoleWindow();
 
+		[DllImport("kernel32.dll")]
+		private static extern IntPtr GetConsoleScreenBufferInfo();
+
 		[DllImport("kernel32.dll", SetLastError = true)]
 		private static extern IntPtr CreateFile(
             string lpFileName,
@@ -35,6 +38,7 @@ namespace JiraClone.utils
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         private const int SW_HIDE = 0;
+        private const int SW_MAXIMIZE = 3;
         private const int SW_SHOW = 5;
 
 		private const int MY_CODE_PAGE = 437;
@@ -98,11 +102,9 @@ namespace JiraClone.utils
                 };
 				Console.SetOut(standardOutput);
 			}
-            else
-            {
-                ShowWindow(handle, SW_SHOW);
-                SetForegroundWindow(handle);
-            }
+
+			ShowWindow(handle, SW_SHOW);
+			SetForegroundWindow(handle);
         }
 
         private static void HideConsole()
