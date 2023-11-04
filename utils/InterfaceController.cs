@@ -17,6 +17,9 @@ namespace JiraClone.utils
         [DllImport("kernel32.dll")]
         private static extern IntPtr GetConsoleWindow();
 
+		[DllImport("kernel32.dll")]
+		private static extern IntPtr GetConsoleScreenBufferInfo();
+
 		[DllImport("kernel32.dll", SetLastError = true)]
 		private static extern IntPtr CreateFile(
             string lpFileName,
@@ -34,15 +37,25 @@ namespace JiraClone.utils
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
+        [DllImport("user32.dll")]
+        public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
         private const int SW_HIDE = 0;
         private const int SW_SHOW = 5;
 
-		private const int MY_CODE_PAGE = 437;
 		private const uint GENERIC_WRITE = 0x40000000;
 		private const uint FILE_SHARE_WRITE = 0x2;
 		private const uint OPEN_EXISTING = 0x3;
 
-		private readonly MainWindow window;
+        private const int MF_BYCOMMAND = 0x00000000;
+        private const int SC_MINIMIZE = 0xF020;
+        private const int SC_MAXIMIZE = 0xF030;
+        private const int SC_SIZE = 0xF000;
+
+        private readonly MainWindow window;
 
         private static InterfaceController? controller;
 
@@ -86,7 +99,13 @@ namespace JiraClone.utils
             { 
                 AllocConsole();
 
-				IntPtr stdHandle = CreateFile("CONOUT$", GENERIC_WRITE, FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
+
+                DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_MINIMIZE, MF_BYCOMMAND);
+                DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_MAXIMIZE, MF_BYCOMMAND);
+                DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_SIZE, MF_BYCOMMAND);
+
+
+                IntPtr stdHandle = CreateFile("CONOUT$", GENERIC_WRITE, FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
 				StreamWriter standardOutput = new StreamWriter(
                     new FileStream(
                         new SafeFileHandle(stdHandle, true),                        
@@ -97,12 +116,13 @@ namespace JiraClone.utils
                     AutoFlush = true
                 };
 				Console.SetOut(standardOutput);
+                Console.Clear();
+                Console.SetWindowSize(120, 35);
+                Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 			}
-            else
-            {
-                ShowWindow(handle, SW_SHOW);
-                SetForegroundWindow(handle);
-            }
+
+			ShowWindow(handle, SW_SHOW);
+			SetForegroundWindow(handle);
         }
 
         private static void HideConsole()
