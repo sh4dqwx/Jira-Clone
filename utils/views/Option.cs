@@ -23,7 +23,7 @@ namespace JiraClone.utils.views
 		public void Select()
 		{
 			Console.SetCursorPosition(X, Y);
-			Console.ForegroundColor = ConsoleColor.DarkBlue;
+			Console.ForegroundColor = ConsoleColor.Cyan;
 			Console.Write(Title);
 		}
 

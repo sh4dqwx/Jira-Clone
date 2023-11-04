@@ -35,8 +35,10 @@ namespace JiraClone.views
 
 		public void Start()
 		{
-			Console.WriteLine(Logo.ConsoleLogo);
-			Console.WriteLine("LOGOWANIE");
+            foreach (var line in Logo.ConsoleLogo)
+                printCenter(line);
+
+            Console.WriteLine("LOGOWANIE");
 			foreach (var option in options) { Console.WriteLine(option); }
 			Console.CursorVisible = false;
 
@@ -61,6 +63,14 @@ namespace JiraClone.views
 
 				options[selectedOption].UseKey(key.KeyChar);
 			}
+		}
+
+		private void printCenter(string text)
+		{
+			int margin = (Console.WindowWidth - text.Length) / 2;
+			for (int i = 0; i < margin; i++)
+				Console.Write(" ");
+			Console.WriteLine(text);
 		}
 	}
 }
