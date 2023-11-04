@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JiraClone.views
 {
-    public class WelcomeScreenView
+    public class WelcomeView
     {
         private IOption[] options = new IOption[]
         {
@@ -16,16 +16,24 @@ namespace JiraClone.views
         {
             DrawLayout();
 
-            //while (true)
-            //{
-            //    ConsoleKeyInfo keyInfo = Console.ReadKey();
-            //    if (keyInfo.Key == ConsoleKey.UpArrow)
-            //        moveSelectedUp();
-            //    else if (keyInfo.Key == ConsoleKey.DownArrow)
-            //        moveSelectedDown();
-            //    else if (keyInfo.Key == ConsoleKey.Enter)
-            //        enterSelected();
-            //}
+            while (true)
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                switch(keyInfo)
+                {
+                    case ConsoleKey.UpArrow:
+                        moveSelectedUp();
+                        break;
+                    case ConsoleKey.DownArrow:
+                        moveSelectedDown();
+                        break;
+                    case ConsoleKey.Enter:
+                        enterSelected();
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private void DrawLayout()
@@ -34,19 +42,19 @@ namespace JiraClone.views
             new Menu(options).Print();
         }
 
-        //private void enterSelected()
-        //{
-        //    switch (optionsCurrentSelectedId)
-        //    {
-        //        case 0:
-        //            // Przekierowanie do zalogowania
-        //            return;
-        //        case 1:
-        //            //Przekierowanie do rejestracji
-        //            return;
-        //        default:
-        //            return;
-        //    }
-        //}
+        private void enterSelected()
+        {
+            switch (optionsCurrentSelectedId)
+            {
+                case 0:
+                    // Przekierowanie do zalogowania
+                    return;
+                case 1:
+                    //Przekierowanie do rejestracji
+                    return;
+                default:
+                    return;
+            }
+        }
     }
 }

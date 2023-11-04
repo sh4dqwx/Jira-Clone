@@ -108,5 +108,7 @@ namespace JiraClone.db
 				.WithMany(a => a.Comments)
 				.HasForeignKey(c => c.IdAccount);
 		}
+
+		
 	}
 }
