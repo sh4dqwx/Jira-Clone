@@ -1,13 +1,8 @@
-﻿using JiraClone.utils.views;
+﻿using JiraClone.utils.consoleViewParts;
 using JiraClone.viewmodels;
 using System;
-using System.IO;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
+using JiraClone.utils;
 
 namespace JiraClone.views
 {
@@ -35,8 +30,8 @@ namespace JiraClone.views
 
 		public void Start()
 		{
-            foreach (var line in Logo.ConsoleLogo)
-                printCenter(line);
+            //foreach (var line in Constants.ConsoleLogo)
+            //    printCenter(line);
 
             Console.WriteLine("LOGOWANIE");
 			foreach (var option in options) { Console.WriteLine(option); }
@@ -63,14 +58,6 @@ namespace JiraClone.views
 
 				options[selectedOption].UseKey(key.KeyChar);
 			}
-		}
-
-		private void printCenter(string text)
-		{
-			int margin = (Console.WindowWidth - text.Length) / 2;
-			for (int i = 0; i < margin; i++)
-				Console.Write(" ");
-			Console.WriteLine(text);
 		}
 	}
 }

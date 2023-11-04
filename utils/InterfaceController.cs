@@ -1,11 +1,7 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JiraClone.utils
 {
@@ -117,8 +113,8 @@ namespace JiraClone.utils
                 };
 				Console.SetOut(standardOutput);
                 Console.Clear();
-                Console.SetWindowSize(120, 35);
-                Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
+                Console.SetBufferSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+                Console.SetWindowSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 			}
 
 			ShowWindow(handle, SW_SHOW);

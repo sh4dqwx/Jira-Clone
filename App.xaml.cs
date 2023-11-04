@@ -33,7 +33,7 @@ namespace JiraClone
             MainWindow window = new();
             InterfaceController.CreateController(window);
 
-            LoginView console = new();
+            WelcomeScreenView console = new();
             console.Start();
         }
 
