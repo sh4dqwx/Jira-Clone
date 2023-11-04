@@ -16,9 +16,9 @@ namespace JiraClone.views
 		private LoginViewModel viewModel;
 		private IOption[] options = new IOption[]
 		{
-			new TextOption("Login", 0, 11),
-			new TextOption("Hasło", 0, 12, true),
-			new Option("Zaloguj się", 0, 13)
+			new TextOption("Login", 0, 12),
+			new TextOption("Hasło", 0, 13, true),
+			new Option("Zaloguj się", 0, 14)
 		};
 		private int selectedOption;
 
@@ -36,6 +36,7 @@ namespace JiraClone.views
 		public void Start()
 		{
 			Console.WriteLine(Logo.ConsoleLogo);
+			Console.WriteLine("LOGOWANIE");
 			foreach (var option in options) { Console.WriteLine(option); }
 			Console.CursorVisible = false;
 
@@ -58,9 +59,7 @@ namespace JiraClone.views
 						break;
 				}
 
-				if (options[selectedOption] is not IInputOption) continue;
-				IInputOption inputOption = (IInputOption)options[selectedOption];
-				inputOption.Write(key.KeyChar);
+				options[selectedOption].UseKey(key.KeyChar);
 			}
 		}
 	}

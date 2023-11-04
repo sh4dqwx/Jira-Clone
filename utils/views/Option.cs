@@ -34,6 +34,15 @@ namespace JiraClone.utils.views
 			Console.Write(Title);
 		}
 
+		public void UseKey(char c)
+		{
+			if (c == '\n' || c == '\r')
+			{
+				//Można dać jakąś funkcję onClick podaną przy tworzeniu
+				Console.WriteLine("klik");
+			}
+		}
+
 		public override string ToString()
 		{
 			return Title ?? "";

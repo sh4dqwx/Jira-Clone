@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.views
 {
-	public interface IInputOption : IOption
+	public interface ITextOption : IOption
 	{
-		public void Write(char c);
+		public string Value { get; }
 	}
 }
