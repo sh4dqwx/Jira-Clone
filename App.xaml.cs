@@ -1,4 +1,5 @@
 ﻿using JiraClone.db;
+using JiraClone.db.repositories;
 using JiraClone.utils;
 using JiraClone.views;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace JiraClone
 					//dodać connection string
 					options.UseSqlite("Data Source=sqlite.db");
 				});
+                services.AddSingleton<IAccountRepository, AccountRepository>();
 			});
 			return builder.Build();
 		}
