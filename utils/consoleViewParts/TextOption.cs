@@ -3,7 +3,7 @@ using System.Text;
 
 namespace JiraClone.utils.consoleViewParts
 {
-    public class TextOption : Drawable, ITextOption
+    public class TextOption : IPrintable, ITextOption
 	{
 		private static readonly int InputSpacer = 20;
 
@@ -16,16 +16,11 @@ namespace JiraClone.utils.consoleViewParts
 
 		public TextOption(string title, int inputLeft, int inputTop, bool isPassword = false)
 		{
-			option = new Option(title, inputLeft, inputTop);
+			option = new Option(inputTop, title);
 			this.inputLeft = inputLeft + InputSpacer;
 			this.inputTop = inputTop;
 			this.isPassword = isPassword;
 		}
-
-        public string Title
-        {
-            get { return option.Title; }
-        }
 
         public void Select()
 		{
@@ -54,6 +49,11 @@ namespace JiraClone.utils.consoleViewParts
 				valueBuilder.Remove(valueBuilder.Length - 1, 1);
 				Console.Write("\b \b");
 			}
+		}
+
+		public void Print(int left, int top)
+		{
+			throw new NotImplementedException();
 		}
 
 		public string Value

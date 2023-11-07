@@ -13,7 +13,7 @@ namespace JiraClone.views
 		{
 			new TextOption("Login", 0, 12),
 			new TextOption("Hasło", 0, 13, true),
-			new Option("Zaloguj się", 0, 14)
+			//new Option("Zaloguj się", 0, 14)
 		};
 		private int selectedOption;
 

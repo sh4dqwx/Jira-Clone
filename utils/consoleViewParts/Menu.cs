@@ -6,42 +6,18 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts
 {
-    public class Menu : Drawable
-    {
-        private readonly IOption[] options;
-    
-        public Menu(IOption[] options)
-        {
-            this.options = options;
-        }
+	public class Menu : Printable
+	{
+		private VerticalLayout layout;
 
-        public void Print()
-        {
-            string line = new StringBuilder()
-                .Append('+')
-                .Append('-', Constants.MENU_WIDTH)
-                .Append('+')
-                .ToString();
+		public Menu(int width) : base(width)
+		{
+			layout = new VerticalLayout(width);
+		}
 
-            string emptyLine = new StringBuilder()
-                .Append('|')
-                .Append(' ', Constants.MENU_WIDTH)
-                .Append('|')
-                .ToString();
-
-            foreach (var option in options)
-            {
-				PrintCenter(line);
-
-                (int leftPosition, int topPosition) = Console.GetCursorPosition();
-                Console.SetCursorPosition(0, topPosition + 1);
-                PrintCenter(option.Title);
-                Console.SetCursorPosition(leftPosition, topPosition);
-
-                for (int i=0; i<3; i++) PrintCenter(emptyLine);
-
-			}
-            PrintCenter(line);
-        }
-    }
+		public override void Print(int left, int top)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
