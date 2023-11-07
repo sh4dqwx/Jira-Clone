@@ -3,25 +3,37 @@ using JiraClone.viewmodels;
 using System;
 using System.ComponentModel;
 using JiraClone.utils;
+using JiraClone.utils.consoleViewParts.options;
+using JiraClone.utils.consoleViewParts.layouts;
+using System.Runtime.CompilerServices;
 
 namespace JiraClone.views
 {
-	public class LoginView
+    public class LoginView: IConsoleView
 	{
-		private LoginViewModel viewModel;
-		private IOption[] options = new IOption[]
-		{
-			new TextOption("Login", 0, 12),
-			new TextOption("Hasło", 0, 13, true),
-			//new Option("Zaloguj się", 0, 14)
-		};
-		private int selectedOption;
+        private CompoundPrintable layout;
+        private Menu menu;
+        private LoginViewModel viewModel;
 
-		public LoginView()
+		public LoginView(LoginViewModel viewModel)
 		{
-			viewModel = new();
-			viewModel.PropertyChanged += EventHandler;
-		}
+            this.viewModel = viewModel;
+            viewModel.PropertyChanged += EventHandler;
+
+            Console.CursorVisible = false;
+
+            menu = new Menu(Constants.MENU_WIDTH);
+            menu.AddOption(new Option(menu.Width, "Login", () => { }));
+            menu.AddOption(new Option(menu.Width, "Hasło", () => { }));
+			menu.AddOption(new Option(menu.Width, "Zatwierdź", () => { }));
+
+			layout = new VerticalLayout(Constants.WINDOW_WIDTH);
+            layout.Add(new Text(Constants.WINDOW_WIDTH, "Nacisnij CTRL+I aby zmienic interfejs"));
+            layout.Add(new Logo(Constants.WINDOW_WIDTH));
+			layout.Add(new Text(Constants.WINDOW_WIDTH, "LOGOWANIE"));
+			layout.Add(menu);
+
+        }
 
 		private void EventHandler(object sender, PropertyChangedEventArgs e)
 		{
@@ -30,34 +42,27 @@ namespace JiraClone.views
 
 		public void Start()
 		{
-            //foreach (var line in Constants.ConsoleLogo)
-            //    printCenter(line);
+            Console.Clear();
+            layout.Print(0, 0);
 
-            Console.WriteLine("LOGOWANIE");
-			foreach (var option in options) { Console.WriteLine(option); }
-			Console.CursorVisible = false;
-
-			options[0].Select();
-
-			while (true)
-			{
-				ConsoleKeyInfo key = Console.ReadKey(true);
-				switch (key.Key)
-				{
-					case ConsoleKey.UpArrow:
-						if (selectedOption <= 0) break;
-						options[selectedOption--].Unselect();
-						options[selectedOption].Select();
-						break;
-					case ConsoleKey.DownArrow:
-						if (selectedOption >= options.Length - 1) break;
-						options[selectedOption++].Unselect();
-						options[selectedOption].Select();
-						break;
-				}
-
-				options[selectedOption].UseKey(key.KeyChar);
-			}
-		}
+            while (true)
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        menu.NavigateUp();
+                        break;
+                    case ConsoleKey.DownArrow:
+                        menu.NavigateDown();
+                        break;
+                    case ConsoleKey.Enter:
+                        menu.Enter();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
 	}
 }

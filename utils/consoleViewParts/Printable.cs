@@ -6,15 +6,25 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts
 {
-	public abstract class Printable : IPrintable
-	{
-		protected int width;
+    public abstract class Printable : IPrintable
+    {
+        protected int left;
+        protected int top;
+        protected int width;
 
-		protected Printable(int width)
-		{
-			this.width = width;
-		}
+        protected Printable(int width)
+        {
+            this.width = width;
+        }
 
-		public abstract void Print(int left, int top);
-	}
+        public int Width { get => width; }
+
+        public virtual void Print(int left, int top)
+        { 
+            this.left = left;
+            this.top = top;
+        }
+    
+        public void Print() { Print(left, top); }
+    }
 }

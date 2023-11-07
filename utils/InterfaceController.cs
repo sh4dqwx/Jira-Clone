@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace JiraClone.utils
 {
@@ -115,6 +116,7 @@ namespace JiraClone.utils
                 Console.Clear();
                 Console.SetBufferSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
                 Console.SetWindowSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+                Console.OutputEncoding = Encoding.UTF8;
 			}
 
 			ShowWindow(handle, SW_SHOW);

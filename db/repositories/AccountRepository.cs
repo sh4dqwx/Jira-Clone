@@ -17,7 +17,7 @@ namespace JiraClone.db.repositories
             this.db = db;
         }
 
-        public Account GetAccountByLogin(string login)
+        public Account? GetAccountByLogin(string login)
         {
             return db.Accounts.Find(login);
         } 

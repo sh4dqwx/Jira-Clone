@@ -18,7 +18,7 @@ namespace JiraClone.viewmodels
 
 		public bool AuthenticateUser(string login, string password)
 		{
-			Account account = accountRepository.GetAccountByLogin(login);
+			Account? account = accountRepository.GetAccountByLogin(login);
 			if (account == null)
 				throw new Exception("Konto nie istnieje");
 			if (!account.Password.Equals(password.Trim()))

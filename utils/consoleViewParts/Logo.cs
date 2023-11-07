@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 namespace JiraClone.utils.consoleViewParts
 {
     public class Logo : Printable
@@ -22,6 +23,7 @@ namespace JiraClone.utils.consoleViewParts
 
 		public override void Print(int left, int top)
 		{
+            base.Print(left, top);
 			for (int i=0; i<logo.Length; i++)
             {
 				Console.SetCursorPosition((width - logo[i].Length) / 2 + left, top + i);
