@@ -19,8 +19,8 @@ namespace JiraClone.views
             Console.CursorVisible = false;
 
             menu = new Menu(Constants.MENU_WIDTH);
-            menu.AddOption(new Option(menu.Width, "Zaloguj się", loginView.Start));
-            menu.AddOption(new Option(menu.Width, "Zarejestruj się", () => { }));
+            menu.AddOption(new Button(menu.Width, "Zaloguj się", loginView.Start));
+            menu.AddOption(new Button(menu.Width, "Zarejestruj się", () => { }));
 
             layout = new VerticalLayout(Constants.WINDOW_WIDTH);
             layout.Add(new Text(Constants.WINDOW_WIDTH, "Nacisnij CTRL+I aby zmienic interfejs"));

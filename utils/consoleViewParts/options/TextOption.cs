@@ -16,7 +16,7 @@ namespace JiraClone.utils.consoleViewParts.options
 
         public TextOption(string title, int inputLeft, int inputTop, bool isPassword = false)
         {
-            option = new Option(inputTop, title, () => { });
+            //option = new Option(inputTop, title, () => { });
             this.inputLeft = inputLeft + InputSpacer;
             this.inputTop = inputTop;
             this.isPassword = isPassword;
