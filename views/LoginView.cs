@@ -14,18 +14,25 @@ namespace JiraClone.views
         private CompoundPrintable layout;
         private Menu menu;
         private LoginViewModel viewModel;
+		Input loginInput, passwordInput;
+        private bool closeFlag = false;
 
-		public LoginView()
+		public LoginView(LoginViewModel viewModel)
 		{
-            //this.viewModel = viewModel;
-            //viewModel.PropertyChanged += EventHandler;
+            this.viewModel = viewModel;
+            viewModel.PropertyChanged += EventHandler;
 
             Console.CursorVisible = false;
 
-            menu = new Menu(0, Constants.MENU_WIDTH);
-            menu.AddOption(new Input(5, menu.Width, "Login"));
-            menu.AddOption(new Input(5, menu.Width, "Hasło", true));
-			menu.AddOption(new Button(5, menu.Width, "Zatwierdź", () => { }));
+			menu = new Menu(0, Constants.MENU_WIDTH);
+
+			loginInput = new Input(5, menu.Width, "Login");
+			passwordInput = new Input(5, menu.Width, "Hasło", true);
+            
+			menu.AddOption(loginInput);
+            menu.AddOption(passwordInput);
+			menu.AddOption(new Button(5, menu.Width, "Zatwierdź", OnSubmit));
+			menu.AddOption(new Button(5, menu.Width, "Powrót", () => { closeFlag = true; }));
 
 			layout = new VerticalLayout(0, Constants.WINDOW_WIDTH);
             layout.Add(new Text(1, Constants.WINDOW_WIDTH, "Nacisnij CTRL+I aby zmienic interfejs"));
@@ -43,6 +50,7 @@ namespace JiraClone.views
 		{
             Console.Clear();
             layout.Print(0, 0);
+			menu.NavigateTop();
 
             while (true)
             {
@@ -58,7 +66,25 @@ namespace JiraClone.views
 					continue;
 				}
 				menu.UseKey(keyInfo.KeyChar);
+
+				if(closeFlag)
+				{
+					closeFlag = false;
+					menu.NavigateTop();
+					return;
+				}
 			}
         }
+
+		private void OnSubmit()
+		{
+			string? error = viewModel.AuthenticateUser(loginInput.Value, passwordInput.Value);
+			if (error == null)
+			{
+				//Wyświetlić błąd
+				return;
+			}
+
+		}
 	}
 }

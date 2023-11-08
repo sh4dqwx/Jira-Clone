@@ -16,15 +16,15 @@ namespace JiraClone.viewmodels
 			this.accountRepository = accountRepository;
 		}
 
-		public bool AuthenticateUser(string login, string password)
+		public string? AuthenticateUser(string login, string password)
 		{
 			Account? account = accountRepository.GetAccountByLogin(login);
 			if (account == null)
-				throw new Exception("Konto nie istnieje");
-			if (!account.Password.Equals(password.Trim()))
-				throw new Exception("Błędne hasło");
+				return "Konto nie istnieje";
+			if (!password.Trim().Equals(account.Password))
+				return "Błędne hasło";
 
-			return true;
+			return null;
 		}
 	}
 }

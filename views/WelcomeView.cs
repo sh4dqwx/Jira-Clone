@@ -12,9 +12,8 @@ namespace JiraClone.views
     {
         private CompoundPrintable layout;
         private Menu menu;
-        private LoginView loginView = new();
 
-        public WelcomeView()
+        public WelcomeView(LoginView loginView)
         {
             Console.CursorVisible = false;
 
@@ -33,6 +32,7 @@ namespace JiraClone.views
         {
             Console.Clear();
 			layout.Print(0, 0);
+            menu.NavigateTop();
 
             while (true)
             {
@@ -50,6 +50,8 @@ namespace JiraClone.views
                 menu.UseKey(keyInfo.KeyChar);
                 Console.Clear();
                 layout.Print();
+                menu.NavigateTop();
+                Console.CursorVisible = false;
             }
         }
     }

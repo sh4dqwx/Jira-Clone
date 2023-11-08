@@ -18,17 +18,17 @@ namespace JiraClone.utils.consoleViewParts.layouts
         {
             layout = new VerticalLayout(height, width);
             options = new();
-            selectedOption = -1;
+            selectedOption = 0;
         }
 
         public override void Print(int left, int top)
         {
             layout.Print(left, top);
-            if (selectedOption == -1)
-            {
-                selectedOption = 0;
-                options[selectedOption].Selected = true;
-            }
+            //if (selectedOption == -1)
+            //{
+            //    selectedOption = 0;
+            //    options[selectedOption].Selected = true;
+            //}
         }
 
         public void AddOption(Option option)
@@ -36,6 +36,12 @@ namespace JiraClone.utils.consoleViewParts.layouts
             options.Add(option);
             layout.Add(option);
         }
+
+        public void NavigateTop()
+        {
+            options[selectedOption].Selected = false;
+            options[selectedOption = 0].Selected = true;
+         }
 
         public void NavigateUp()
         {

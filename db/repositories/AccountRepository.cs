@@ -19,7 +19,7 @@ namespace JiraClone.db.repositories
 
         public Account? GetAccountByLogin(string login)
         {
-            return db.Accounts.Find(login);
+            return db.Accounts.Where(account => account.Login == login).FirstOrDefault();
         } 
 
         public List<Account> GetAllAccounts()

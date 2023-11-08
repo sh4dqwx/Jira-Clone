@@ -19,7 +19,7 @@ namespace JiraClone.utils.consoleViewParts.options
 
         public override void UseKey(char c)
         {
-            if (c >= 32 && c <= 127)
+            if (Console.CursorLeft < _left + _width - 3 && c >= 32 && c <= 127)
             {
                 valueBuilder.Append(c);
                 if (_isPassword) Console.Write('*');

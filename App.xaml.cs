@@ -25,9 +25,15 @@ namespace JiraClone
 					//dodać connection string
 					options.UseSqlite("Data Source=sqlite.db");
 				});
+                //Views
+                services.AddSingleton<WelcomeView>();
+                services.AddSingleton<LoginView>();
+                //ViewModels
                 services.AddSingleton<LoginViewModel>();
+                //Repositories
                 services.AddSingleton<IAccountRepository, AccountRepository>();
 			});
+            builder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
 			return builder.Build();
 		}
 
@@ -37,7 +43,7 @@ namespace JiraClone
             MainWindow window = new();
             InterfaceController.CreateController(window);
 
-            WelcomeView console = new();
+            WelcomeView console = AppHost.Services.GetRequiredService<WelcomeView>();
             console.Start();
         }
 

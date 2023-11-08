@@ -42,7 +42,19 @@ namespace JiraClone.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Account", (string)null);
+                    b.ToTable("Accounts", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreationTimestamp = 0L,
+                            Email = "admin@test.com",
+                            Login = "admin",
+                            Name = "Jan",
+                            Password = "admin",
+                            Surname = "Kowalski"
+                        });
                 });
 
             modelBuilder.Entity("JiraClone.db.dbmodels.AccountProject", b =>
@@ -60,7 +72,7 @@ namespace JiraClone.Migrations
 
                     b.HasIndex("IdProject");
 
-                    b.ToTable("AccountProject", (string)null);
+                    b.ToTable("AccountProjects", (string)null);
                 });
 
             modelBuilder.Entity("JiraClone.db.dbmodels.Comment", b =>
@@ -87,7 +99,7 @@ namespace JiraClone.Migrations
 
                     b.HasIndex("IdTicket");
 
-                    b.ToTable("Comment", (string)null);
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("JiraClone.db.dbmodels.Project", b =>
@@ -104,7 +116,7 @@ namespace JiraClone.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Project", (string)null);
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("JiraClone.db.dbmodels.Status", b =>
@@ -126,7 +138,7 @@ namespace JiraClone.Migrations
 
                     b.HasIndex("IdProject");
 
-                    b.ToTable("Status", (string)null);
+                    b.ToTable("Statuses", (string)null);
                 });
 
             modelBuilder.Entity("JiraClone.db.dbmodels.Ticket", b =>
@@ -172,7 +184,7 @@ namespace JiraClone.Migrations
 
                     b.HasIndex("IdStatus");
 
-                    b.ToTable("Ticket", (string)null);
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("JiraClone.db.dbmodels.AccountProject", b =>
