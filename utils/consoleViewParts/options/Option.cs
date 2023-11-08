@@ -5,25 +5,13 @@ namespace JiraClone.utils.consoleViewParts.options
 {
     public abstract class Option : Printable, IOption
     {
-        private bool _selected;
-        private Action _callback;
+        protected bool _selected;
         protected readonly string _name;
         public bool Selected { get => _selected; set { _selected = value; Print(); } }
-        public Action Callback { get => _callback; }
 
-        public Option(int width, string name, Action callback) : base(width)
+        public Option(int height, int width, string name) : base(height, width)
         {
             _name = name;
-            _callback = callback;
-        }
-
-        public void UseKey(char c)
-        {
-            //if (c == '\n' || c == '\r')
-            //{
-            //	//Można dać jakąś funkcję onClick podaną przy tworzeniu
-            //	Console.WriteLine("klik");
-            //}
         }
 
         public override void Print(int left, int top)
@@ -36,7 +24,7 @@ namespace JiraClone.utils.consoleViewParts.options
             Console.SetCursorPosition(left, top);
             Console.WriteLine(new StringBuilder()
                 .Append('+')
-                .Append('-', width - 2)
+                .Append('-', _width - 2)
                 .Append('+')
                 .ToString()
             );
@@ -46,7 +34,7 @@ namespace JiraClone.utils.consoleViewParts.options
 				Console.CursorLeft = left;
 				Console.WriteLine(new StringBuilder()
 					.Append('|')
-					.Append(' ', width - 2)
+					.Append(' ', _width - 2)
 					.Append('|')
 					.ToString()
 				);
@@ -55,10 +43,14 @@ namespace JiraClone.utils.consoleViewParts.options
             Console.CursorLeft = left;
             Console.WriteLine(new StringBuilder()
                 .Append('+')
-                .Append('-', width - 2)
+                .Append('-', _width - 2)
                 .Append('+')
                 .ToString()
             );
+
+            Console.ForegroundColor = ConsoleColor.White;
         }
-    }
+
+        public abstract void UseKey(char c);
+	}
 }

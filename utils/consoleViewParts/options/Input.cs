@@ -3,46 +3,65 @@ using System.Text;
 
 namespace JiraClone.utils.consoleViewParts.options
 {
-    public class Input
+    public class Input : Option
     {
         private static readonly int InputSpacer = 20;
 
         private readonly StringBuilder valueBuilder = new();
-        private readonly Option option;
-        private readonly int inputLeft;
-        private readonly int inputTop;
-        private readonly bool isPassword;
+        private int _inputLeft = InputSpacer;
+        private bool _isPassword;
 
 
-        public Input(string title, int inputLeft, int inputTop, bool isPassword = false)
+        public Input(int height, int width, string name, bool isPassword = false) : base(height, width, name)
         {
-            //option = new Option(inputTop, title, () => { });
-            this.inputLeft = inputLeft + InputSpacer;
-            this.inputTop = inputTop;
-            this.isPassword = isPassword;
+            _isPassword = isPassword;
         }
 
-        public void UseKey(char c)
+        public override void UseKey(char c)
         {
             if (c >= 32 && c <= 127)
             {
                 valueBuilder.Append(c);
-                if (isPassword) Console.Write('*');
+                if (_isPassword) Console.Write('*');
                 else Console.Write(c);
             }
-            if (Console.CursorLeft > inputLeft && c == '\b')
+            if (Console.CursorLeft > _inputLeft && c == '\b')
             {
                 valueBuilder.Remove(valueBuilder.Length - 1, 1);
                 Console.Write("\b \b");
             }
         }
 
-        public void Print(int left, int top)
+        public override void Print(int left, int top)
         {
-            throw new NotImplementedException();
+            base.Print(left, top);
+			_inputLeft = _left + InputSpacer + 2;
+
+			if (Selected)
+				Console.ForegroundColor = ConsoleColor.Cyan;
+
+			Console.SetCursorPosition(left + ((InputSpacer - _name.Length) / 2), top + 2);
+            Console.Write(_name);
+
+            for(int i=0; i<5; i++)
+            {
+				Console.SetCursorPosition(left + InputSpacer - 1, top + i);
+                if (i == 0 || i == 4) Console.Write('+');
+                else Console.Write('|');
+			}
+
+			Console.SetCursorPosition(_inputLeft, top + 2);
+            Console.Write(_isPassword ? new StringBuilder().Append('*', valueBuilder.Length).ToString() : valueBuilder.ToString());
+
+            if (Selected)
+                Console.CursorVisible = true;
+            else
+                Console.CursorVisible = false;
+
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public string Value
+		public string Value
         {
             get { return valueBuilder.ToString(); }
         }

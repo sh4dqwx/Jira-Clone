@@ -14,9 +14,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
         private List<Option> options;
         private int selectedOption;
 
-        public Menu(int width) : base(width)
+        public Menu(int height, int width) : base(height, width)
         {
-            layout = new VerticalLayout(width);
+            layout = new VerticalLayout(height, width);
             options = new();
             selectedOption = -1;
         }
@@ -51,9 +51,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			options[selectedOption].Selected = true;
 		}
 
-        public void Enter()
+        public void UseKey(char c)
         {
-            options[selectedOption].Callback();
+            options[selectedOption].UseKey(c);
         }
     }
 }

@@ -10,13 +10,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
     {
         protected List<Printable> children;
 
-        protected CompoundPrintable(int width) : base(width)
+        protected CompoundPrintable(int height, int width) : base(height, width)
         {
             children = new List<Printable>();
         }
 
-        public void Add(Printable child) { children.Add(child); }
+        public virtual void Add(Printable child) { children.Add(child); }
 
-        public void Remove(Printable child) { children.Remove(child); }
+        public virtual void Remove(Printable child) { children.Remove(child); }
     }
 }

@@ -22,17 +22,16 @@ namespace JiraClone.views
 
             Console.CursorVisible = false;
 
-            menu = new Menu(Constants.MENU_WIDTH);
-            menu.AddOption(new Button(menu.Width, "Login", () => { }));
-            menu.AddOption(new Button(menu.Width, "Hasło", () => { }));
-			menu.AddOption(new Button(menu.Width, "Zatwierdź", () => { }));
+            menu = new Menu(0, Constants.MENU_WIDTH);
+            menu.AddOption(new Input(5, menu.Width, "Login"));
+            menu.AddOption(new Input(5, menu.Width, "Hasło", true));
+			menu.AddOption(new Button(5, menu.Width, "Zatwierdź", () => { }));
 
-			layout = new VerticalLayout(Constants.WINDOW_WIDTH);
-            layout.Add(new Text(Constants.WINDOW_WIDTH, "Nacisnij CTRL+I aby zmienic interfejs"));
-            layout.Add(new Logo(Constants.WINDOW_WIDTH));
-			layout.Add(new Text(Constants.WINDOW_WIDTH, "LOGOWANIE"));
+			layout = new VerticalLayout(0, Constants.WINDOW_WIDTH);
+            layout.Add(new Text(1, Constants.WINDOW_WIDTH, "Nacisnij CTRL+I aby zmienic interfejs"));
+            layout.Add(new Logo(7, Constants.WINDOW_WIDTH));
+			layout.Add(new Text(1, Constants.WINDOW_WIDTH, "LOGOWANIE"));
 			layout.Add(menu);
-
         }
 
 		private void EventHandler(object sender, PropertyChangedEventArgs e)
@@ -48,21 +47,18 @@ namespace JiraClone.views
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                switch (keyInfo.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        menu.NavigateUp();
-                        break;
-                    case ConsoleKey.DownArrow:
-                        menu.NavigateDown();
-                        break;
-                    case ConsoleKey.Enter:
-                        menu.Enter();
-                        break;
-                    default:
-                        break;
-                }
-            }
+				if (keyInfo.Key == ConsoleKey.UpArrow)
+				{
+					menu.NavigateUp();
+					continue;
+				}
+				if (keyInfo.Key == ConsoleKey.DownArrow)
+				{
+					menu.NavigateDown();
+					continue;
+				}
+				menu.UseKey(keyInfo.KeyChar);
+			}
         }
 	}
 }

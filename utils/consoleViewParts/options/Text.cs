@@ -11,7 +11,7 @@ namespace JiraClone.utils.consoleViewParts.options
     {
         private readonly string text;
 
-        public Text(int width, string text) : base(width)
+        public Text(int height, int width, string text) : base(height, width)
         {
             this.text = text;
         }
@@ -19,7 +19,7 @@ namespace JiraClone.utils.consoleViewParts.options
         public override void Print(int left, int top)
         {
             base.Print(left, top);
-            Console.SetCursorPosition((width - text.Length) / 2 + left, top);
+            Console.SetCursorPosition((_width - text.Length) / 2 + left, top);
             Console.WriteLine(text);
         }
     }

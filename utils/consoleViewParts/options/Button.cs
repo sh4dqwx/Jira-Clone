@@ -8,17 +8,22 @@ namespace JiraClone.utils.consoleViewParts.options
 {
 	public class Button : Option
 	{
-		public Button(int width, string name, Action callback) : base(width, name, callback)
+		private Action _callback;
+
+		public Button(int height, int width, string name, Action callback) : base(height, width, name)
 		{
+			_callback = callback;
 		}
 
 		public override void Print(int left, int top)
 		{
 			base.Print(left, top);
 
-			int emptyLane = width - 2;
-			int nameLaneLeft = (emptyLane - _name.Length) / 2 - 4;
-			int nameLaneRight = nameLaneLeft + (emptyLane - _name.Length) % 2;
+			int nameLaneLeft = (_width - 2 - _name.Length) / 2 - 4;
+			int nameLaneRight = nameLaneLeft + (_width - 2 - _name.Length) % 2;
+
+			if (Selected)
+				Console.ForegroundColor = ConsoleColor.Cyan;
 
 			Console.SetCursorPosition(left, top + 2);
 			Console.WriteLine(new StringBuilder()
@@ -33,8 +38,12 @@ namespace JiraClone.utils.consoleViewParts.options
 			);
 			Console.CursorTop += 2;
 
-			if (Selected)
-				Console.ForegroundColor = ConsoleColor.White;
+			Console.ForegroundColor = ConsoleColor.White;
+		}
+
+		public override void UseKey(char c)
+		{
+			if(c == '\n' || c == '\r') _callback();
 		}
 	}
 }

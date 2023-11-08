@@ -9,7 +9,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 {
     public class VerticalLayout : CompoundPrintable
     {
-        public VerticalLayout(int width) : base(width) { }
+        public VerticalLayout(int height, int width) : base(height, width) { }
 
         public override void Print(int left, int top)
         {
@@ -17,11 +17,23 @@ namespace JiraClone.utils.consoleViewParts.layouts
             Console.SetCursorPosition(left, top);
             foreach (var child in children)
             {
-                int childWidth = child.Width;
-                Console.CursorLeft = (width - childWidth) / 2 + left;
-                child.Print(Console.CursorLeft, Console.CursorTop);
-                Console.CursorTop++;
+                child.Print((_width - child.Width) / 2 + left, Console.CursorTop);
+                Console.SetCursorPosition(left, child.Top + child.Height + 1);
             }
         }
-    }
+
+		public override void Add(Printable child)
+		{
+			base.Add(child);
+            if (_height > 0) _height += 1; 
+            _height += child.Height;
+		}
+
+		public override void Remove(Printable child)
+		{
+			base.Remove(child);
+            _height -= child.Height;
+            if (_height > 0) _height -= 1;
+		}
+	}
 }
