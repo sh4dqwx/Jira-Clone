@@ -14,7 +14,7 @@ namespace JiraClone.views
         private Menu menu;
         private LoginView loginView = new();
 
-        public WelcomeView(LoginView loginView)
+        public WelcomeView()
         {
             Console.CursorVisible = false;
 

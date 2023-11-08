@@ -15,10 +15,10 @@ namespace JiraClone.views
         private Menu menu;
         private LoginViewModel viewModel;
 
-		public LoginView(LoginViewModel viewModel)
+		public LoginView()
 		{
-            this.viewModel = viewModel;
-            viewModel.PropertyChanged += EventHandler;
+            //this.viewModel = viewModel;
+            //viewModel.PropertyChanged += EventHandler;
 
             Console.CursorVisible = false;
 
