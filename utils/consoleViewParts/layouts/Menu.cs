@@ -8,22 +8,20 @@ using JiraClone.views;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-    public class Menu : Printable
+    public class Menu : VerticalLayout
     {
-        private VerticalLayout layout;
         private List<Option> options;
         private int selectedOption;
 
         public Menu(int height, int width) : base(height, width)
         {
-            layout = new VerticalLayout(height, width);
             options = new();
             selectedOption = 0;
         }
 
         public override void Print(int left, int top)
         {
-            layout.Print(left, top);
+            base.Print(left, top);
             //if (selectedOption == -1)
             //{
             //    selectedOption = 0;
@@ -31,17 +29,18 @@ namespace JiraClone.utils.consoleViewParts.layouts
             //}
         }
 
-        public void AddOption(Option option)
+        public override void Add(Printable child)
         {
-            options.Add(option);
-            layout.Add(option);
+            if (child is not Option) throw new ArgumentException("Argument is not Option class");
+			base.Add(child);
+			options.Add((Option)child);
         }
 
         public void NavigateTop()
         {
             options[selectedOption].Selected = false;
             options[selectedOption = 0].Selected = true;
-         }
+        }
 
         public void NavigateUp()
         {

@@ -13,6 +13,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
         public override void Print(int left, int top)
         {
+            if(_height + 4 >= Console.BufferHeight) { Console.SetBufferSize(Console.BufferWidth, _height + 4); }
             base.Print(left, top);
             Console.SetCursorPosition(left, top);
             foreach (var child in children)

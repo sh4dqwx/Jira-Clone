@@ -9,12 +9,12 @@ using System.Runtime.CompilerServices;
 
 namespace JiraClone.views
 {
-    public class LoginView: IConsoleView
+    public class LoginView : IConsoleView
 	{
         private CompoundPrintable layout;
         private Menu menu;
         private LoginViewModel viewModel;
-		Input loginInput, passwordInput;
+		private Input loginInput, passwordInput;
         private bool closeFlag = false;
 
 		public LoginView(LoginViewModel viewModel)
@@ -29,10 +29,10 @@ namespace JiraClone.views
 			loginInput = new Input(5, menu.Width, "Login");
 			passwordInput = new Input(5, menu.Width, "Hasło", true);
             
-			menu.AddOption(loginInput);
-            menu.AddOption(passwordInput);
-			menu.AddOption(new Button(5, menu.Width, "Zatwierdź", OnSubmit));
-			menu.AddOption(new Button(5, menu.Width, "Powrót", () => { closeFlag = true; }));
+			menu.Add(loginInput);
+            menu.Add(passwordInput);
+			menu.Add(new Button(5, menu.Width, "Zatwierdź", OnSubmit));
+			menu.Add(new Button(5, menu.Width, "Powrót", () => { closeFlag = true; }));
 
 			layout = new VerticalLayout(0, Constants.WINDOW_WIDTH);
             layout.Add(new Text(1, Constants.WINDOW_WIDTH, "Nacisnij CTRL+I aby zmienic interfejs"));

@@ -25,6 +25,7 @@ namespace JiraClone.utils.consoleViewParts.options
 			if (Selected)
 				Console.ForegroundColor = ConsoleColor.Cyan;
 
+			var bufferHeight = Console.BufferHeight;
 			Console.SetCursorPosition(left, top + 2);
 			Console.WriteLine(new StringBuilder()
 				.Append('|')

@@ -13,13 +13,14 @@ namespace JiraClone.views
         private CompoundPrintable layout;
         private Menu menu;
 
-        public WelcomeView(LoginView loginView)
+        public WelcomeView(LoginView loginView, RegisterView registerView)
         {
             Console.CursorVisible = false;
 
             menu = new Menu(0, Constants.MENU_WIDTH);
-            menu.AddOption(new Button(5, menu.Width, "Zaloguj się", loginView.Start));
-            menu.AddOption(new Button(5, menu.Width, "Zarejestruj się", () => { }));
+
+            menu.Add(new Button(5, menu.Width, "Zaloguj się", loginView.Start));
+            menu.Add(new Button(5, menu.Width, "Zarejestruj się", registerView.Start));
 
             layout = new VerticalLayout(0, Constants.WINDOW_WIDTH);
             layout.Add(new Text(1, Constants.WINDOW_WIDTH, "Nacisnij CTRL+I aby zmienic interfejs"));
