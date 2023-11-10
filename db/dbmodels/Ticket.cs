@@ -9,19 +9,19 @@ namespace JiraClone.db.dbmodels
 	public class Ticket
 	{
 		public int Id { get; set; }
-		public int IdProject { get; set; }
-		public int IdReporter { get; set; }
-		public int IdAsignee { get; set; }
-		public int IdStatus { get; set; }
-		public string? Title { get; set; }
+		public int ProjectId { get; set; }
+		public int ReporterId { get; set; }
+		public int AsigneeId { get; set; }
+		public int StatusId { get; set; }
+		public required string Title { get; set; }
 		public string? Description { get; set; }
-		public string? Type { get; set; }
-		public string? Code { get; set; }
+		public required string Type { get; set; }
+		public required string Code { get; set; }
 		public long CreationTimestamp { get; set; }
-		public Project? Project { get; set; }
-		public Account? Reporter { get; set; }
-		public Account? Asignee { get; set; }
-		public Status? Status { get; set; }
-		public List<Comment>? Comments { get; set; }
+		public Project Project { get; set; } = null!;
+		public Account Reporter { get; set; } = null!;
+		public Account Asignee { get; set; } = null!;
+		public Status Status { get; set; } = null!;
+		public List<Comment> Comments { get; set; } = new();
 	}
 }
