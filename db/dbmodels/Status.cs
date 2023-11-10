@@ -9,10 +9,10 @@ namespace JiraClone.db.dbmodels
 	public class Status
 	{
 		public int Id { get; set; }
-		public int IdProject { get; set; }
+		public int ProjectId { get; set; }
+		public required string Name { get; set; }
 		public int Order { get; set; }
-		public string? Name { get; set; }
-		public Project? Project { get; set; }
-		public List<Ticket>? Tickets { get; set; }
+		public Project Project { get; set; } = null!;
+		public List<Ticket> Tickets { get; set; } = new();
 	}
 }

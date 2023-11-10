@@ -24,20 +24,34 @@ namespace JiraClone.db
 			base.OnModelCreating(modelBuilder);
 
 			modelBuilder.Entity<Account>()
-				.ToTable("Accounts");
-			modelBuilder.Entity<Account>()
 				.HasKey(a => a.Id);
 			modelBuilder.Entity<Account>()
-				.Property(a => a.Id)
-				.ValueGeneratedOnAdd();
+				.Property(a => a.Login)
+				.IsRequired();
+			modelBuilder.Entity<Account>()
+				.Property(a => a.Password)
+				.IsRequired();
+			modelBuilder.Entity<Account>()
+				.Property(a => a.Email)
+				.IsRequired();
+			modelBuilder.Entity<Account>()
+				.Property(a => a.Name)
+				.IsRequired();
+			modelBuilder.Entity<Account>()
+				.Property(a => a.Surname)
+				.IsRequired();
+			modelBuilder.Entity<Account>()
+				.Property(a => a.CreationTimestamp)
+				.IsRequired();
 
-			modelBuilder.Entity<Project>()
-				.ToTable("Projects");
 			modelBuilder.Entity<Project>()
 				.HasKey(p => p.Id);
 			modelBuilder.Entity<Project>()
-				.Property(p => p.Id)
-				.ValueGeneratedOnAdd();
+				.Property(p => p.Name)
+				.IsRequired();
+			modelBuilder.Entity<Project>()
+				.Property(p => p.CreationTimestamp)
+				.IsRequired();
 
 			modelBuilder.Entity<Account>()
 				.HasMany(a => a.Projects)
@@ -45,56 +59,69 @@ namespace JiraClone.db
 				.UsingEntity<AccountProject>();
 
 			modelBuilder.Entity<Ticket>()
-				.ToTable("Ticket");
-			modelBuilder.Entity<Ticket>()
 				.HasKey(t => t.Id);
 			modelBuilder.Entity<Ticket>()
-				.Property(t => t.Id)
-				.ValueGeneratedOnAdd();
+				.Property(t => t.Title)
+				.IsRequired();
+			modelBuilder.Entity<Ticket>()
+				.Property(t => t.Description)
+				.IsRequired(false);
+			modelBuilder.Entity<Ticket>()
+				.Property(t => t.Type)
+				.IsRequired();
+			modelBuilder.Entity<Ticket>()
+				.Property(t => t.Code)
+				.IsRequired();
 			modelBuilder.Entity<Ticket>()
 				.HasOne(t => t.Project)
 				.WithMany(p => p.Tickets)
-				.HasForeignKey(t => t.IdProject);
+				.HasForeignKey(t => t.ProjectId)
+				.IsRequired();
 			modelBuilder.Entity<Ticket>()
 				.HasOne(t => t.Reporter)
 				.WithMany(a => a.ReporterTickets)
-				.HasForeignKey(t => t.IdReporter);
+				.HasForeignKey(t => t.ReporterId)
+				.IsRequired();
 			modelBuilder.Entity<Ticket>()
 				.HasOne(t => t.Asignee)
 				.WithMany(a => a.AsigneeTickets)
-				.HasForeignKey(t => t.IdAsignee);
+				.HasForeignKey(t => t.AsigneeId)
+				.IsRequired();
 			modelBuilder.Entity<Ticket>()
 				.HasOne(t => t.Status)
 				.WithMany(s => s.Tickets)
-				.HasForeignKey(t => t.IdStatus);
+				.HasForeignKey(t => t.StatusId)
+				.IsRequired();
 
-			modelBuilder.Entity<Status>()
-				.ToTable("Status");
 			modelBuilder.Entity<Status>()
 				.HasKey(s => s.Id);
 			modelBuilder.Entity<Status>()
-				.Property(s => s.Id)
-				.ValueGeneratedOnAdd();
+				.Property(s => s.Name)
+				.IsRequired();
+			modelBuilder.Entity<Status>()
+				.Property(s => s.Order)
+				.IsRequired();
 			modelBuilder.Entity<Status>()
 				.HasOne(s => s.Project)
 				.WithMany(p => p.Statuses)
-				.HasForeignKey(s => s.IdProject);
+				.HasForeignKey(s => s.ProjectId)
+				.IsRequired();
 
-			modelBuilder.Entity<Comment>()
-				.ToTable("Comment");
 			modelBuilder.Entity<Comment>()
 				.HasKey(c => c.Id);
 			modelBuilder.Entity<Comment>()
-				.Property(c => c.Id)
-				.ValueGeneratedOnAdd();
+				.Property(c => c.Content)
+				.IsRequired();
 			modelBuilder.Entity<Comment>()
 				.HasOne(c => c.Ticket)
 				.WithMany(t => t.Comments)
-				.HasForeignKey(c => c.IdTicket);
+				.HasForeignKey(c => c.TicketId)
+				.IsRequired();
 			modelBuilder.Entity<Comment>()
 				.HasOne(c => c.Account)
 				.WithMany(a => a.Comments)
-				.HasForeignKey(c => c.IdAccount);
+				.HasForeignKey(c => c.AccountId)
+				.IsRequired();
 
 			CreateInitialData(modelBuilder);
 		}
@@ -108,8 +135,10 @@ namespace JiraClone.db
 				Password = "admin",
 				Email = "admin@test.com",
 				Name = "Jan",
-				Surname = "Kowalski"
+				Surname = "Kowalski",
+				CreationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
 			};
+
 			modelBuilder.Entity<Account>()
 				.HasData(adminAccount);
 		}
