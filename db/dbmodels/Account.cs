@@ -9,15 +9,15 @@ namespace JiraClone.db.dbmodels
     public class Account
     {
         public int Id { get; set; }
-        public string? Login { get; set; }
-        public string? Password { get; set; }
-        public string? Email { get; set; }
-        public string? Name { get; set; }
-        public string? Surname { get; set; }
+        public required string Login { get; set; }
+        public required string Password { get; set; }
+        public required string Email { get; set; }
+        public required string Name { get; set; }
+        public required string Surname { get; set; }
         public long CreationTimestamp { get; set; }
-        public List<AccountProject>? AccountProjects { get; set; }
-        public List<Ticket>? ReporterTickets { get; set; }
-        public List<Ticket>? AsigneeTickets { get; set; }
-        public List<Comment>? Comments { get; set; }
+        public List<Project> Projects { get; set; } = new();
+        public List<Ticket> ReporterTickets { get; set; } = new();
+        public List<Ticket> AsigneeTickets { get; set; } = new();
+        public List<Comment> Comments { get; set; } = new();
     }
 }

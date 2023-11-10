@@ -20,7 +20,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
                 child.Print((_width - child.Width) / 2 + left, Console.CursorTop);
                 Console.SetCursorPosition(left, child.Top + child.Height + 1);
             }
-            
         }
 
 		public override void Add(Printable child)

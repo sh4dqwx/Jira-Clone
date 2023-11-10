@@ -39,21 +39,13 @@ namespace JiraClone.db
 				.Property(p => p.Id)
 				.ValueGeneratedOnAdd();
 
-			modelBuilder.Entity<AccountProject>()
-				.ToTable("AccountProjects");
-			modelBuilder.Entity<AccountProject>()
-				.HasKey(ap => new { ap.IdAccount, ap.IdProject });
-			modelBuilder.Entity<AccountProject>()
-				.HasOne(ap => ap.Account)
-				.WithMany(a => a.AccountProjects)
-				.HasForeignKey(ap => ap.IdAccount);
-			modelBuilder.Entity<AccountProject>()
-				.HasOne(ap => ap.Project)
-				.WithMany(p => p.AccountProjects)
-				.HasForeignKey(ap => ap.IdProject);
+			modelBuilder.Entity<Account>()
+				.HasMany(a => a.Projects)
+				.WithMany(p => p.Accounts)
+				.UsingEntity<AccountProject>();
 
 			modelBuilder.Entity<Ticket>()
-				.ToTable("Tickets");
+				.ToTable("Ticket");
 			modelBuilder.Entity<Ticket>()
 				.HasKey(t => t.Id);
 			modelBuilder.Entity<Ticket>()
@@ -77,7 +69,7 @@ namespace JiraClone.db
 				.HasForeignKey(t => t.IdStatus);
 
 			modelBuilder.Entity<Status>()
-				.ToTable("Statuses");
+				.ToTable("Status");
 			modelBuilder.Entity<Status>()
 				.HasKey(s => s.Id);
 			modelBuilder.Entity<Status>()
@@ -89,7 +81,7 @@ namespace JiraClone.db
 				.HasForeignKey(s => s.IdProject);
 
 			modelBuilder.Entity<Comment>()
-				.ToTable("Comments");
+				.ToTable("Comment");
 			modelBuilder.Entity<Comment>()
 				.HasKey(c => c.Id);
 			modelBuilder.Entity<Comment>()
