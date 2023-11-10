@@ -43,18 +43,10 @@ namespace JiraClone.db
 				.Property(p => p.Id)
 				.ValueGeneratedOnAdd();
 
-			modelBuilder.Entity<AccountProject>()
-				.ToTable("AccountProject");
-			modelBuilder.Entity<AccountProject>()
-				.HasKey(ap => new { ap.IdAccount, ap.IdProject });
-			modelBuilder.Entity<AccountProject>()
-				.HasOne(ap => ap.Account)
-				.WithMany(a => a.AccountProjects)
-				.HasForeignKey(ap => ap.IdAccount);
-			modelBuilder.Entity<AccountProject>()
-				.HasOne(ap => ap.Project)
-				.WithMany(p => p.AccountProjects)
-				.HasForeignKey(ap => ap.IdProject);
+			modelBuilder.Entity<Account>()
+				.HasMany(a => a.Projects)
+				.WithMany(p => p.Accounts)
+				.UsingEntity<AccountProject>();
 
 			modelBuilder.Entity<Ticket>()
 				.ToTable("Ticket");
