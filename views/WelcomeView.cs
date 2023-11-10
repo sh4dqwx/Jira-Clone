@@ -31,7 +31,7 @@ namespace JiraClone.views
         public void Start()
         {
             Console.Clear();
-			layout.Print(0, 0);
+		    layout.Print(0, 0);
             menu.NavigateTop();
 
             while (true)

@@ -6,6 +6,7 @@ using JiraClone.views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -23,7 +24,7 @@ namespace JiraClone
 				services.AddDbContext<SqliteDbContext>(options =>
 				{
 					//dodać connection string
-					options.UseSqlite("Data Source=sqlite.db");
+					options.UseSqlite($"Data Source={AppDomain.CurrentDomain.BaseDirectory}/sqlite.db");
 				});
                 //Views
                 services.AddSingleton<WelcomeView>();
