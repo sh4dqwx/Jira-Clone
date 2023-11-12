@@ -96,7 +96,7 @@ namespace JiraClone.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ProjectId = table.Column<int>(type: "INTEGER", nullable: false),
                     ReporterId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AsigneeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AsigneeId = table.Column<int>(type: "INTEGER", nullable: true),
                     StatusId = table.Column<int>(type: "INTEGER", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
@@ -111,8 +111,7 @@ namespace JiraClone.Migrations
                         name: "FK_Tickets_Accounts_AsigneeId",
                         column: x => x.AsigneeId,
                         principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Tickets_Accounts_ReporterId",
                         column: x => x.ReporterId,
@@ -164,7 +163,7 @@ namespace JiraClone.Migrations
             migrationBuilder.InsertData(
                 table: "Accounts",
                 columns: new[] { "Id", "CreationTimestamp", "Email", "Login", "Name", "Password", "Surname" },
-                values: new object[] { 1, 1699791286L, "admin@test.com", "admin", "Jan", "admin", "Kowalski" });
+                values: new object[] { 1, 1699802065L, "admin@test.com", "admin", "Jan", "admin", "Kowalski" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountProjects_ProjectId",

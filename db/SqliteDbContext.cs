@@ -86,7 +86,7 @@ namespace JiraClone.db
 				.HasOne(t => t.Asignee)
 				.WithMany(a => a.AsigneeTickets)
 				.HasForeignKey(t => t.AsigneeId)
-				.IsRequired();
+				.IsRequired(false);
 			modelBuilder.Entity<Ticket>()
 				.HasOne(t => t.Status)
 				.WithMany(s => s.Tickets)

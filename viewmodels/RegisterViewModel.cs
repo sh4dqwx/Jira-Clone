@@ -25,13 +25,12 @@ namespace JiraClone.viewmodels
             if (accountByLogin != null)
                 return "Konto o podanym loginie już istnieje";
 
-            Account? accountByEmail = accountRepository.GetAccountByLogin(login);
+            Account? accountByEmail = accountRepository.GetAccountByEmail(email);
             if (accountByEmail != null)
                 return "Konto o podanym email'u już istnieje";
 
             Account newAccount = new Account
             {
-                Id = 2,
                 Login = login,
                 Password = password,
                 Email = email,

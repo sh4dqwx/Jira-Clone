@@ -41,7 +41,6 @@ namespace JiraClone.utils.consoleViewParts.options
 			Console.SetCursorPosition(left, top + 3);
 			if(_error.Length > 0)
 			{
-
                 nameLaneLeft = (_width - 2 - _error.Length) / 2;
 				nameLaneRight = nameLaneLeft + (_width - 2 - _error.Length) % 2;
 

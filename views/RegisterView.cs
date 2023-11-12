@@ -18,6 +18,7 @@ namespace JiraClone.views
 		private Menu menu;
 		private RegisterViewModel viewModel;
 		private Input loginInput, passwordInput, emailInput, nameInput, surnameInput;
+		private Button submitButton;
 		private bool closeFlag = false;
 
 		public RegisterView(RegisterViewModel viewModel)
@@ -32,13 +33,15 @@ namespace JiraClone.views
 			emailInput = new Input(5, menu.Width, "Email");
 			nameInput = new Input(5, menu.Width, "Imię");
 			surnameInput = new Input(5, menu.Width, "Nazwisko");
+			submitButton = new Button(5, menu.Width, "Zatwierdź", OnSubmit);
 
-			menu.Add(loginInput);
+
+            menu.Add(loginInput);
 			menu.Add(passwordInput);
 			menu.Add(emailInput);
 			menu.Add(nameInput);
 			menu.Add(surnameInput);
-			menu.Add(new Button(5, menu.Width, "Zatwierdź", OnSubmit));
+			menu.Add(submitButton);
 			menu.Add(new Button(5, menu.Width, "Powrót", () => { closeFlag = true; }));
 
 			layout = new VerticalLayout(0, Constants.WINDOW_WIDTH);
@@ -87,9 +90,10 @@ namespace JiraClone.views
 				name: nameInput.Value,
 				surname: surnameInput.Value);
 
-            if (error == null)
+            if (error != null)
             {
-                //Wyświetlić błąd
+                submitButton.Error = error;
+                submitButton.Print();
                 return;
             }
         }
