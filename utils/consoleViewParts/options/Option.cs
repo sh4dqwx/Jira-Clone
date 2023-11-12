@@ -6,12 +6,15 @@ namespace JiraClone.utils.consoleViewParts.options
     public abstract class Option : Printable, IOption
     {
         protected bool _selected;
+        protected string _error;
         protected readonly string _name;
         public bool Selected { get => _selected; set { _selected = value; Print(); } }
+        public string Error { get => _error; set => _error = value; }
 
         public Option(int height, int width, string name) : base(height, width)
         {
             _name = name;
+            _error = "";
         }
 
         public override void Print(int left, int top)

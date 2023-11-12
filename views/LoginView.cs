@@ -15,6 +15,7 @@ namespace JiraClone.views
         private Menu menu;
         private LoginViewModel viewModel;
 		private Input loginInput, passwordInput;
+		private Button submitButton;
         private bool closeFlag = false;
 
 		public LoginView(LoginViewModel viewModel)
@@ -28,10 +29,12 @@ namespace JiraClone.views
 
 			loginInput = new Input(5, menu.Width, "Login");
 			passwordInput = new Input(5, menu.Width, "Hasło", true);
-            
-			menu.Add(loginInput);
+			submitButton = new Button(5, menu.Width, "Zatwierdź", OnSubmit);
+
+
+            menu.Add(loginInput);
             menu.Add(passwordInput);
-			menu.Add(new Button(5, menu.Width, "Zatwierdź", OnSubmit));
+			menu.Add(submitButton);
 			menu.Add(new Button(5, menu.Width, "Powrót", () => { closeFlag = true; }));
 
 			layout = new VerticalLayout(0, Constants.WINDOW_WIDTH);
@@ -82,9 +85,10 @@ namespace JiraClone.views
 				login: loginInput.Value,
 				password: passwordInput.Value);
 
-			if (error == null)
+			if (error != null)
 			{
-				//Wyświetlić błąd
+				submitButton.Error = error;
+				submitButton.Print();
 				return;
 			}
 
