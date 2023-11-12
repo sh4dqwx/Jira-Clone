@@ -78,7 +78,10 @@ namespace JiraClone.views
 
 		private void OnSubmit()
 		{
-			string? error = viewModel.AuthenticateUser(loginInput.Value, passwordInput.Value);
+			string? error = viewModel.AuthenticateUser(
+				login: loginInput.Value,
+				password: passwordInput.Value);
+
 			if (error == null)
 			{
 				//Wyświetlić błąd

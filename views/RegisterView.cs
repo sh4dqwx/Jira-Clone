@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JiraClone.views
 {
@@ -15,11 +16,13 @@ namespace JiraClone.views
 	{
 		private CompoundPrintable layout;
 		private Menu menu;
+		private RegisterViewModel viewModel;
 		private Input loginInput, passwordInput, emailInput, nameInput, surnameInput;
 		private bool closeFlag = false;
 
-		public RegisterView()
+		public RegisterView(RegisterViewModel viewModel)
 		{
+			this.viewModel = viewModel;
 			Console.CursorVisible = false;
 
 			menu = new Menu(0, Constants.MENU_WIDTH);
@@ -77,7 +80,18 @@ namespace JiraClone.views
 
 		private void OnSubmit()
 		{
-			
-		}
+			string? error = viewModel.RegisterUser(
+				login: loginInput.Value,
+				password: passwordInput.Value,
+				email: emailInput.Value,
+				name: nameInput.Value,
+				surname: surnameInput.Value);
+
+            if (error == null)
+            {
+                //Wyświetlić błąd
+                return;
+            }
+        }
 	}
 }

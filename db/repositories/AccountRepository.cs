@@ -1,4 +1,5 @@
 ﻿using JiraClone.db.dbmodels;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,12 @@ namespace JiraClone.db.repositories
         public Account? GetAccountByLogin(string login)
         {
             return db.Accounts.Where(account => account.Login == login).FirstOrDefault();
-        } 
+        }
+
+        public Account? GetAccountByEmail(string email)
+        {
+            return db.Accounts.Where(account => account.Email == email).FirstOrDefault();
+        }
 
         public List<Account> GetAllAccounts()
         {
@@ -30,11 +36,13 @@ namespace JiraClone.db.repositories
         public void AddAccount(Account account)
         {
             db.Accounts.Add(account);
+            db.SaveChanges();
         }
 
         public void RemoveAccount(Account account)
         {
             db.Accounts.Remove(account);
+            db.SaveChanges();
         }
     }
 }
