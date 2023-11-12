@@ -50,15 +50,22 @@ namespace JiraClone.utils.consoleViewParts.options
                 else Console.Write('|');
 			}
 
+            if(_error.Length > 0)
+            {
+                Console.SetCursorPosition(_inputLeft, top + 3);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(_error);
+            }
+
+            Console.ForegroundColor = ConsoleColor.White;
 			Console.SetCursorPosition(_inputLeft, top + 2);
             Console.Write(_isPassword ? new StringBuilder().Append('*', valueBuilder.Length).ToString() : valueBuilder.ToString());
+
 
             if (Selected)
                 Console.CursorVisible = true;
             else
                 Console.CursorVisible = false;
-
-            Console.ForegroundColor = ConsoleColor.White;
         }
 
 		public string Value

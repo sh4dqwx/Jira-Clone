@@ -37,7 +37,31 @@ namespace JiraClone.utils.consoleViewParts.options
 				.Append('|')
 				.ToString()
 			);
-			Console.CursorTop += 2;
+
+			Console.SetCursorPosition(left, top + 3);
+			if(_error.Length > 0)
+			{
+
+                nameLaneLeft = (_width - 2 - _error.Length) / 2;
+				nameLaneRight = nameLaneLeft + (_width - 2 - _error.Length) % 2;
+
+				Console.Write(new StringBuilder()
+					.Append('|')
+					.Append(' ', nameLaneLeft)
+					.ToString()
+				);
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.Write(_error);
+                Console.ForegroundColor = Selected ? ConsoleColor.Cyan: ConsoleColor.White;
+                Console.WriteLine(new StringBuilder()
+                    .Append(' ', nameLaneRight)
+                    .Append('|')
+                );
+
+				_error = "";
+			}
+
+            Console.CursorTop += 1;
 
 			Console.ForegroundColor = ConsoleColor.White;
 		}

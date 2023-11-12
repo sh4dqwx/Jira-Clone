@@ -164,7 +164,7 @@ namespace JiraClone.Migrations
             migrationBuilder.InsertData(
                 table: "Accounts",
                 columns: new[] { "Id", "CreationTimestamp", "Email", "Login", "Name", "Password", "Surname" },
-                values: new object[] { 1, 1699790050L, "admin@test.com", "admin", "Jan", "admin", "Kowalski" });
+                values: new object[] { 1, 1699791286L, "admin@test.com", "admin", "Jan", "admin", "Kowalski" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountProjects_ProjectId",

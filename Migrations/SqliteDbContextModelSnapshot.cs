@@ -53,7 +53,7 @@ namespace JiraClone.Migrations
                         new
                         {
                             Id = 1,
-                            CreationTimestamp = 1699790050L,
+                            CreationTimestamp = 1699791286L,
                             Email = "admin@test.com",
                             Login = "admin",
                             Name = "Jan",
