@@ -71,6 +71,11 @@ namespace JiraClone.utils.consoleViewParts.options
 		public string Value
         {
             get { return valueBuilder.ToString(); }
+            set
+            {
+                valueBuilder.Clear();
+                valueBuilder.Append(value);
+            }
         }
     }
 }
