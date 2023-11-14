@@ -35,6 +35,10 @@ namespace JiraClone
                 services.AddSingleton<RegisterViewModel>();
                 //Repositories
                 services.AddSingleton<IAccountRepository, AccountRepository>();
+
+				using var serviceProvider = services.BuildServiceProvider();
+				var dbContext = serviceProvider.GetRequiredService<SqliteDbContext>();
+				dbContext.Database.Migrate();
 			});
             builder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
 			return builder.Build();
