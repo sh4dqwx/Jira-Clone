@@ -68,9 +68,20 @@ namespace JiraClone.utils.consoleViewParts.options
                 Console.CursorVisible = false;
         }
 
+        public void Clear()
+        {
+            valueBuilder.Clear();
+            _error = "";
+        }
+
 		public string Value
         {
             get { return valueBuilder.ToString(); }
+            set
+            {
+                valueBuilder.Clear();
+                valueBuilder.Append(value);
+            }
         }
     }
 }
