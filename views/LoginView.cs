@@ -53,8 +53,8 @@ namespace JiraClone.views
 		{
             Console.Clear();
 
-			loginInput.Value = "";
-			passwordInput.Value = "";
+			loginInput.Clear();
+			passwordInput.Clear();
 
             layout.Print(0, 0);
 			menu.NavigateTop();

@@ -55,11 +55,11 @@ namespace JiraClone.views
 		{
 			Console.Clear();
 
-			loginInput.Value = "";
-			passwordInput.Value = "";
-			emailInput.Value = "";
-			nameInput.Value = "";
-			surnameInput.Value = "";
+			loginInput.Clear();
+			passwordInput.Clear();
+			emailInput.Clear();
+			nameInput.Clear();
+			surnameInput.Clear();
 
 			layout.Print(0, 0);
 			menu.NavigateTop();
