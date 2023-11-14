@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text;
+using System.Globalization;
+using System.Windows.Controls;
 
 namespace JiraClone.utils.consoleViewParts.options
 {
@@ -8,14 +10,16 @@ namespace JiraClone.utils.consoleViewParts.options
         private static readonly int InputSpacer = 20;
 
         private readonly StringBuilder valueBuilder = new();
+        private readonly ValidationRule? _validationRule;
         private int _inputLeft = InputSpacer;
         private bool _isPassword;
 
 
-        public Input(int height, int width, string name, bool isPassword = false) : base(height, width, name)
+        public Input(int height, int width, string name, bool isPassword = false, ValidationRule? validationRule = null) : base(height, width, name)
         {
-            _isPassword = isPassword;
-        }
+			_isPassword = isPassword;
+			_validationRule = validationRule;
+		}
 
         public override void UseKey(char c)
         {
@@ -66,6 +70,23 @@ namespace JiraClone.utils.consoleViewParts.options
                 Console.CursorVisible = true;
             else
                 Console.CursorVisible = false;
+        }
+
+        public bool Validate()
+        {
+            if (_validationRule == null) return true;
+
+            ValidationResult validationResult = _validationRule.Validate(Value, CultureInfo.CurrentCulture);
+            if (validationResult == ValidationResult.ValidResult)
+            {
+                Error = "";
+                Print();
+                return true;
+            }
+
+            Error = (string)validationResult.ErrorContent;
+            Print();
+            return false;
         }
 
 		public string Value
