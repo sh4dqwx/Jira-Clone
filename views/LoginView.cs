@@ -6,6 +6,7 @@ using JiraClone.utils;
 using JiraClone.utils.consoleViewParts.options;
 using JiraClone.utils.consoleViewParts.layouts;
 using System.Runtime.CompilerServices;
+using JiraClone.utils.validators;
 
 namespace JiraClone.views
 {
@@ -27,8 +28,8 @@ namespace JiraClone.views
 
 			menu = new Menu(0, Constants.MENU_WIDTH);
 
-			loginInput = new Input(5, menu.Width, "Login");
-			passwordInput = new Input(5, menu.Width, "Hasło", true);
+			loginInput = new Input(5, menu.Width, "Login", validationRule: new RequiredRule());
+			passwordInput = new Input(5, menu.Width, "Hasło", isPassword: true, validationRule: new RequiredRule());
 			submitButton = new Button(5, menu.Width, "Zatwierdź", OnSubmit);
 
 
@@ -83,8 +84,16 @@ namespace JiraClone.views
 			}
         }
 
+		private bool AreInputsValid()
+		{
+			return loginInput.Validate() &&
+				passwordInput.Validate();
+		}
+
 		private void OnSubmit()
 		{
+			if (!AreInputsValid()) return;
+
 			string? error = viewModel.AuthenticateUser(
 				login: loginInput.Value,
 				password: passwordInput.Value);
