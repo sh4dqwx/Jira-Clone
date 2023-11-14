@@ -86,8 +86,10 @@ namespace JiraClone.views
 
 		private bool AreInputsValid()
 		{
-			return loginInput.Validate() &&
-				passwordInput.Validate();
+			bool areValid = true;
+			if (!loginInput.Validate()) areValid = false;
+			if (!passwordInput.Validate()) areValid = false;
+			return areValid;
 		}
 
 		private void OnSubmit()
