@@ -26,15 +26,17 @@ namespace JiraClone
 					//dodać connection string
 					options.UseSqlite($"Data Source={AppDomain.CurrentDomain.BaseDirectory}/sqlite.db");
 				});
-                //Views
-                services.AddSingleton<WelcomeView>();
-                services.AddSingleton<LoginView>();
-                services.AddSingleton<RegisterView>();
-                //ViewModels
-                services.AddSingleton<LoginViewModel>();
-                services.AddSingleton<RegisterViewModel>();
-                //Repositories
-                services.AddSingleton<IAccountRepository, AccountRepository>();
+        
+        //Views
+        services.AddSingleton<WelcomeView>();
+        services.AddSingleton<LoginView>();
+        services.AddSingleton<RegisterView>();
+        //ViewModels
+        services.AddSingleton<LoginViewModel>();
+        services.AddSingleton<RegisterViewModel>();
+        //Repositories
+        services.AddSingleton<IAccountRepository, AccountRepository>();
+        services.AddSingleton<IProjectRepository, ProjectRepository>();
 
 				using var serviceProvider = services.BuildServiceProvider();
 				var dbContext = serviceProvider.GetRequiredService<SqliteDbContext>();

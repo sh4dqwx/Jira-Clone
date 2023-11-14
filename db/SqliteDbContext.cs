@@ -50,12 +50,17 @@ namespace JiraClone.db
 				.Property(p => p.Name)
 				.IsRequired();
 			modelBuilder.Entity<Project>()
+				.HasOne(p => p.Owner)
+				.WithMany(o => o.OwnedProjects)
+				.HasForeignKey(p => p.OwnerId)
+				.IsRequired();
+			modelBuilder.Entity<Project>()
 				.Property(p => p.CreationTimestamp)
 				.IsRequired();
 
 			modelBuilder.Entity<Account>()
-				.HasMany(a => a.Projects)
-				.WithMany(p => p.Accounts)
+				.HasMany(a => a.AssignedProjects)
+				.WithMany(p => p.AssignedAccounts)
 				.UsingEntity<AccountProject>();
 
 			modelBuilder.Entity<Ticket>()
