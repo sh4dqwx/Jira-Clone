@@ -35,6 +35,7 @@ namespace JiraClone
                 services.AddSingleton<RegisterViewModel>();
                 //Repositories
                 services.AddSingleton<IAccountRepository, AccountRepository>();
+                services.AddSingleton<IProjectRepository, ProjectRepository>();
 			});
             builder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
 			return builder.Build();

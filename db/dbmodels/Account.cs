@@ -16,7 +16,8 @@ namespace JiraClone.db.dbmodels
         public required string Name { get; set; }
         public required string Surname { get; set; }
         public long CreationTimestamp { get; set; }
-        public List<Project> Projects { get; set; } = new();
+        public List<Project> OwnedProjects { get; set; } = new();
+        public List<Project> AssignedProjects { get; set; } = new();
         public List<Ticket> ReporterTickets { get; set; } = new();
         public List<Ticket> AsigneeTickets { get; set; } = new();
         public List<Comment> Comments { get; set; } = new();

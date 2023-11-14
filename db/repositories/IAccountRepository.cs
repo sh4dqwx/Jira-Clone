@@ -9,10 +9,11 @@ namespace JiraClone.db.repositories
 {
     public interface IAccountRepository
     {
-        Account? GetAccountByLogin(string login);
-        Account? GetAccountByEmail(string email);
-        List<Account> GetAllAccounts();
-        void AddAccount(Account account);
-        void RemoveAccount(Account account);
+        public Account? GetAccountByLogin(string login);
+        public Account? GetAccountByEmail(string email);
+        public Account? GetAccountById(int id);
+        public List<Account> GetAllAccounts();
+        public void AddAccount(Account account);
+        public void RemoveAccount(Account account);
     }
 }
