@@ -2,6 +2,7 @@
 using JiraClone.utils.consoleViewParts;
 using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
+using JiraClone.utils.validators;
 using JiraClone.viewmodels;
 using System;
 using System.Collections.Generic;
@@ -28,11 +29,11 @@ namespace JiraClone.views
 
 			menu = new Menu(0, Constants.MENU_WIDTH);
 
-			loginInput = new Input(5, menu.Width, "Login");
-			passwordInput = new Input(5, menu.Width, "Hasło", true);
-			emailInput = new Input(5, menu.Width, "Email");
-			nameInput = new Input(5, menu.Width, "Imię");
-			surnameInput = new Input(5, menu.Width, "Nazwisko");
+			loginInput = new Input(5, menu.Width, "Login", validationRule: new RequiredRule());
+			passwordInput = new Input(5, menu.Width, "Hasło", true, validationRule: new RequiredRule());
+			emailInput = new Input(5, menu.Width, "Email", validationRule: new EmailRule());
+			nameInput = new Input(5, menu.Width, "Imię", validationRule: new RequiredRule());
+			surnameInput = new Input(5, menu.Width, "Nazwisko", validationRule: new RequiredRule());
 			submitButton = new Button(5, menu.Width, "Zatwierdź", OnSubmit);
 
 
@@ -88,8 +89,21 @@ namespace JiraClone.views
 			}
 		}
 
+		private bool AreInputsValid()
+		{
+			bool areValid = true;
+			if (!loginInput.Validate()) areValid = false;
+			if (!passwordInput.Validate()) areValid = false;
+			if (!emailInput.Validate()) areValid = false;
+			if (!nameInput.Validate()) areValid = false;
+			if (!surnameInput.Validate()) areValid = false;
+			return areValid;
+		}
+
 		private void OnSubmit()
 		{
+			if (!AreInputsValid()) return;
+
 			string? error = viewModel.RegisterUser(
 				login: loginInput.Value,
 				password: passwordInput.Value,
