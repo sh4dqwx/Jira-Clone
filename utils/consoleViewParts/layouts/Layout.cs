@@ -129,5 +129,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
             else
                 return true;
         }
+
+        public void UseKey(char c)
+        {
+            if (selectedChild < 0)
+                return;
+
+            ((Option)children[selectedChild])?.UseKey(c);
+        }
     }
 }

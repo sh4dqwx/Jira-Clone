@@ -123,6 +123,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 		{
             if (Width < child.Width)
                 throw new Exception("Child is too wide");
+            if (Height > child.Height - 2)
+                throw new Exception("Child is too high");
             base.Add(child);
 		}
 
