@@ -26,7 +26,8 @@ namespace JiraClone.utils.consoleViewParts
             base.Print(left, top);
 			for (int i=0; i<logo.Length; i++)
             {
-				Console.SetCursorPosition((_width - logo[i].Length) / 2 + left, top + i);
+                int marginLeft = (Width - logo[i].Length) / 2;
+                Console.SetCursorPosition(left + marginLeft, top + i);
                 Console.WriteLine(logo[i]);
 			}
 		}

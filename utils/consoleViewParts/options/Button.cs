@@ -18,52 +18,22 @@ namespace JiraClone.utils.consoleViewParts.options
 		public override void Print(int left, int top)
 		{
 			base.Print(left, top);
-
-			int nameLaneLeft = (_width - 2 - _name.Length) / 2 - 4;
-			int nameLaneRight = nameLaneLeft + (_width - 2 - _name.Length) % 2;
-
-			if (Selected)
+			int marginLeft = (Width - Name.Length) / 2;
+			Console.SetCursorPosition(Left + marginLeft, Top);
+			if(Selected)
 				Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.Write(Name);
 
-			var bufferHeight = Console.BufferHeight;
-			Console.SetCursorPosition(left, top + 2);
-			Console.WriteLine(new StringBuilder()
-				.Append('|')
-				.Append(' ', nameLaneLeft)
-				.Append(Selected ? "->  " : " *  ")
-				.Append(_name)
-				.Append(Selected ? "  <-" : "  * ")
-				.Append(' ', nameLaneRight)
-				.Append('|')
-				.ToString()
-			);
+            if (Error.Length > 0)
+            {
+				int errorMarginLeft = (Width - Error.Length) / 2;
+                Console.SetCursorPosition(Left + errorMarginLeft, Top + 1);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("↑ " + Error + " ↑");
+            }
 
-			Console.SetCursorPosition(left, top + 3);
-			if(_error.Length > 0)
-			{
-                nameLaneLeft = (_width - 2 - _error.Length) / 2;
-				nameLaneRight = nameLaneLeft + (_width - 2 - _error.Length) % 2;
-
-				Console.Write(new StringBuilder()
-					.Append('|')
-					.Append(' ', nameLaneLeft)
-					.ToString()
-				);
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.Write(_error);
-                Console.ForegroundColor = Selected ? ConsoleColor.Cyan: ConsoleColor.White;
-                Console.WriteLine(new StringBuilder()
-                    .Append(' ', nameLaneRight)
-                    .Append('|')
-                );
-
-				_error = "";
-			}
-
-            Console.CursorTop += 1;
-
-			Console.ForegroundColor = ConsoleColor.White;
-		}
+            Console.ForegroundColor = ConsoleColor.White;
+        }
 
 		public override void UseKey(char c)
 		{

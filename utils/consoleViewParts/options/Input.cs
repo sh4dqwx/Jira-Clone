@@ -7,13 +7,21 @@ namespace JiraClone.utils.consoleViewParts.options
 {
     public class Input : Option
     {
-        private static readonly int InputSpacer = 20;
-
         private readonly StringBuilder valueBuilder = new();
         private readonly ValidationRule? _validationRule;
-        private int _inputLeft = InputSpacer;
         private bool _isPassword;
 
+        public string Value
+        {
+            get { return valueBuilder.ToString(); }
+            set
+            {
+                valueBuilder.Clear();
+                valueBuilder.Append(value);
+            }
+        }
+
+        public bool IsPassword { get => _isPassword; }
 
         public Input(int height, int width, string name, bool isPassword = false, ValidationRule? validationRule = null) : base(height, width, name)
         {
@@ -23,13 +31,13 @@ namespace JiraClone.utils.consoleViewParts.options
 
         public override void UseKey(char c)
         {
-            if (Console.CursorLeft < _left + _width - 3 && c >= 32 && c <= 127)
+            if (Console.CursorLeft < Left + Width - 1 - Constants.InputMargin && c >= 32 && c <= 127)
             {
                 valueBuilder.Append(c);
                 if (_isPassword) Console.Write('*');
                 else Console.Write(c);
             }
-            if (Console.CursorLeft > _inputLeft && c == '\b')
+            else if (Console.CursorLeft > Constants.InputSpacer && c == '\b')
             {
                 valueBuilder.Remove(valueBuilder.Length - 1, 1);
                 Console.Write("\b \b");
@@ -39,37 +47,24 @@ namespace JiraClone.utils.consoleViewParts.options
         public override void Print(int left, int top)
         {
             base.Print(left, top);
-			_inputLeft = _left + InputSpacer + 2;
+            Console.SetCursorPosition(Left + Constants.InputMargin, Top);
+            if(Selected)
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(Name);
 
-			if (Selected)
-				Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.SetCursorPosition(Left + Constants.InputSpacer, Top);
+            if(Selected)
+                Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(_isPassword ? new StringBuilder().Append('*', valueBuilder.Length).ToString() : valueBuilder.ToString());
 
-			Console.SetCursorPosition(left + ((InputSpacer - _name.Length) / 2), top + 2);
-            Console.Write(_name);
-
-            for(int i=0; i<5; i++)
+            if(Error.Length > 0)
             {
-				Console.SetCursorPosition(left + InputSpacer - 1, top + i);
-                if (i == 0 || i == 4) Console.Write('+');
-                else Console.Write('|');
-			}
-
-            if(_error.Length > 0)
-            {
-                Console.SetCursorPosition(_inputLeft, top + 3);
+                Console.SetCursorPosition(Left + Constants.InputSpacer, Top + 1);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(_error);
+                Console.Write("↑ " + Error + " ↑");
             }
 
             Console.ForegroundColor = ConsoleColor.White;
-			Console.SetCursorPosition(_inputLeft, top + 2);
-            Console.Write(_isPassword ? new StringBuilder().Append('*', valueBuilder.Length).ToString() : valueBuilder.ToString());
-
-
-            if (Selected)
-                Console.CursorVisible = true;
-            else
-                Console.CursorVisible = false;
         }
 
         public bool Validate()
@@ -80,29 +75,21 @@ namespace JiraClone.utils.consoleViewParts.options
             if (validationResult == ValidationResult.ValidResult)
             {
                 Error = "";
-                Print();
+                Refresh();
                 return true;
             }
-
-            Error = (string)validationResult.ErrorContent;
-            Print();
-            return false;
+            else
+            {
+                Error = (string)validationResult.ErrorContent;
+                Refresh();
+                return false;
+            }
         }
 
         public void Clear()
         {
             valueBuilder.Clear();
-            _error = "";
-        }
-
-		public string Value
-        {
-            get { return valueBuilder.ToString(); }
-            set
-            {
-                valueBuilder.Clear();
-                valueBuilder.Append(value);
-            }
+            Error = "";
         }
     }
 }

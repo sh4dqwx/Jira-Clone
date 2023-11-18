@@ -9,18 +9,20 @@ namespace JiraClone.utils.consoleViewParts.options
 {
     public class Text : Printable
     {
-        private readonly string text;
+        private readonly string _name;
+        public string Name { get => _name; }
 
-        public Text(int height, int width, string text) : base(height, width)
+        public Text(int height, int width, string name) : base(height, width)
         {
-            this.text = text;
+            _name = name;
         }
 
         public override void Print(int left, int top)
         {
             base.Print(left, top);
-            Console.SetCursorPosition((_width - text.Length) / 2 + left, top);
-            Console.WriteLine(text);
+            int marginLeft = (Width - Name.Length) / 2;
+            Console.SetCursorPosition(Left + marginLeft, Top);
+            Console.Write(Name);   
         }
     }
 }

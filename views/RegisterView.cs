@@ -13,7 +13,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JiraClone.views
 {
-	public class RegisterView : IConsoleView
+    public class RegisterView : IConsoleView
 	{
 		private CompoundPrintable layout;
 		private Menu menu;
