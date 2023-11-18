@@ -135,7 +135,10 @@ namespace JiraClone.utils.consoleViewParts.layouts
             if (selectedChild < 0)
                 return;
 
-            ((Option)children[selectedChild])?.UseKey(c);
+            if (children[selectedChild] is Layout)
+                ((Layout)children[selectedChild])?.UseKey(c);
+            else if (children[selectedChild] is Option)
+                ((Option)children[selectedChild])?.UseKey(c);
         }
     }
 }
