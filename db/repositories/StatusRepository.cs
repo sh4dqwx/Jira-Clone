@@ -38,7 +38,7 @@ namespace JiraClone.db.repositories
             _db.SaveChanges();
         }
 
-        public void DeleteStatus(Status status)
+        public void RemoveStatus(Status status)
         {
             _db.Statuses.Remove(status);
             _db.SaveChanges();
