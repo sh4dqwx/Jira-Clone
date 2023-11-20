@@ -12,5 +12,7 @@ namespace JiraClone.db.repositories
         public Ticket? GetTicketById(int id);
         public List<Ticket> GetTicketsFromProject(Project project);
         public void AddTicket(Ticket ticket);
+        public void UpdateTicket(Ticket ticket);
+        public void RemoveTicket(Ticket ticket);
     }
 }
