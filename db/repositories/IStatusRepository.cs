@@ -11,5 +11,8 @@ namespace JiraClone.db.repositories
     {
         public Status? GetStatusById(int id);
         public List<Status> GetStatusesFromProject(Project project);
+        public void AddStatus(Status status);
+        public void UpdateStatus(Status status);
+        public void RemoveStatus(Status status);
     }
 }
