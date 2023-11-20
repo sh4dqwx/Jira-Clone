@@ -38,7 +38,7 @@ namespace JiraClone.db.repositories
             _db.SaveChanges();
         }
 
-        public void DeleteTicket(Ticket ticket)
+        public void RemoveTicket(Ticket ticket)
         {
             _db.Tickets.Remove(ticket);
             _db.SaveChanges();
