@@ -9,7 +9,7 @@ namespace JiraClone.db.repositories
 {
 	public interface IProjectRepository
 	{
-		public List<Project> GetAllProjects(Account account);
+		public List<Project> GetProjectsByUser(Account account);
 		public void AddProject(Project project);
 		public void RemoveProject(Project project);
 	}
