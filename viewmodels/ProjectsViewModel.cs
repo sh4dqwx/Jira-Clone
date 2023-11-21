@@ -1,5 +1,6 @@
 ﻿using JiraClone.db.dbmodels;
 using JiraClone.db.repositories;
+using JiraClone.models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,25 +14,27 @@ namespace JiraClone.viewmodels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private IProjectRepository projectRepository;
+        private ApplicationState applicationState;
 
-        public ProjectsViewModel(IProjectRepository projectRepository)
+        public ProjectsViewModel(IProjectRepository projectRepository, ApplicationState applicationState)
         {
             this.projectRepository = projectRepository;
+            this.applicationState = applicationState;
         }
 
         public List<Project> GetProjects()
         {
-            //Pobieranie osoby zalogowanej
-            return projectRepository.GetProjectsByUser(null);
+            Account loggedUser = applicationState.GetLoggedUser();
+            return projectRepository.GetProjectsByUser(loggedUser);
         }
 
         public void CreateProject(string name)
         {
-            //Pobieranie osoby zalogowanej
+            Account loggedUser = applicationState.GetLoggedUser();
             Project newProject = new Project {
                 Name = name,
                 CreationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-                Owner = null,
+                Owner = loggedUser,
             };
 
             projectRepository.AddProject(newProject);
