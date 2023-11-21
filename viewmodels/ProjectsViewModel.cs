@@ -24,5 +24,17 @@ namespace JiraClone.viewmodels
             //Pobieranie osoby zalogowanej
             return projectRepository.GetProjectsByUser(null);
         }
+
+        public void CreateProject(string name)
+        {
+            //Pobieranie osoby zalogowanej
+            Project newProject = new Project {
+                Name = name,
+                CreationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                Owner = null,
+            };
+
+            projectRepository.AddProject(newProject);
+        }
     }
 }
