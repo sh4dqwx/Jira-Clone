@@ -8,11 +8,11 @@ namespace JiraClone.utils.consoleViewParts.options
         private bool _selected;
         private string _error;
         private readonly string _name;
-        public bool Selected { get => _selected; set { _selected = value; Refresh(); } }
+        public bool Selected { get => _selected; set { _selected = value; Print(); } }
         public string Error { get => _error; set => _error = value; }
         public string Name { get => _name; }
 
-        public Option(int height, int width, string name) : base(height, width)
+        public Option(string name) : base()
         {
             _name = name;
             _error = "";

@@ -12,14 +12,15 @@ namespace JiraClone.utils.consoleViewParts.options
         private readonly string _name;
         public string Name { get => _name; }
 
-        public Text(int height, int width, string name) : base(height, width)
+        public Text(string name) : base()
         {
             _name = name;
+            Height = 1;
+            Width = name.Length;
         }
 
-        public override void Print(int left, int top)
+        public override void Print()
         {
-            base.Print(left, top);
             int marginLeft = (Width - Name.Length) / 2;
             Console.SetCursorPosition(Left + marginLeft, Top);
             Console.Write(Name);   

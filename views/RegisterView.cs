@@ -15,8 +15,8 @@ namespace JiraClone.views
 {
     public class RegisterView : IConsoleView
 	{
-		private CompoundPrintable layout;
-		private Menu menu;
+		private VerticalLayout layout;
+		private VerticalMenu menu;
 		private RegisterViewModel viewModel;
 		private Input loginInput, passwordInput, emailInput, nameInput, surnameInput;
 		private Button submitButton;
@@ -27,14 +27,15 @@ namespace JiraClone.views
 			this.viewModel = viewModel;
 			Console.CursorVisible = false;
 
-			menu = new Menu(0, Constants.MENU_WIDTH);
+			menu = new VerticalMenu(3, 1);
+			menu.Height = 50; menu.Width = Console.WindowWidth;
 
-			loginInput = new Input(5, menu.Width, "Login", validationRule: new RequiredRule());
-			passwordInput = new Input(5, menu.Width, "Hasło", true, validationRule: new RequiredRule());
-			emailInput = new Input(5, menu.Width, "Email", validationRule: new EmailRule());
-			nameInput = new Input(5, menu.Width, "Imię", validationRule: new RequiredRule());
-			surnameInput = new Input(5, menu.Width, "Nazwisko", validationRule: new RequiredRule());
-			submitButton = new Button(5, menu.Width, "Zatwierdź", OnSubmit);
+			loginInput = new Input("Login", validationRule: new RequiredRule());
+			passwordInput = new Input("Hasło", true, validationRule: new RequiredRule());
+			emailInput = new Input("Email", validationRule: new EmailRule());
+			nameInput = new Input("Imię", validationRule: new RequiredRule());
+			surnameInput = new Input("Nazwisko", validationRule: new RequiredRule());
+			submitButton = new Button("Zatwierdź", OnSubmit);
 
 
             menu.Add(loginInput);
@@ -43,12 +44,13 @@ namespace JiraClone.views
 			menu.Add(nameInput);
 			menu.Add(surnameInput);
 			menu.Add(submitButton);
-			menu.Add(new Button(5, menu.Width, "Powrót", () => { closeFlag = true; }));
+			menu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
-			layout = new VerticalLayout(0, Constants.WINDOW_WIDTH);
-			layout.Add(new Text(1, Constants.WINDOW_WIDTH, "Nacisnij CTRL+I aby zmienic interfejs"));
-			layout.Add(new Logo(7, Constants.WINDOW_WIDTH));
-			layout.Add(new Text(1, Constants.WINDOW_WIDTH, "REJESTRACJA"));
+			layout = new VerticalLayout();
+			layout.SetBounds(0, 0, Console.WindowHeight, Console.WindowWidth);
+			layout.Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
+			layout.Add(new Logo());
+			layout.Add(new Text("REJESTRACJA"));
 			layout.Add(menu);
 		}
 
@@ -62,7 +64,7 @@ namespace JiraClone.views
 			nameInput.Clear();
 			surnameInput.Clear();
 
-			layout.Print(0, 0);
+			layout.Print();
 			menu.NavigateTop();
 
 			while (true)

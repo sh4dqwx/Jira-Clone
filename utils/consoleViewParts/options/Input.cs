@@ -23,7 +23,7 @@ namespace JiraClone.utils.consoleViewParts.options
 
         public bool IsPassword { get => _isPassword; }
 
-        public Input(int height, int width, string name, bool isPassword = false, ValidationRule? validationRule = null) : base(height, width, name)
+        public Input(string name, bool isPassword = false, ValidationRule? validationRule = null) : base(name)
         {
 			_isPassword = isPassword;
 			_validationRule = validationRule;
@@ -44,9 +44,8 @@ namespace JiraClone.utils.consoleViewParts.options
             }
         }
 
-        public override void Print(int left, int top)
+        public override void Print()
         {
-            base.Print(left, top);
             Console.SetCursorPosition(Left + Constants.InputMargin, Top);
             if(Selected)
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -75,13 +74,13 @@ namespace JiraClone.utils.consoleViewParts.options
             if (validationResult == ValidationResult.ValidResult)
             {
                 Error = "";
-                Refresh();
+                Print();
                 return true;
             }
             else
             {
                 Error = (string)validationResult.ErrorContent;
-                Refresh();
+                Print();
                 return false;
             }
         }

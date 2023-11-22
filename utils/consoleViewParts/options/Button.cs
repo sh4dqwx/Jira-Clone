@@ -10,15 +10,14 @@ namespace JiraClone.utils.consoleViewParts.options
 	{
 		private Action _callback;
 
-		public Button(int height, int width, string name, Action callback) : base(height, width, name)
+		public Button(string name, Action callback) : base(name)
 		{
 			_callback = callback;
 		}
 
-		public override void Print(int left, int top)
+		public override void Print()
 		{
-			base.Print(left, top);
-			int marginLeft = (Width - Name.Length) / 2;
+			int marginLeft = Math.Max(0, (Width - Name.Length) / 2);
 			Console.SetCursorPosition(Left + marginLeft, Top);
 			if(Selected)
 				Console.ForegroundColor = ConsoleColor.Cyan;

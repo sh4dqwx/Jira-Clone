@@ -12,7 +12,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
         protected List<Printable> children;
         protected int selectedChild;
 
-        protected Layout(int height, int width) : base(height, width)
+        protected Layout() : base()
         {
             children = new List<Printable>();
             selectedChild = -1;
