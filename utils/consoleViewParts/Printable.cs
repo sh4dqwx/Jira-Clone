@@ -8,31 +8,22 @@ namespace JiraClone.utils.consoleViewParts
 {
     public abstract class Printable : IPrintable
     {
-        protected int _left = 0;
-        protected int _top = 0;
-        protected int _width;
-        protected int _height;
+        public abstract void Print();
 
-        protected Printable(int height, int width)
-        {
-            _height = height;
-            _width = width;
-        }
+		public void SetBounds(int left, int top, int height, int width)
+		{
+			Left = left;
+			Top = top;
+			Height = height;
+			Width = width;
+		}
 
-        public virtual void Print(int left, int top)
-        { 
-            _left = left;
-            _top = top;
-        }
-    
-        public void Print() { Print(_left, _top); }
+		public int Left { get; set; }
 
-		public int Left { get => _left; }
+		public int Top { get; set; }
 
-		public int Top { get => _top; }
+		public int Height { get; set; }
 
-		public int Height { get => _height; }
-
-		public int Width { get => _width; }
+		public int Width { get; set; }
 	}
 }

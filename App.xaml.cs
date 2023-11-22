@@ -27,7 +27,7 @@ namespace JiraClone
 					//dodać connection string
 					options.UseSqlite($"Data Source={AppDomain.CurrentDomain.BaseDirectory}/sqlite.db");
 				});
-
+        
                 //States
                 services.AddSingleton<ApplicationState>();
 
@@ -46,7 +46,7 @@ namespace JiraClone
                 services.AddSingleton<IStatusRepository, StatusRepository>();
                 services.AddSingleton<ICommentRepository, CommentRepository>();
 
-				using var serviceProvider = services.BuildServiceProvider();
+                using var serviceProvider = services.BuildServiceProvider();
 				var dbContext = serviceProvider.GetRequiredService<SqliteDbContext>();
 				dbContext.Database.Migrate();
 			});

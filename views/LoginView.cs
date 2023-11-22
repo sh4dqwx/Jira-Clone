@@ -12,36 +12,48 @@ namespace JiraClone.views
 {
     public class LoginView : IConsoleView
 	{
-        private CompoundPrintable layout;
-        private Menu menu;
-        private LoginViewModel viewModel;
+		private LoginViewModel viewModel;
+
+		private ConsoleView layout;
+        private VerticalMenu menu;
 		private Input loginInput, passwordInput;
 		private Button submitButton;
         private bool closeFlag = false;
+
+		private void ResetView()
+		{
+			Console.Clear();
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.CursorVisible = false;
+
+			loginInput.Clear();
+			passwordInput.Clear();
+
+			layout.Print();
+			menu.SelectTop();
+		}
 
 		public LoginView(LoginViewModel viewModel)
 		{
             this.viewModel = viewModel;
             viewModel.PropertyChanged += EventHandler;
 
-            Console.CursorVisible = false;
+			menu = new VerticalMenu(3);
 
-			menu = new Menu(0, Constants.MENU_WIDTH);
-
-			loginInput = new Input(5, menu.Width, "Login", validationRule: new RequiredRule());
-			passwordInput = new Input(5, menu.Width, "Hasło", isPassword: true, validationRule: new RequiredRule());
-			submitButton = new Button(5, menu.Width, "Zatwierdź", OnSubmit);
-
+			loginInput = new Input("Login", validationRule: new RequiredRule());
+			passwordInput = new Input("Hasło", isPassword: true, validationRule: new RequiredRule());
+			submitButton = new Button("Zatwierdź", OnSubmit);
 
             menu.Add(loginInput);
             menu.Add(passwordInput);
 			menu.Add(submitButton);
-			menu.Add(new Button(5, menu.Width, "Powrót", () => { closeFlag = true; }));
+			menu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
-			layout = new VerticalLayout(0, Constants.WINDOW_WIDTH);
-            layout.Add(new Text(1, Constants.WINDOW_WIDTH, "Nacisnij CTRL+I aby zmienic interfejs"));
-            layout.Add(new Logo(7, Constants.WINDOW_WIDTH));
-			layout.Add(new Text(1, Constants.WINDOW_WIDTH, "LOGOWANIE"));
+			layout = new ConsoleView();
+			layout.SetBounds(0, 0, Console.WindowHeight, Console.WindowWidth);
+            layout.Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
+            layout.Add(new Logo());
+			layout.Add(new Text("LOGOWANIE"));
 			layout.Add(menu);
         }
 
@@ -52,25 +64,19 @@ namespace JiraClone.views
 
 		public void Start()
 		{
-            Console.Clear();
-
-			loginInput.Clear();
-			passwordInput.Clear();
-
-            layout.Print(0, 0);
-			menu.NavigateTop();
+			ResetView();
 
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 				if (keyInfo.Key == ConsoleKey.UpArrow)
 				{
-					menu.NavigateUp();
+					menu.SelectUp();
 					continue;
 				}
 				if (keyInfo.Key == ConsoleKey.DownArrow)
 				{
-					menu.NavigateDown();
+					menu.SelectDown();
 					continue;
 				}
 				menu.UseKey(keyInfo.KeyChar);
@@ -78,7 +84,7 @@ namespace JiraClone.views
 				if(closeFlag)
 				{
 					closeFlag = false;
-					menu.NavigateTop();
+					ResetView();
 					return;
 				}
 			}

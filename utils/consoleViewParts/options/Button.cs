@@ -10,60 +10,39 @@ namespace JiraClone.utils.consoleViewParts.options
 	{
 		private Action _callback;
 
-		public Button(int height, int width, string name, Action callback) : base(height, width, name)
+		public Button(string name, Action callback) : base(name)
 		{
+			Height = 5;
+			Width = Constants.MENU_WIDTH;
 			_callback = callback;
 		}
 
-		public override void Print(int left, int top)
+		public override void Print()
 		{
-			base.Print(left, top);
+			int cursorLeft = Left;
+			int cursorTop = Top;
+			if (Selected) Console.ForegroundColor = ConsoleColor.Cyan;
+			else Console.ForegroundColor = ConsoleColor.White;
+			Console.CursorVisible = false;
 
-			int nameLaneLeft = (_width - 2 - _name.Length) / 2 - 4;
-			int nameLaneRight = nameLaneLeft + (_width - 2 - _name.Length) % 2;
+			base.Print();
 
-			if (Selected)
-				Console.ForegroundColor = ConsoleColor.Cyan;
+			int marginLeft = Math.Max(0, (Width - Name.Length) / 2);
+			Console.SetCursorPosition(cursorLeft + marginLeft, cursorTop + 2);
+			Console.Write(Name);
+			cursorTop++;
 
-			var bufferHeight = Console.BufferHeight;
-			Console.SetCursorPosition(left, top + 2);
-			Console.WriteLine(new StringBuilder()
-				.Append('|')
-				.Append(' ', nameLaneLeft)
-				.Append(Selected ? "->  " : " *  ")
-				.Append(_name)
-				.Append(Selected ? "  <-" : "  * ")
-				.Append(' ', nameLaneRight)
-				.Append('|')
-				.ToString()
-			);
+            if (Error.Length > 0)
+            {
+				int errorMarginLeft = (Width - Error.Length) / 2;
+                Console.SetCursorPosition(cursorLeft + errorMarginLeft, cursorTop);
 
-			Console.SetCursorPosition(left, top + 3);
-			if(_error.Length > 0)
-			{
-                nameLaneLeft = (_width - 2 - _error.Length) / 2;
-				nameLaneRight = nameLaneLeft + (_width - 2 - _error.Length) % 2;
-
-				Console.Write(new StringBuilder()
-					.Append('|')
-					.Append(' ', nameLaneLeft)
-					.ToString()
-				);
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.Write(_error);
-                Console.ForegroundColor = Selected ? ConsoleColor.Cyan: ConsoleColor.White;
-                Console.WriteLine(new StringBuilder()
-                    .Append(' ', nameLaneRight)
-                    .Append('|')
-                );
-
-				_error = "";
-			}
-
-            Console.CursorTop += 1;
-
-			Console.ForegroundColor = ConsoleColor.White;
-		}
+				ConsoleColor prevColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("↑ " + Error + " ↑");
+				Console.ForegroundColor = prevColor;
+            }
+        }
 
 		public override void UseKey(char c)
 		{

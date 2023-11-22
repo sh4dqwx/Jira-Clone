@@ -19,14 +19,18 @@ namespace JiraClone.utils.consoleViewParts
             @"   \/___/  \/_/\/_/ \/__/\/_/    \/_____/\/_/ \/___/ ",
         };
 
-        public Logo(int height, int width) : base(height, width) { }
+        public Logo() : base()
+        {
+            Height = logo.Length;
+            Width = logo[0].Length;
+        }
 
-		public override void Print(int left, int top)
+		public override void Print()
 		{
-            base.Print(left, top);
 			for (int i=0; i<logo.Length; i++)
             {
-				Console.SetCursorPosition((_width - logo[i].Length) / 2 + left, top + i);
+                int marginLeft = (Width - logo[i].Length) / 2;
+                Console.SetCursorPosition(Left + marginLeft, Top + i);
                 Console.WriteLine(logo[i]);
 			}
 		}

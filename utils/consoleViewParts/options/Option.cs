@@ -5,55 +5,47 @@ namespace JiraClone.utils.consoleViewParts.options
 {
     public abstract class Option : Printable, IOption
     {
-        protected bool _selected;
-        protected string _error;
-        protected readonly string _name;
-        public bool Selected { get => _selected; set { _selected = value; Print(); } }
-        public string Error { get => _error; set => _error = value; }
+        private readonly string _name;
 
-        public Option(int height, int width, string name) : base(height, width)
+        public Option(string name) : base()
         {
             _name = name;
-            _error = "";
+            Error = "";
         }
 
-        public override void Print(int left, int top)
-        {
-            base.Print(left, top); 
+		public override void Print()
+		{
+			int cursorLeft = Left;
+			int cursorTop = Top;
 
-            if(Selected)
-                Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.SetCursorPosition(cursorLeft, cursorTop);
+			Console.Write(new StringBuilder()
+				.Append('+')
+				.Append('-', Width - 2)
+				.Append('+'));
+			cursorTop++;
 
-            Console.SetCursorPosition(left, top);
-            Console.WriteLine(new StringBuilder()
-                .Append('+')
-                .Append('-', _width - 2)
-                .Append('+')
-                .ToString()
-            );
-
-            for(int i=0; i<3; i++)
-            {
-				Console.CursorLeft = left;
-				Console.WriteLine(new StringBuilder()
+			for(int i=0; i<3; i++)
+			{
+				Console.SetCursorPosition(cursorLeft, cursorTop);
+				Console.Write(new StringBuilder()
 					.Append('|')
-					.Append(' ', _width - 2)
-					.Append('|')
-					.ToString()
-				);
+					.Append(' ', Width - 2)
+					.Append('|'));
+				cursorTop++;
 			}
 
-            Console.CursorLeft = left;
-            Console.WriteLine(new StringBuilder()
-                .Append('+')
-                .Append('-', _width - 2)
-                .Append('+')
-                .ToString()
-            );
+			Console.SetCursorPosition(cursorLeft, cursorTop);
+			Console.Write(new StringBuilder()
+				.Append('+')
+				.Append('-', Width - 2)
+				.Append('+'));
+		}
 
-            Console.ForegroundColor = ConsoleColor.White;
-        }
+		public abstract void UseKey(char c);
 
-        public abstract void UseKey(char c);
+		public bool Selected { get; set; }
+		public string Error { get; set; }
+		public string Name { get => _name; }
 	}
 }
