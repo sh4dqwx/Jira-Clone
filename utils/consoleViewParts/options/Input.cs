@@ -26,7 +26,7 @@ namespace JiraClone.utils.consoleViewParts.options
         public Input(string name, bool isPassword = false, ValidationRule? validationRule = null) : base(name)
         {
             Height = 5;
-            Width = Constants.MENU_WIDTH;
+            Width = Constants.BUTTON_WIDTH;
 			_isPassword = isPassword;
 			_validationRule = validationRule;
 		}
