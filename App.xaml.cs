@@ -27,7 +27,7 @@ namespace JiraClone
 					//dodać connection string
 					options.UseSqlite($"Data Source={AppDomain.CurrentDomain.BaseDirectory}/sqlite.db");
 				});
-
+        
                 //States
                 services.AddSingleton<ApplicationState>();
 

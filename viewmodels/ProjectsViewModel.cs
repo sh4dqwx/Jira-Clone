@@ -1,4 +1,4 @@
-﻿using JiraClone.db.dbmodels;
+using JiraClone.db.dbmodels;
 using JiraClone.db.repositories;
 using JiraClone.models;
 using System;
