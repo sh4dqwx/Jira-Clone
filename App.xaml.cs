@@ -38,6 +38,9 @@ namespace JiraClone
                 //Repositories
                 services.AddSingleton<IAccountRepository, AccountRepository>();
                 services.AddSingleton<IProjectRepository, ProjectRepository>();
+                services.AddSingleton<ITicketRepository, TicketRepository>();
+                services.AddSingleton<IStatusRepository, StatusRepository>();
+                services.AddSingleton<ICommentRepository, CommentRepository>();
 
 				using var serviceProvider = services.BuildServiceProvider();
 				var dbContext = serviceProvider.GetRequiredService<SqliteDbContext>();
