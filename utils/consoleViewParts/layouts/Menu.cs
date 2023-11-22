@@ -19,7 +19,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return selectedChild - _visibleCount / 2;
 		}
 
-		public bool SelectNext()
+		public bool SelectPrevious()
 		{
 			if (selectedChild <= 0)
 				return false;
@@ -31,7 +31,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return true;
 		}
 
-		public bool SelectPrevious()
+		public bool SelectNext()
 		{
 			if (selectedChild == -1 || selectedChild == children.Count - 1)
 				return false;
