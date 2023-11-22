@@ -6,15 +6,15 @@ using JiraClone.utils.validators;
 using JiraClone.viewmodels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JiraClone.views
 {
-    public class RegisterView : IConsoleView
+    public class RegisterView : ConsoleView
 	{
-		private ConsoleView layout;
 		private VerticalMenu menu;
 		private RegisterViewModel viewModel;
 		private Input loginInput, passwordInput, emailInput, nameInput, surnameInput;
@@ -33,15 +33,16 @@ namespace JiraClone.views
 			nameInput.Clear();
 			surnameInput.Clear();
 
-			layout.Print();
-			menu.SelectTop();
+			Print();
+			SelectTop();
 		}
 
 		public RegisterView(RegisterViewModel viewModel)
 		{
 			this.viewModel = viewModel;
-			
-			menu = new VerticalMenu(3);
+            viewModel.PropertyChanged += EventHandler;
+
+            menu = new VerticalMenu(3);
 
 			loginInput = new Input("Login", validationRule: new RequiredRule());
 			passwordInput = new Input("Hasło", true, validationRule: new RequiredRule());
@@ -59,40 +60,59 @@ namespace JiraClone.views
 			menu.Add(submitButton);
 			menu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
-			layout = new ConsoleView();
-			layout.SetBounds(0, 0, Console.WindowHeight, Console.WindowWidth);
-			layout.Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-			layout.Add(new Logo());
-			layout.Add(new Text("REJESTRACJA"));
-			layout.Add(menu);
+			Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
+			Add(new Logo());
+			Add(new Text("REJESTRACJA"));
+			Add(menu);
 		}
 
-		public void Start()
+        private void EventHandler(object sender, PropertyChangedEventArgs e)
+        {
+            Console.WriteLine(e.PropertyName);
+        }
+
+        public void Start()
 		{
 			ResetView();
 
 			while (true)
 			{
 				ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-				if (keyInfo.Key == ConsoleKey.UpArrow)
-				{
-					menu.SelectNext();
-					continue;
-				}
-				if (keyInfo.Key == ConsoleKey.DownArrow)
-				{
-					menu.SelectPrevious();
-					continue;
-				}
-				menu.UseKey(keyInfo.KeyChar);
+
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (selectableChildren[selectedChild] is VerticalMenu)
+                            SelectPrevious();
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (selectableChildren[selectedChild] is VerticalMenu)
+                            SelectNext();
+                        break;
+
+                    case ConsoleKey.LeftArrow:
+                        if (selectableChildren[selectedChild] is HorizontalMenu)
+                            SelectPrevious();
+                        break;
+
+                    case ConsoleKey.RightArrow:
+                        if (selectableChildren[selectedChild] is HorizontalMenu)
+                            SelectNext();
+                        break;
+
+                    default:
+                        UseKey(keyInfo.KeyChar);
+                        break;
+                }
 
 				if (closeFlag)
-				{
-					closeFlag = false;
-					ResetView();
-					return;
-				}
-			}
+                {
+                    closeFlag = false;
+                    ResetView();
+                    return;
+                }
+            }
 		}
 
 		private bool AreInputsValid()

@@ -23,8 +23,8 @@ namespace JiraClone.views
         public WelcomeView(LoginView loginView, RegisterView registerView)
         {
 			menu = new VerticalMenu(2);
-			menu.Add(new Button("Zaloguj się", loginView.Start));
-            menu.Add(new Button("Zarejestruj się", registerView.Start));
+			menu.Add(new Button("Zaloguj się", () => { loginView.Start(); ResetView(); }));
+            menu.Add(new Button("Zarejestruj się", () => { registerView.Start(); ResetView(); }));
 
 			Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
             Add(new Logo());
@@ -40,31 +40,32 @@ namespace JiraClone.views
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
-                if (keyInfo.Key == ConsoleKey.UpArrow)
+                switch (keyInfo.Key)
                 {
-                    if (selectableChildren[selectedChild] is VerticalMenu)
-                        SelectPrevious();
+                    case ConsoleKey.UpArrow:
+                        if (selectableChildren[selectedChild] is VerticalMenu)
+                            SelectPrevious();
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (selectableChildren[selectedChild] is VerticalMenu)
+                            SelectNext();
+                        break;
+
+                    case ConsoleKey.LeftArrow:
+                        if (selectableChildren[selectedChild] is HorizontalMenu)
+                            SelectPrevious();
+                        break;
+
+                    case ConsoleKey.RightArrow:
+                        if (selectableChildren[selectedChild] is HorizontalMenu)
+                            SelectNext();
+                        break;
+
+                    default:
+                        UseKey(keyInfo.KeyChar);
+                        break;
                 }
-                else if (keyInfo.Key == ConsoleKey.DownArrow)
-                {
-                    if (selectableChildren[selectedChild] is VerticalMenu)
-                        SelectNext();
-                }
-                else if (keyInfo.Key == ConsoleKey.LeftArrow)
-                {
-					if (selectableChildren[selectedChild] is HorizontalMenu)
-                        SelectPrevious();
-				}
-				else if (keyInfo.Key == ConsoleKey.RightArrow)
-				{
-					if (selectableChildren[selectedChild] is HorizontalMenu)
-                        SelectNext();
-				}
-                else
-                {
-					UseKey(keyInfo.KeyChar);
-					ResetView();
-				}
             }
         }
     }
