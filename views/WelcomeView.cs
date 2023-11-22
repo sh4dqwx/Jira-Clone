@@ -13,16 +13,20 @@ namespace JiraClone.views
         private ConsoleView layout;
         private VerticalMenu menu;
 
+        private void ResetView()
+        {
+			Console.Clear();
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.CursorVisible = false;
+
+            layout.Print();
+            menu.NavigateTop();
+		}
+
         public WelcomeView(LoginView loginView, RegisterView registerView)
         {
-            Console.CursorVisible = false;
-
             menu = new VerticalMenu(3);
 			menu.Add(new Button("Zaloguj się", loginView.Start));
-            menu.Add(new Button("Zarejestruj się", registerView.Start));
-            menu.Add(new Button("Zaloguj się", loginView.Start));
-            menu.Add(new Button("Zarejestruj się", registerView.Start));
-            menu.Add(new Button("Zaloguj się", loginView.Start));
             menu.Add(new Button("Zarejestruj się", registerView.Start));
 
             layout = new ConsoleView();
@@ -34,9 +38,7 @@ namespace JiraClone.views
 
         public void Start()
         {
-            Console.Clear();
-		    layout.Print();
-            menu.NavigateTop();
+            ResetView();
 
             while (true)
             {
@@ -52,10 +54,7 @@ namespace JiraClone.views
                     continue;
                 }
                 menu.UseKey(keyInfo.KeyChar);
-                Console.Clear();
-                layout.Print();
-                menu.NavigateTop();
-                Console.CursorVisible = false;
+                ResetView();
             }
         }
     }

@@ -46,7 +46,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
         {
             selectedChild = 0;
 
-
             foreach (Printable child in children)
             {
                 bool result = true;

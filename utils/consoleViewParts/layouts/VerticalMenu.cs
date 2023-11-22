@@ -26,14 +26,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			int cursorTop = Top;
 
             int selectedIndex = selectedChild >= 0 ? selectedChild : 0;
-            int startIndex = 0;
-            //if (selectedIndex - _visibleCount / 2 >= 0 && selectedIndex + _visibleCount / 2 + _visibleCount % 2 < children.Count)
-            //    startIndex = selectedIndex - _visibleCount / 2;
-            //else if (selectedIndex - _visibleCount / 2 < 0)
-            //    startIndex = 0;
-            //else if (selectedIndex + _visibleCount / 2 >= children.Count)
-            //    startIndex = children.Count - _visibleCount - 1;
 
+            int startIndex;
             if (selectedIndex <= _visibleCount / 2) startIndex = 0;
             else if (selectedIndex >= children.Count - _visibleCount / 2)
                 startIndex = children.Count - _visibleCount;
@@ -56,7 +50,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
             Console.SetCursorPosition(cursorLeft + ((Width - 1) / 2), cursorTop);
             if (startIndex < children.Count - _visibleCount) Console.Write("v");
             else Console.Write(" ");
-        }
+
+			children[selectedIndex].Print();
+		}
 
 		public override void Add(Printable child)
 		{
@@ -78,7 +74,17 @@ namespace JiraClone.utils.consoleViewParts.layouts
             Height -= child.Height;
 		}
 
-        public override bool NavigateUp()
+		public override bool NavigateTop()
+		{
+            if(selectedChild != -1) UnselectSelected();
+            
+            selectedChild = 0;
+            ((Option)children[selectedChild]).Selected = true;
+            ((Option)children[selectedChild]).Print();
+            return true;
+		}
+
+		public override bool NavigateUp()
         {
             if (selectedChild <= 0)
                 return false;

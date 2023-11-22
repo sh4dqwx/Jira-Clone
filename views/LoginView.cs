@@ -20,19 +20,29 @@ namespace JiraClone.views
 		private Button submitButton;
         private bool closeFlag = false;
 
+		private void ResetView()
+		{
+			Console.Clear();
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.CursorVisible = false;
+
+			loginInput.Clear();
+			passwordInput.Clear();
+
+			layout.Print();
+			menu.NavigateTop();
+		}
+
 		public LoginView(LoginViewModel viewModel)
 		{
             this.viewModel = viewModel;
             viewModel.PropertyChanged += EventHandler;
-
-            Console.CursorVisible = false;
 
 			menu = new VerticalMenu(3);
 
 			loginInput = new Input("Login", validationRule: new RequiredRule());
 			passwordInput = new Input("Hasło", isPassword: true, validationRule: new RequiredRule());
 			submitButton = new Button("Zatwierdź", OnSubmit);
-
 
             menu.Add(loginInput);
             menu.Add(passwordInput);
@@ -54,13 +64,7 @@ namespace JiraClone.views
 
 		public void Start()
 		{
-            Console.Clear();
-
-			loginInput.Clear();
-			passwordInput.Clear();
-
-            layout.Print();
-			menu.NavigateTop();
+			ResetView();
 
             while (true)
             {
@@ -80,7 +84,7 @@ namespace JiraClone.views
 				if(closeFlag)
 				{
 					closeFlag = false;
-					menu.NavigateTop();
+					ResetView();
 					return;
 				}
 			}

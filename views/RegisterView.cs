@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JiraClone.views
 {
@@ -22,13 +21,27 @@ namespace JiraClone.views
 		private Button submitButton;
 		private bool closeFlag = false;
 
+		private void ResetView()
+		{
+			Console.Clear();
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.CursorVisible = false;
+
+			loginInput.Clear();
+			passwordInput.Clear();
+			emailInput.Clear();
+			nameInput.Clear();
+			surnameInput.Clear();
+
+			layout.Print();
+			menu.NavigateTop();
+		}
+
 		public RegisterView(RegisterViewModel viewModel)
 		{
 			this.viewModel = viewModel;
-			Console.CursorVisible = false;
-
+			
 			menu = new VerticalMenu(3);
-			menu.Height = 50; menu.Width = Console.WindowWidth;
 
 			loginInput = new Input("Login", validationRule: new RequiredRule());
 			passwordInput = new Input("Hasło", true, validationRule: new RequiredRule());
@@ -56,16 +69,7 @@ namespace JiraClone.views
 
 		public void Start()
 		{
-			Console.Clear();
-
-			loginInput.Clear();
-			passwordInput.Clear();
-			emailInput.Clear();
-			nameInput.Clear();
-			surnameInput.Clear();
-
-			layout.Print();
-			menu.NavigateTop();
+			ResetView();
 
 			while (true)
 			{

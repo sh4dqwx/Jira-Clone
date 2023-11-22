@@ -8,7 +8,7 @@ namespace JiraClone.utils
         public const int WINDOW_HEIGHT = 40;
         public const int MENU_WIDTH = 60;
 
-        public const int InputMargin = 1;
+        public const int InputMargin = 2;
         public const int InputSpacer = 20;
     }
 }
