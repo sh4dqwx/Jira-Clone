@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-    public class VerticalMenu : Layout
+    public class VerticalMenu : Layout, ISelectable
     {
         private int _visibleCount;
         public VerticalMenu(int visibleCount): base()
@@ -74,17 +74,33 @@ namespace JiraClone.utils.consoleViewParts.layouts
             Height -= child.Height;
 		}
 
-		public override bool NavigateTop()
+        public void UnselectSelected()
+        {
+			if (selectedChild == -1)
+				return;
+
+            ((Option)children[selectedChild]).Selected = false;
+		}
+
+		public void SelectTop()
 		{
             if(selectedChild != -1) UnselectSelected();
             
             selectedChild = 0;
             ((Option)children[selectedChild]).Selected = true;
-            ((Option)children[selectedChild]).Print();
-            return true;
+            Print();
 		}
 
-		public override bool NavigateUp()
+		public void SelectBottom()
+		{
+			if (selectedChild != -1) UnselectSelected();
+
+			selectedChild = children.Count - 1;
+			((Option)children[selectedChild]).Selected = true;
+			Print();
+		}
+
+		public bool SelectUp()
         {
             if (selectedChild <= 0)
                 return false;
@@ -96,7 +112,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
             return true;
         }
 
-        public override bool NavigateDown()
+        public bool SelectDown()
         {
             if (selectedChild == -1 || selectedChild == children.Count - 1)
                 return false;
@@ -106,5 +122,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
             Print();
             return true;
         }
+
+		public void UseKey(char c)
+		{
+			if (selectedChild < 0) return;
+			((Option)children[selectedChild]).UseKey(c);
+		}
+
+		public bool Selected { get; set; }
     }
 }

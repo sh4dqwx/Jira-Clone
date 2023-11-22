@@ -30,7 +30,7 @@ namespace JiraClone.views
 			passwordInput.Clear();
 
 			layout.Print();
-			menu.NavigateTop();
+			menu.SelectTop();
 		}
 
 		public LoginView(LoginViewModel viewModel)
@@ -71,12 +71,12 @@ namespace JiraClone.views
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 				if (keyInfo.Key == ConsoleKey.UpArrow)
 				{
-					menu.NavigateUp();
+					menu.SelectUp();
 					continue;
 				}
 				if (keyInfo.Key == ConsoleKey.DownArrow)
 				{
-					menu.NavigateDown();
+					menu.SelectDown();
 					continue;
 				}
 				menu.UseKey(keyInfo.KeyChar);

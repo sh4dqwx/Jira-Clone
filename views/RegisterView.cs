@@ -34,7 +34,7 @@ namespace JiraClone.views
 			surnameInput.Clear();
 
 			layout.Print();
-			menu.NavigateTop();
+			menu.SelectTop();
 		}
 
 		public RegisterView(RegisterViewModel viewModel)
@@ -76,12 +76,12 @@ namespace JiraClone.views
 				ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 				if (keyInfo.Key == ConsoleKey.UpArrow)
 				{
-					menu.NavigateUp();
+					menu.SelectUp();
 					continue;
 				}
 				if (keyInfo.Key == ConsoleKey.DownArrow)
 				{
-					menu.NavigateDown();
+					menu.SelectDown();
 					continue;
 				}
 				menu.UseKey(keyInfo.KeyChar);
@@ -89,7 +89,7 @@ namespace JiraClone.views
 				if (closeFlag)
 				{
 					closeFlag = false;
-					menu.NavigateTop();
+					ResetView();
 					return;
 				}
 			}
