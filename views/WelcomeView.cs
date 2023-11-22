@@ -8,7 +8,7 @@ namespace JiraClone.views
 {
     public class WelcomeView: ConsoleView
     {
-        private VerticalMenu menu;
+        private HorizontalMenu menu;
 
         private void ResetView()
         {
@@ -16,27 +16,33 @@ namespace JiraClone.views
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.CursorVisible = false;
 
-            Print();
-            SelectTop();
+			Print();
+			SelectTop();
 		}
 
         public WelcomeView(LoginView loginView, RegisterView registerView)
         {
-            menu = new VerticalMenu(1);
+            VerticalMenu menu2 = new VerticalMenu(3);
+			menu2.Add(new Button("Zaloguj się", loginView.Start));
+			menu2.Add(new Button("Zarejestruj się", registerView.Start));
+			menu2.Add(new Button("Zaloguj się", loginView.Start));
+			menu2.Add(new Button("Zarejestruj się", registerView.Start));
+
+			menu = new HorizontalMenu(2);
 			menu.Add(new Button("Zaloguj się", loginView.Start));
             menu.Add(new Button("Zarejestruj się", registerView.Start));
 			menu.Add(new Button("Zaloguj się", loginView.Start));
 			menu.Add(new Button("Zarejestruj się", registerView.Start));
-
-			VerticalMenu menu2 = new VerticalMenu(1);
-			menu2.Add(new Button("Zaloguj się", loginView.Start));
-			menu2.Add(new Button("Zarejestruj się", registerView.Start));
+			menu.Add(new Button("Zaloguj się", loginView.Start));
+			menu.Add(new Button("Zarejestruj się", registerView.Start));
+			menu.Add(new Button("Zaloguj się", loginView.Start));
+			menu.Add(new Button("Zarejestruj się", registerView.Start));
 
 			Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
             Add(new Logo());
 			Add(new Text("MENU GŁÓWNE"));
-		    Add(menu);
             Add(menu2);
+		    Add(menu);
         }
 
         public void Start()
@@ -48,12 +54,12 @@ namespace JiraClone.views
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                 if (keyInfo.Key == ConsoleKey.UpArrow)
                 {
-                    SelectUp();
+                    SelectNext();
                     continue;
                 }
                 if (keyInfo.Key == ConsoleKey.DownArrow)
                 {
-                    SelectDown();
+                    SelectPrevious();
                     continue;
                 }
                 UseKey(keyInfo.KeyChar);

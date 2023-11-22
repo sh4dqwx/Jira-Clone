@@ -10,13 +10,12 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-    public class VerticalMenu : Layout, ISelectable
+    public class VerticalMenu : Menu
     {
-        private int _visibleCount;
         public VerticalMenu(int visibleCount): base()
         {
             Height = 4;
-            Width = Constants.MENU_WIDTH;
+            Width = Constants.BUTTON_WIDTH;
             _visibleCount = visibleCount;
         }
 
@@ -25,13 +24,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			int cursorLeft = Left;
 			int cursorTop = Top;
 
-            int selectedIndex = selectedChild >= 0 ? selectedChild : 0;
-
-            int startIndex;
-            if (selectedIndex <= _visibleCount / 2) startIndex = 0;
-            else if (selectedIndex >= children.Count - _visibleCount / 2)
-                startIndex = children.Count - _visibleCount;
-            else startIndex = selectedIndex - _visibleCount / 2;
+            int startIndex = GetStartIndex();
 
             Console.SetCursorPosition(cursorLeft + (Width - 1) / 2, cursorTop);
             if (startIndex > 0) Console.Write("^");
@@ -51,7 +44,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
             if (startIndex < children.Count - _visibleCount) Console.Write("v");
             else Console.Write(" ");
 
-			children[selectedIndex].Print();
+			if(selectedChild != -1) children[selectedChild].Print();
 		}
 
 		public override void Add(Printable child)
@@ -73,62 +66,5 @@ namespace JiraClone.utils.consoleViewParts.layouts
             if (children.Count > 1) Height--;
             Height -= child.Height;
 		}
-
-        public void UnselectSelected()
-        {
-			if (selectedChild == -1)
-				return;
-
-            ((Option)children[selectedChild]).Selected = false;
-		}
-
-		public void SelectTop()
-		{
-            if(selectedChild != -1) UnselectSelected();
-            
-            selectedChild = 0;
-            ((Option)children[selectedChild]).Selected = true;
-            Print();
-		}
-
-		public void SelectBottom()
-		{
-			if (selectedChild != -1) UnselectSelected();
-
-			selectedChild = children.Count - 1;
-			((Option)children[selectedChild]).Selected = true;
-			Print();
-		}
-
-		public bool SelectUp()
-        {
-            if (selectedChild <= 0)
-                return false;
-
-            UnselectSelected();
-            ((Option)children[--selectedChild]).Selected = true;
-            Print();
-
-            return true;
-        }
-
-        public bool SelectDown()
-        {
-            if (selectedChild == -1 || selectedChild == children.Count - 1)
-                return false;
-
-            UnselectSelected();
-            ((Option)children[++selectedChild]).Selected = true;
-            Print();
-            return true;
-        }
-
-		public void UseKey(char c)
-		{
-			if (selectedChild < 0) return;
-			((Option)children[selectedChild]).UseKey(c);
-		}
-
-		public bool Selected { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-	public class ConsoleView : Layout, ISelectable
+    public class ConsoleView : Layout, ISelectable
 	{
 		private List<ISelectable> selectableChildren;
 
@@ -87,7 +87,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			else selectableChildren[selectedChild].SelectTop();
 		}
 
-		public bool SelectUp()
+		public bool SelectNext()
 		{
 			if (selectedChild == -1) return false;
 
@@ -104,7 +104,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			}
 			else
 			{
-				bool result = selectableChildren[selectedChild].SelectUp();
+				bool result = selectableChildren[selectedChild].SelectNext();
 				if (result == true) return true;
 				if (selectedChild <= 0) return false;
 				selectableChildren[--selectedChild].SelectBottom();
@@ -112,7 +112,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			}
 		}
 
-		public bool SelectDown()
+		public bool SelectPrevious()
 		{
 			if (selectedChild == -1) return false;
 
@@ -129,7 +129,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			}
 			else
 			{
-				bool result = selectableChildren[selectedChild].SelectDown();
+				bool result = selectableChildren[selectedChild].SelectPrevious();
 				if (result == true) return true;
 				if (selectedChild >= selectableChildren.Count - 1) return false;
 				selectableChildren[++selectedChild].SelectTop();

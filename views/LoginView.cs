@@ -71,12 +71,12 @@ namespace JiraClone.views
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 				if (keyInfo.Key == ConsoleKey.UpArrow)
 				{
-					menu.SelectUp();
+					menu.SelectNext();
 					continue;
 				}
 				if (keyInfo.Key == ConsoleKey.DownArrow)
 				{
-					menu.SelectDown();
+					menu.SelectPrevious();
 					continue;
 				}
 				menu.UseKey(keyInfo.KeyChar);

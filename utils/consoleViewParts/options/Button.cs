@@ -13,7 +13,7 @@ namespace JiraClone.utils.consoleViewParts.options
 		public Button(string name, Action callback) : base(name)
 		{
 			Height = 5;
-			Width = Constants.MENU_WIDTH;
+			Width = Constants.BUTTON_WIDTH;
 			_callback = callback;
 		}
 
