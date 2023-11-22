@@ -15,7 +15,7 @@ namespace JiraClone.views
 {
     public class RegisterView : IConsoleView
 	{
-		private VerticalLayout layout;
+		private ConsoleView layout;
 		private VerticalMenu menu;
 		private RegisterViewModel viewModel;
 		private Input loginInput, passwordInput, emailInput, nameInput, surnameInput;
@@ -27,7 +27,7 @@ namespace JiraClone.views
 			this.viewModel = viewModel;
 			Console.CursorVisible = false;
 
-			menu = new VerticalMenu(3, 1);
+			menu = new VerticalMenu(3);
 			menu.Height = 50; menu.Width = Console.WindowWidth;
 
 			loginInput = new Input("Login", validationRule: new RequiredRule());
@@ -46,7 +46,7 @@ namespace JiraClone.views
 			menu.Add(submitButton);
 			menu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
-			layout = new VerticalLayout();
+			layout = new ConsoleView();
 			layout.SetBounds(0, 0, Console.WindowHeight, Console.WindowWidth);
 			layout.Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
 			layout.Add(new Logo());

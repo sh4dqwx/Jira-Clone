@@ -10,19 +10,22 @@ namespace JiraClone.views
 {
     public class WelcomeView: IConsoleView
     {
-        private VerticalLayout layout;
+        private ConsoleView layout;
         private VerticalMenu menu;
 
         public WelcomeView(LoginView loginView, RegisterView registerView)
         {
             Console.CursorVisible = false;
 
-            menu = new VerticalMenu(2, 1);
-            menu.Height = 20; menu.Width = Constants.MENU_WIDTH;
+            menu = new VerticalMenu(3);
 			menu.Add(new Button("Zaloguj się", loginView.Start));
             menu.Add(new Button("Zarejestruj się", registerView.Start));
+            menu.Add(new Button("Zaloguj się", loginView.Start));
+            menu.Add(new Button("Zarejestruj się", registerView.Start));
+            menu.Add(new Button("Zaloguj się", loginView.Start));
+            menu.Add(new Button("Zarejestruj się", registerView.Start));
 
-			layout = new VerticalLayout();
+            layout = new ConsoleView();
 			layout.Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
             layout.Add(new Logo());
 			layout.Add(new Text("MENU GŁÓWNE"));

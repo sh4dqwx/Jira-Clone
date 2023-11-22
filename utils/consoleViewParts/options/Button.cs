@@ -12,24 +12,62 @@ namespace JiraClone.utils.consoleViewParts.options
 
 		public Button(string name, Action callback) : base(name)
 		{
+			Height = 5;
+			Width = Constants.MENU_WIDTH;
 			_callback = callback;
 		}
 
 		public override void Print()
 		{
-			int marginLeft = Math.Max(0, (Width - Name.Length) / 2);
-			Console.SetCursorPosition(Left + marginLeft, Top);
-			if(Selected)
-				Console.ForegroundColor = ConsoleColor.Cyan;
-			Console.Write(Name);
+			int cursorLeft = Left;
+			int cursorTop = Top;
+            if (Selected)
+                Console.ForegroundColor = ConsoleColor.Cyan;
 
+            Console.SetCursorPosition(cursorLeft, cursorTop);
+			Console.Write(new StringBuilder()
+				.Append('+')
+				.Append('-', Width - 2)
+				.Append('+'));
+			cursorTop++;
+
+            Console.SetCursorPosition(cursorLeft, cursorTop);
+            Console.Write(new StringBuilder()
+                .Append('|')
+                .Append(' ', Width - 2)
+                .Append('|'));
+            cursorTop++;
+
+            int marginLeft = Math.Max(0, (Width - 2 - Name.Length) / 2);
+			Console.SetCursorPosition(cursorLeft, cursorTop);
+			Console.Write(new StringBuilder()
+				.Append('|')
+				.Append(' ', marginLeft)
+				.Append(Name)
+				.Append(' ', Width - 2 - Name.Length - marginLeft)
+				.Append('|'));
+			cursorTop++;
+
+            Console.SetCursorPosition(cursorLeft, cursorTop);
+            Console.Write(new StringBuilder()
+                .Append('|')
+                .Append(' ', Width - 2)
+                .Append('|'));
             if (Error.Length > 0)
             {
 				int errorMarginLeft = (Width - Error.Length) / 2;
-                Console.SetCursorPosition(Left + errorMarginLeft, Top + 1);
+                Console.SetCursorPosition(cursorLeft + errorMarginLeft, cursorTop);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("↑ " + Error + " ↑");
+				Console.ForegroundColor = ConsoleColor.Cyan;
             }
+			cursorTop++;
+
+            Console.SetCursorPosition(cursorLeft, cursorTop);
+            Console.Write(new StringBuilder()
+                .Append('+')
+                .Append('-', Width - 2)
+                .Append('+'));
 
             Console.ForegroundColor = ConsoleColor.White;
         }

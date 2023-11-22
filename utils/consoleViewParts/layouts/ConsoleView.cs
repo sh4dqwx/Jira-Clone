@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-	public class VerticalLayout : Layout
+	public class ConsoleView : Layout
 	{
-		public VerticalLayout(): base()
+		public ConsoleView(): base()
 		{
-			Width = Console.WindowWidth;
+			Height = Constants.WINDOW_HEIGHT;
+			Width = Constants.WINDOW_WIDTH;
 		}
 
 		public override void Print()
@@ -27,13 +28,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 				
 				cursorTop += child.Height + 1;
 			}
-		}
-
-		public override void Add(Printable child)
-		{
-			Height += child.Height;
-			if (children.Count > 1) Height++;
-			base.Add(child);
 		}
 	}
 }

@@ -36,9 +36,10 @@ namespace JiraClone.utils.consoleViewParts.layouts
             if (children[selectedChild] is Layout)
                 ((Layout)children[selectedChild]).UnselectSelected();
             else if (children[selectedChild] is Option)
+            {
                 ((Option)children[selectedChild]).Selected = false;
-
-            selectedChild = -1;
+                ((Option)children[selectedChild]).Print();
+            }
         }
 
         public virtual bool NavigateTop()
