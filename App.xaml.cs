@@ -1,5 +1,6 @@
 ﻿using JiraClone.db;
 using JiraClone.db.repositories;
+using JiraClone.models;
 using JiraClone.utils;
 using JiraClone.viewmodels;
 using JiraClone.views;
@@ -26,7 +27,10 @@ namespace JiraClone
 					//dodać connection string
 					options.UseSqlite($"Data Source={AppDomain.CurrentDomain.BaseDirectory}/sqlite.db");
 				});
-        
+
+                //States
+                services.AddSingleton<ApplicationState>();
+
                 //Views
                 services.AddSingleton<WelcomeView>();
                 services.AddSingleton<LoginView>();
