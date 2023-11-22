@@ -34,6 +34,7 @@ namespace JiraClone
                 //ViewModels
                 services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<RegisterViewModel>();
+                services.AddSingleton<ProjectsViewModel>();
                 //Repositories
                 services.AddSingleton<IAccountRepository, AccountRepository>();
                 services.AddSingleton<IProjectRepository, ProjectRepository>();

@@ -10,13 +10,17 @@ namespace JiraClone.db.repositories
 {
 	public class ProjectRepository : IProjectRepository
 	{
-		private readonly IAccountRepository _accountRepository;
 		private readonly SqliteDbContext _db;
 
-		public ProjectRepository(IAccountRepository accountRepository, SqliteDbContext db)
+		public ProjectRepository(SqliteDbContext db)
 		{
-			_accountRepository = accountRepository;
 			_db = db;
+		}
+		public List<Project> GetProjectsByUser(Account account)
+		{
+			return _db.Projects
+				.Where(project => project.Owner.Id == account.Id || project.AssignedAccounts.Contains(account))
+				.ToList();
 		}
 
 		public void AddProject(Project project)
@@ -29,13 +33,6 @@ namespace JiraClone.db.repositories
 		{
 			_db.Projects.Remove(project);
 			_db.SaveChanges();
-		}
-
-		public List<Project> GetAllProjects(Account account)
-		{
-			return _db.Projects
-				.Where(project => project.Owner == account || project.AssignedAccounts.Contains(account))
-				.ToList();
 		}
 	}
 }

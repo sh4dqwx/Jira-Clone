@@ -11,43 +11,43 @@ namespace JiraClone.db.repositories
 {
     public class AccountRepository: IAccountRepository
     {
-        private readonly SqliteDbContext db;
+        private readonly SqliteDbContext _db;
 
         public AccountRepository(SqliteDbContext db)
         {
-            this.db = db;
+            this._db = db;
         }
 
         public Account? GetAccountByLogin(string login)
         {
-            return db.Accounts.Where(account => account.Login == login).FirstOrDefault();
+            return _db.Accounts.Where(account => account.Login == login).FirstOrDefault();
         }
 
         public Account? GetAccountByEmail(string email)
         {
-            return db.Accounts.Where(account => account.Email == email).FirstOrDefault();
+            return _db.Accounts.Where(account => account.Email == email).FirstOrDefault();
         }
 
 		public Account? GetAccountById(int id)
 		{
-			return db.Accounts.Where(account => account.Id == id).FirstOrDefault();
+			return _db.Accounts.Where(account => account.Id == id).FirstOrDefault();
 		}
 
 		public List<Account> GetAllAccounts()
         {
-            return db.Accounts.ToList();
+            return _db.Accounts.ToList();
         }
 
         public void AddAccount(Account account)
         {
-            db.Accounts.Add(account);
-            db.SaveChanges();
+            _db.Accounts.Add(account);
+            _db.SaveChanges();
         }
 
         public void RemoveAccount(Account account)
         {
-            db.Accounts.Remove(account);
-            db.SaveChanges();
+            _db.Accounts.Remove(account);
+            _db.SaveChanges();
         }
     }
 }
