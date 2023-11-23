@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace JiraClone.viewmodels
 {
@@ -14,11 +15,13 @@ namespace JiraClone.viewmodels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private IProjectRepository projectRepository;
+        private IAccountRepository accountRepository;
         private ApplicationState applicationState;
 
-        public ProjectsViewModel(IProjectRepository projectRepository, ApplicationState applicationState)
+        public ProjectsViewModel(IProjectRepository projectRepository, IAccountRepository accountRepository, ApplicationState applicationState)
         {
             this.projectRepository = projectRepository;
+            this.accountRepository = accountRepository;
             this.applicationState = applicationState;
         }
 
@@ -54,6 +57,26 @@ namespace JiraClone.viewmodels
                 return "Projekt o podanej nazwie nie istnieje";
 
             projectRepository.RemoveProject(project);
+            return null;
+        }
+
+        public string? ShareProject(string projectName, string userLogin)
+        {
+            Account? loggedAccount = applicationState.GetLoggedUser();
+            if (loggedAccount == null)
+                return "U¿ytkownik nie jest zalogowany";
+
+            Project? project = projectRepository.GetProjectByName(projectName);
+            if (project == null)
+                return "Projekt o podanej nazwie nie istnieje";
+
+            Account? account = accountRepository.GetAccountByLogin(userLogin);
+            if (account == null)
+                return "U¿utkownik o podanej nazwie nie istnieje";
+
+            project.AssignedAccounts.Add(account);
+            projectRepository.UpdateProject(project);
+
             return null;
         }
     }

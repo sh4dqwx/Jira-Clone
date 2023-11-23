@@ -41,6 +41,12 @@ namespace JiraClone.db.repositories
 			_db.SaveChanges();
 		}
 
+		public void UpdateProject(Project project)
+		{
+			_db.Projects.Update(project);
+			_db.SaveChanges();
+		}
+
 		public void RemoveProject(Project project)
 		{
 			_db.Projects.Remove(project);
