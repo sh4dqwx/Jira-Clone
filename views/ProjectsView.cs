@@ -12,8 +12,8 @@ namespace JiraClone.views
     {
         private ProjectsViewModel viewModel;
 
-        private VerticalMenu menu;
-        private HorizontalMenu bottomMenu;
+        private VerticalMenu projectsMenu, bottomMenu;
+        private HorizontalMenu actionMenu;
         private bool closeFlag = false;
 
         private void ResetView()
@@ -31,19 +31,24 @@ namespace JiraClone.views
             this.viewModel = viewModel;
             viewModel.PropertyChanged += EventHandler;
 
-            menu = new VerticalMenu(5);
+            projectsMenu = new VerticalMenu(5);
 
             List<Project> projects = viewModel.GetProjects();
             foreach (var project in projects)
-                menu.Add(new Button(project.Name, () => onProjectClick(project)));
+                projectsMenu.Add(new Button(project.Name, () => onProjectClick(project)));
 
-            bottomMenu = new HorizontalMenu(2);
-            bottomMenu.Add(new Button("Stwórz projekt", () => { }));
+            actionMenu = new HorizontalMenu(2);
+            actionMenu.Add(new Button("Stwórz projekt", () => { }));
+            actionMenu.Add(new Button("Usuń projekt", () => { }));
+            actionMenu.Add(new Button("Udostępnij projekt", () => { }));
+
+            bottomMenu = new VerticalMenu(1);
             bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
             Add(new Text("PROJEKTY"));
-            Add(menu);
+            Add(projectsMenu);
+            Add(actionMenu);
             Add(bottomMenu);
         }
 
