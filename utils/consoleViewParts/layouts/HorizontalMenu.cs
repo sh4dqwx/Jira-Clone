@@ -68,6 +68,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 		{
 			base.Clear();
 			Width = 4;
+			selectedChild = -1;
 		}
 	}
 }

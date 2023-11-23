@@ -1,4 +1,5 @@
 ﻿using JiraClone.db.dbmodels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,15 @@ namespace JiraClone.db.repositories
 			else return _db.Projects
 				.Where(project => project.OwnerId == account.Id || project.AssignedAccounts.Contains(account))
 				.ToList();
+		}
+
+		public Project? GetProjectByName(string name)
+		{
+			if (name == null)
+				return null;
+			else return _db.Projects
+					.Where(project => project.Name == name)
+					.FirstOrDefault();
 		}
 
 		public void AddProject(Project project)
