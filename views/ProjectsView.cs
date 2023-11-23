@@ -31,7 +31,7 @@ namespace JiraClone.views
             SelectTop();
         }
 
-        public ProjectsView(ProjectsViewModel viewModel, AddProjectView addProjectView, RemoveProjectView deleteProjectView)
+        public ProjectsView(ProjectsViewModel viewModel, AddProjectView addProjectView, RemoveProjectView deleteProjectView, ShareProjectView shareProjectView)
         {
             this.viewModel = viewModel;
             viewModel.PropertyChanged += EventHandler;
@@ -45,7 +45,7 @@ namespace JiraClone.views
             actionMenu = new HorizontalMenu(2);
             actionMenu.Add(new Button("Stwórz projekt", () => { addProjectView.Start(); ResetView(); }));
             actionMenu.Add(new Button("Usuń projekt", () => { deleteProjectView.Start(); ResetView(); }));
-            actionMenu.Add(new Button("Udostępnij projekt", () => { }));
+            actionMenu.Add(new Button("Udostępnij projekt", () => { shareProjectView.Start(); ResetView(); }));
 
             bottomMenu = new VerticalMenu(1);
             bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));

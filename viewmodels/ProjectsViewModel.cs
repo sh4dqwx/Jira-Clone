@@ -14,13 +14,11 @@ namespace JiraClone.viewmodels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private IProjectRepository projectRepository;
-        private IAccountRepository accountRepository;
         private ApplicationState applicationState;
 
-        public ProjectsViewModel(IProjectRepository projectRepository, IAccountRepository accountRepository, ApplicationState applicationState)
+        public ProjectsViewModel(IProjectRepository projectRepository, ApplicationState applicationState)
         {
             this.projectRepository = projectRepository;
-            this.accountRepository = accountRepository;
             this.applicationState = applicationState;
         }
 
