@@ -36,6 +36,7 @@ namespace JiraClone
                 services.AddSingleton<LoginView>();
                 services.AddSingleton<RegisterView>();
                 services.AddSingleton<ProjectsView>();
+                services.AddSingleton<AddProjectView>();
                 //ViewModels
                 services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<RegisterViewModel>();

@@ -1,19 +1,24 @@
-﻿using JiraClone.db.dbmodels;
+﻿using JiraClone.utils.consoleViewParts;
 using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
+using JiraClone.utils.validators;
 using JiraClone.viewmodels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace JiraClone.views
 {
-    public class ProjectsView: ConsoleView
+    public class AddProjectView: ConsoleView
     {
         private ProjectsViewModel viewModel;
 
-        private VerticalMenu projectsMenu, bottomMenu;
-        private HorizontalMenu actionMenu;
+        private VerticalMenu menu;
+        private Input nameInput;
+        private Button submitButton;
         private bool closeFlag = false;
 
         private void ResetView()
@@ -22,34 +27,28 @@ namespace JiraClone.views
             Console.ForegroundColor = ConsoleColor.White;
             Console.CursorVisible = false;
 
+            nameInput.Clear();
+
             Print();
             SelectTop();
         }
 
-        public ProjectsView(ProjectsViewModel viewModel, AddProjectView addProjectView)
+        public AddProjectView(ProjectsViewModel viewModel)
         {
             this.viewModel = viewModel;
-            viewModel.PropertyChanged += EventHandler;
+            
+            menu = new VerticalMenu(3);
 
-            projectsMenu = new VerticalMenu(5);
+            nameInput = new Input("Nazwa", validationRule: new RequiredRule());
+            submitButton = new Button("Zatwierdź", OnSubmit);
 
-            List<Project> projects = viewModel.GetProjects();
-            foreach (var project in projects)
-                projectsMenu.Add(new Button(project.Name, () => onProjectClick(project)));
-
-            actionMenu = new HorizontalMenu(2);
-            actionMenu.Add(new Button("Stwórz projekt", () => { addProjectView.Start(); ResetView(); }));
-            actionMenu.Add(new Button("Usuń projekt", () => { }));
-            actionMenu.Add(new Button("Udostępnij projekt", () => { }));
-
-            bottomMenu = new VerticalMenu(1);
-            bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
+            menu.Add(nameInput);
+            menu.Add(submitButton);
+            menu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-            Add(new Text("PROJEKTY"));
-            Add(projectsMenu);
-            Add(actionMenu);
-            Add(bottomMenu);
+            Add(new Text("TWORZENIE PROJEKTU"));
+            Add(menu);
         }
 
         private void EventHandler(object sender, PropertyChangedEventArgs e)
@@ -70,21 +69,11 @@ namespace JiraClone.views
                     case ConsoleKey.UpArrow:
                         if (selectableChildren[selectedChild] is VerticalMenu)
                             SelectPrevious();
-                        else if (selectableChildren[selectedChild] is HorizontalMenu)
-                        {
-                            selectableChildren[selectedChild].SelectTop();
-                            SelectPrevious();
-                        }
                         break;
 
                     case ConsoleKey.DownArrow:
                         if (selectableChildren[selectedChild] is VerticalMenu)
                             SelectNext();
-                        else if (selectableChildren[selectedChild] is HorizontalMenu)
-                        {
-                            selectableChildren[selectedChild].SelectBottom();
-                            SelectNext();
-                        }
                         break;
 
                     case ConsoleKey.LeftArrow:
@@ -112,10 +101,25 @@ namespace JiraClone.views
             }
         }
 
-        private void onProjectClick(Project project)
+        private bool AreInputsValid()
         {
-            //Przechodzenie do kolejnego widoku
-            ResetView();
+            bool areValid = true;
+            if (!nameInput.Validate()) areValid = false;
+            return areValid;
+        }
+
+        private void OnSubmit()
+        {
+            if (!AreInputsValid()) return;
+
+            string? error = null;//do viewModelu odwołanie
+
+            if (error != null)
+            {
+                submitButton.Error = error;
+                submitButton.Print();
+            }
+            else closeFlag = true;
         }
     }
 }
