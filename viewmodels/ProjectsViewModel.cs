@@ -25,10 +25,16 @@ namespace JiraClone.viewmodels
             this.applicationState = applicationState;
         }
 
-        public List<Project> GetProjects()
+        public List<Project> GetOwnedProjects()
         {
             Account? loggedUser = applicationState.GetLoggedUser();
-            return projectRepository.GetProjectsByUser(loggedUser);
+            return projectRepository.GetProjectsOwnedByUser(loggedUser);
+        }
+
+        public List<Project> GetSharedProjects()
+        {
+            Account? loggedUser = applicationState.GetLoggedUser();
+            return projectRepository.GetProjectsSharedForUser(loggedUser);
         }
 
         public void CreateProject(string name)
@@ -72,7 +78,10 @@ namespace JiraClone.viewmodels
 
             Account? account = accountRepository.GetAccountByLogin(userLogin);
             if (account == null)
-                return "U¿utkownik o podanej nazwie nie istnieje";
+                return "U¿ytkownik o podanej nazwie nie istnieje";
+
+            if (loggedAccount.Id == account.Id)
+                return "Nie mo¿esz udostêpniæ projektu sobie";
 
             project.AssignedAccounts.Add(account);
             projectRepository.UpdateProject(project);

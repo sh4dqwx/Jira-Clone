@@ -23,9 +23,13 @@ namespace JiraClone.views
             Console.CursorVisible = false;
 
             projectsMenu.Clear();
-            List<Project> projects = viewModel.GetProjects();
-            foreach (var project in projects)
+            List<Project> ownedProjects = viewModel.GetOwnedProjects();
+            foreach (var project in ownedProjects)
                 projectsMenu.Add(new Button(project.Name, () => onProjectClick(project)));
+
+            List<Project> sharedProjects = viewModel.GetSharedProjects();
+            foreach (var project in sharedProjects)
+                projectsMenu.Add(new Button("☁ " + project.Name, () => onProjectClick(project)));
 
             Print();
             SelectTop();
@@ -38,9 +42,13 @@ namespace JiraClone.views
 
             projectsMenu = new VerticalMenu(2);
 
-            List<Project> projects = viewModel.GetProjects();
-            foreach (var project in projects)
+            List<Project> ownedProjects = viewModel.GetOwnedProjects();
+            foreach (var project in ownedProjects)
                 projectsMenu.Add(new Button(project.Name, () => onProjectClick(project)));
+
+            List<Project> sharedProjects = viewModel.GetSharedProjects();
+            foreach (var project in sharedProjects)
+                projectsMenu.Add(new Button("☁ " + project.Name, () => onProjectClick(project)));
 
             actionMenu = new HorizontalMenu(2);
             actionMenu.Add(new Button("Stwórz projekt", () => { addProjectView.Start(); ResetView(); }));
