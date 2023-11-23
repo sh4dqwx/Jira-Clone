@@ -1,7 +1,9 @@
-﻿using JiraClone.utils.consoleViewParts.layouts;
+﻿using JiraClone.db.dbmodels;
+using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
 using JiraClone.viewmodels;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace JiraClone.views
@@ -11,6 +13,7 @@ namespace JiraClone.views
         private ProjectsViewModel viewModel;
 
         private VerticalMenu menu;
+        private HorizontalMenu bottomMenu;
         private bool closeFlag = false;
 
         private void ResetView()
@@ -30,13 +33,21 @@ namespace JiraClone.views
 
             menu = new VerticalMenu(5);
 
-            //Może horyzontalne menu
+            List<Project> projects = viewModel.GetProjects();
+            foreach (var project in projects)
+                menu.Add(new Button(project.Name, () => onProjectClick(project)));
+
+            bottomMenu = new HorizontalMenu(2);
             menu.Add(new Button("Stwórz projekt", () => { }));
             menu.Add(new Button("Powrót", () => { closeFlag = true; }));
+            //TODO Naprawienie navigacji między menu i gdy menu jest puste
+            //bottomMenu.Add(new Button("Stwórz projekt", () => { }));
+            //bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
             Add(new Text("PROJEKTY"));
             Add(menu);
+            //Add(bottomMenu);
         }
 
         private void EventHandler(object sender, PropertyChangedEventArgs e)
@@ -87,6 +98,12 @@ namespace JiraClone.views
                     return;
                 }
             }
+        }
+
+        private void onProjectClick(Project project)
+        {
+            //Przechodzenie do kolejnego widoku
+            ResetView();
         }
     }
 }
