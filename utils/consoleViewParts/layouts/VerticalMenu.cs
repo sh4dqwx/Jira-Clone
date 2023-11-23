@@ -66,5 +66,11 @@ namespace JiraClone.utils.consoleViewParts.layouts
             if (children.Count > 1) Height--;
             Height -= child.Height;
 		}
+
+        public override void Clear()
+        {
+            base.Clear();
+            Height = 4;
+        }
     }
 }
