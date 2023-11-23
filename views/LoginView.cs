@@ -10,11 +10,10 @@ using JiraClone.utils.validators;
 
 namespace JiraClone.views
 {
-    public class LoginView : IConsoleView
+    public class LoginView : ConsoleView
 	{
 		private LoginViewModel viewModel;
 
-		private ConsoleView layout;
         private VerticalMenu menu;
 		private Input loginInput, passwordInput;
 		private Button submitButton;
@@ -29,8 +28,8 @@ namespace JiraClone.views
 			loginInput.Clear();
 			passwordInput.Clear();
 
-			layout.Print();
-			menu.SelectTop();
+			Print();
+			SelectTop();
 		}
 
 		public LoginView(LoginViewModel viewModel)
@@ -49,12 +48,10 @@ namespace JiraClone.views
 			menu.Add(submitButton);
 			menu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
-			layout = new ConsoleView();
-			layout.SetBounds(0, 0, Console.WindowHeight, Console.WindowWidth);
-            layout.Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-            layout.Add(new Logo());
-			layout.Add(new Text("LOGOWANIE"));
-			layout.Add(menu);
+            Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
+            Add(new Logo());
+			Add(new Text("LOGOWANIE"));
+			Add(menu);
         }
 
 		private void EventHandler(object sender, PropertyChangedEventArgs e)
@@ -62,35 +59,52 @@ namespace JiraClone.views
 			Console.WriteLine(e.PropertyName);
 		}
 
-		public void Start()
-		{
-			ResetView();
+        public void Start()
+        {
+            ResetView();
 
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-				if (keyInfo.Key == ConsoleKey.UpArrow)
-				{
-					menu.SelectNext();
-					continue;
-				}
-				if (keyInfo.Key == ConsoleKey.DownArrow)
-				{
-					menu.SelectPrevious();
-					continue;
-				}
-				menu.UseKey(keyInfo.KeyChar);
 
-				if(closeFlag)
-				{
-					closeFlag = false;
-					ResetView();
-					return;
-				}
-			}
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (selectableChildren[selectedChild] is VerticalMenu)
+                            SelectPrevious();
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (selectableChildren[selectedChild] is VerticalMenu)
+                            SelectNext();
+                        break;
+
+                    case ConsoleKey.LeftArrow:
+                        if (selectableChildren[selectedChild] is HorizontalMenu)
+                            SelectPrevious();
+                        break;
+
+                    case ConsoleKey.RightArrow:
+                        if (selectableChildren[selectedChild] is HorizontalMenu)
+                            SelectNext();
+                        break;
+
+                    default:
+                        UseKey(keyInfo.KeyChar);
+                        break;
+                }
+
+
+                if (closeFlag)
+                {
+                    closeFlag = false;
+                    ResetView();
+                    return;
+                }
+            }
         }
 
-		private bool AreInputsValid()
+        private bool AreInputsValid()
 		{
 			bool areValid = true;
 			if (!loginInput.Validate()) areValid = false;
@@ -112,7 +126,6 @@ namespace JiraClone.views
 				submitButton.Print();
 				return;
 			}
-
 		}
 	}
 }
