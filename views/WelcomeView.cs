@@ -45,11 +45,21 @@ namespace JiraClone.views
                     case ConsoleKey.UpArrow:
                         if (selectableChildren[selectedChild] is VerticalMenu)
                             SelectPrevious();
+                        else if (selectableChildren[selectedChild] is HorizontalMenu)
+                        {
+                            selectableChildren[selectedChild].SelectTop();
+                            SelectPrevious();
+                        }
                         break;
 
                     case ConsoleKey.DownArrow:
                         if (selectableChildren[selectedChild] is VerticalMenu)
                             SelectNext();
+                        else if (selectableChildren[selectedChild] is HorizontalMenu)
+                        {
+                            selectableChildren[selectedChild].SelectBottom();
+                            SelectNext();
+                        }
                         break;
 
                     case ConsoleKey.LeftArrow:
