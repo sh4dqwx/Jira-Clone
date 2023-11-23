@@ -18,7 +18,9 @@ namespace JiraClone.db.repositories
 		}
 		public List<Project> GetProjectsByUser(Account account)
 		{
-			return _db.Projects
+			if(account == null)
+				return new List<Project>();
+			else return _db.Projects
 				.Where(project => project.Owner.Id == account.Id || project.AssignedAccounts.Contains(account))
 				.ToList();
 		}

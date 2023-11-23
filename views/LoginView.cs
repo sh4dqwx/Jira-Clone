@@ -13,6 +13,7 @@ namespace JiraClone.views
     public class LoginView : ConsoleView
 	{
 		private LoginViewModel viewModel;
+		private ProjectView projectView;
 
         private VerticalMenu menu;
 		private Input loginInput, passwordInput;
@@ -32,9 +33,10 @@ namespace JiraClone.views
 			SelectTop();
 		}
 
-		public LoginView(LoginViewModel viewModel)
+		public LoginView(LoginViewModel viewModel, ProjectView projectView)
 		{
             this.viewModel = viewModel;
+			this.projectView = projectView;
             viewModel.PropertyChanged += EventHandler;
 
 			menu = new VerticalMenu(3);
@@ -124,7 +126,11 @@ namespace JiraClone.views
 			{
 				submitButton.Error = error;
 				submitButton.Print();
-				return;
+			}
+			else
+			{
+				projectView.Start();
+				ResetView();
 			}
 		}
 	}
