@@ -11,8 +11,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
     public interface ISelectable : IOption
     {
         public void UnselectSelected();
-        public void SelectTop();
-        public void SelectBottom();
+        public bool SelectTop();
+        public bool SelectBottom();
         public bool SelectNext();
         public bool SelectPrevious();
     }

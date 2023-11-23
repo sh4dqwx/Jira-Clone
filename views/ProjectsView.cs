@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace JiraClone.views
 {
-    public class ProjectView: ConsoleView
+    public class ProjectsView: ConsoleView
     {
         private ProjectsViewModel viewModel;
 
@@ -26,7 +26,7 @@ namespace JiraClone.views
             SelectTop();
         }
 
-        public ProjectView(ProjectsViewModel viewModel)
+        public ProjectsView(ProjectsViewModel viewModel)
         {
             this.viewModel = viewModel;
             viewModel.PropertyChanged += EventHandler;
@@ -38,16 +38,13 @@ namespace JiraClone.views
                 menu.Add(new Button(project.Name, () => onProjectClick(project)));
 
             bottomMenu = new HorizontalMenu(2);
-            menu.Add(new Button("Stwórz projekt", () => { }));
-            menu.Add(new Button("Powrót", () => { closeFlag = true; }));
-            //TODO Naprawienie navigacji między menu i gdy menu jest puste
-            //bottomMenu.Add(new Button("Stwórz projekt", () => { }));
-            //bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
+            bottomMenu.Add(new Button("Stwórz projekt", () => { }));
+            bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
             Add(new Text("PROJEKTY"));
             Add(menu);
-            //Add(bottomMenu);
+            Add(bottomMenu);
         }
 
         private void EventHandler(object sender, PropertyChangedEventArgs e)
@@ -68,11 +65,21 @@ namespace JiraClone.views
                     case ConsoleKey.UpArrow:
                         if (selectableChildren[selectedChild] is VerticalMenu)
                             SelectPrevious();
+                        else if (selectableChildren[selectedChild] is HorizontalMenu)
+                        {
+                            selectableChildren[selectedChild].SelectTop();
+                            SelectPrevious();
+                        }
                         break;
 
                     case ConsoleKey.DownArrow:
                         if (selectableChildren[selectedChild] is VerticalMenu)
                             SelectNext();
+                        else if (selectableChildren[selectedChild] is HorizontalMenu)
+                        {
+                            selectableChildren[selectedChild].SelectBottom();
+                            SelectNext();
+                        }
                         break;
 
                     case ConsoleKey.LeftArrow:

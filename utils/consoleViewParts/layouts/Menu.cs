@@ -21,10 +21,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 		public bool SelectPrevious()
 		{
-			if (selectedChild <= 0)
+            if (selectedChild == -1)
+                return false;
+
+            UnselectSelected();
+			if(selectedChild <= 0)
 				return false;
 
-			UnselectSelected();
 			((Option)children[--selectedChild]).Selected = true;
 			Print();
 
@@ -33,31 +36,42 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 		public bool SelectNext()
 		{
-			if (selectedChild == -1 || selectedChild == children.Count - 1)
+			if (selectedChild == -1)
 				return false;
 
 			UnselectSelected();
+			if (selectedChild == children.Count - 1)
+				return false;
+
 			((Option)children[++selectedChild]).Selected = true;
 			Print();
 			return true;
 		}
 
-		public void SelectTop()
+		public bool SelectTop()
 		{
+			if (children.Count == 0)
+				return false;
+
 			if (selectedChild != -1) UnselectSelected();
 
 			selectedChild = 0;
 			((Option)children[selectedChild]).Selected = true;
 			Print();
+			return true;
 		}
 
-		public void SelectBottom()
+		public bool SelectBottom()
 		{
-			if (selectedChild != -1) UnselectSelected();
+            if (children.Count == 0)
+                return false;
+
+            if (selectedChild != -1) UnselectSelected();
 
 			selectedChild = children.Count - 1;
 			((Option)children[selectedChild]).Selected = true;
 			Print();
+			return true;
 		}
 
 		public void UnselectSelected()
@@ -66,6 +80,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 				return;
 
 			((Option)children[selectedChild]).Selected = false;
+			Print();
 		}
 
 		public void UseKey(char c)

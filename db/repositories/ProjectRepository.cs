@@ -16,7 +16,7 @@ namespace JiraClone.db.repositories
 		{
 			_db = db;
 		}
-		public List<Project> GetProjectsByUser(Account account)
+		public List<Project> GetProjectsByUser(Account? account)
 		{
 			if(account == null)
 				return new List<Project>();

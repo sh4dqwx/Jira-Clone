@@ -24,7 +24,7 @@ namespace JiraClone.viewmodels
 
         public List<Project> GetProjects()
         {
-            Account loggedUser = applicationState.GetLoggedUser();
+            Account? loggedUser = applicationState.GetLoggedUser();
             return projectRepository.GetProjectsByUser(loggedUser);
         }
 

@@ -61,31 +61,57 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			selectableChildren[selectedChild].Selected = false;
 		}
 
-		public void SelectTop()
+		public bool SelectTop()
 		{
+			if (selectableChildren.Count == 0)
+				return false;
+
 			UnselectSelected();
 
 			selectedChild = 0;
-			if (selectableChildren[selectedChild] is Option)
-			{
-				selectableChildren[selectedChild].Selected = true;
-				((Printable)selectableChildren[selectedChild]).Print();
-			}
-			else selectableChildren[selectedChild].SelectTop();
-		}
 
-		public void SelectBottom()
+			for (int i = 0; i < selectableChildren.Count; i++, selectedChild = i)
+            {
+                ISelectable child = selectableChildren[i];
+                if (child is Option)
+                {
+                    child.Selected = true;
+                    ((Printable)child).Print();
+                    return true;
+                }
+
+                if (child.SelectTop())
+                    return true;
+            }
+
+			return false;
+        }
+
+		public bool SelectBottom()
 		{
+			if (selectableChildren.Count == 0) 
+				return false;
+
 			UnselectSelected();
 
 			selectedChild = selectableChildren.Count - 1;
-			if (selectableChildren[selectedChild] is Option)
-			{
-				selectableChildren[selectedChild].Selected = true;
-				((Printable)selectableChildren[selectedChild]).Print();
-			}
-			else selectableChildren[selectedChild].SelectTop();
-		}
+
+            for (int i = selectableChildren.Count - 1; i >= 0; i--, selectedChild = i)
+            {
+				ISelectable child = selectableChildren[i];
+                if (child is Option)
+                {
+                    child.Selected = true;
+                    ((Printable)child).Print();
+                    return true;
+                }
+
+                if (child.SelectBottom())
+                    return true;
+            }
+
+			return false;
+        }
 
 		public bool SelectPrevious()
 		{
@@ -106,8 +132,16 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			{
 				bool result = selectableChildren[selectedChild].SelectPrevious();
 				if (result == true) return true;
-				if (selectedChild <= 0) return false;
-				selectableChildren[--selectedChild].SelectBottom();
+				if (selectedChild <= 0)
+				{
+					selectableChildren[selectedChild].SelectTop();
+					return false;
+                }
+				if (!selectableChildren[--selectedChild].SelectBottom())
+				{
+                    selectableChildren[++selectedChild].SelectTop();
+					return false;
+                }
 				return true;
 			}
 		}
@@ -131,8 +165,16 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			{
 				bool result = selectableChildren[selectedChild].SelectNext();
 				if (result == true) return true;
-				if (selectedChild >= selectableChildren.Count - 1) return false;
-				selectableChildren[++selectedChild].SelectTop();
+				if (selectedChild >= selectableChildren.Count - 1)
+				{
+					selectableChildren[selectedChild].SelectBottom();
+					return false;
+                }
+				if (!selectableChildren[++selectedChild].SelectTop())
+				{
+					selectableChildren[--selectedChild].SelectBottom();
+					return false;
+				}
 				return true;
 			}
 		}
