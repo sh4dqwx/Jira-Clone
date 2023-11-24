@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JiraClone.db.dbmodels
 {
-	public class AccountProject
+    public record class AccountProject
 	{
 		public int ProjectId { get; set; }
 		public int AccountId { get; set; }
