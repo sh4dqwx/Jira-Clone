@@ -12,10 +12,15 @@ namespace JiraClone.utils.consoleViewParts.layouts
 {
     public class VerticalMenu : Menu
     {
-        public VerticalMenu(int visibleCount): base()
+        private string? _title;
+
+        public VerticalMenu(string? title, int visibleCount): base()
         {
-            Height = 4;
+			Height = (visibleCount * Constants.BUTTON_HEIGHT) + (visibleCount - 1);
+            if (title != null) Height += 6;
+            else Height += 4;
             Width = Constants.BUTTON_WIDTH;
+            _title = title;
             _visibleCount = visibleCount;
         }
 
@@ -26,7 +31,14 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
             int startIndex = GetStartIndex();
 
-            Console.SetCursorPosition(cursorLeft + (Width - 1) / 2, cursorTop);
+            if (_title != null)
+            {
+				Console.SetCursorPosition(cursorLeft + (Width - _title.Length) / 2, cursorTop);
+				Console.Write(_title);
+				cursorTop += 2;
+			}
+
+			Console.SetCursorPosition(cursorLeft + (Width - 1) / 2, cursorTop);
             if (startIndex > 0) Console.Write("^");
             else Console.Write(" ");
             cursorTop += 2;
@@ -39,28 +51,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
                 child.Print();
                 cursorTop += child.Height + 1;
             }
+            cursorTop = Top + Height - 1;
 
             Console.SetCursorPosition(cursorLeft + ((Width - 1) / 2), cursorTop);
             if (startIndex < children.Count - _visibleCount) Console.Write("v");
             else Console.Write(" ");
 
 			if(selectedChild != -1) children[selectedChild].Print();
-		}
-
-		public override void Add(Printable child)
-		{
-            base.Add(child);
-            if (children.Count > _visibleCount) return;
-            if (children.Count > 1) Height++;
-            Height += child.Height;
-		}
-
-		public override void Remove(Printable child)
-		{
-            base.Remove(child);
-            if (children.Count > _visibleCount) return;
-            if (children.Count > 1) Height--;
-            Height -= child.Height;
 		}
 
 		public override bool UseKey(ConsoleKeyInfo c)
@@ -70,11 +67,15 @@ namespace JiraClone.utils.consoleViewParts.layouts
             switch (c.Key)
             {
                 case ConsoleKey.UpArrow:
-                    return SelectPrevious();
+                    bool upResult = SelectPrevious();
+                    if (upResult) Print();
+                    return upResult;
 
                 case ConsoleKey.DownArrow:
 				case ConsoleKey.Tab:
-					return SelectNext();
+					bool downResult = SelectNext();
+                    if (downResult) Print();
+                    return downResult;
 
                 default:
 					return base.UseKey(c);
@@ -84,7 +85,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 		public override void Clear()
         {
             base.Clear();
-            Height = 4;
             selectedChild = -1;
         }
     }

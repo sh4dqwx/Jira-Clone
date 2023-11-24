@@ -41,7 +41,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			UnselectSelected();
 			((Option)children[--selectedChild]).Selected = true;
-			Print();
+			//Print();
 
 			return true;
 		}
@@ -56,7 +56,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			UnselectSelected();
 			((Option)children[++selectedChild]).Selected = true;
-			Print();
+			//Print();
 
 			return true;
 		}
@@ -70,7 +70,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			selectedChild = 0;
 			((Option)children[selectedChild]).Selected = true;
-			Print();
+			//Print();
+
 			return true;
 		}
 
@@ -83,7 +84,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			selectedChild = children.Count - 1;
 			((Option)children[selectedChild]).Selected = true;
-			Print();
+			//Print();
 			return true;
 		}
 

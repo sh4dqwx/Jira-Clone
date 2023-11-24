@@ -15,22 +15,18 @@ namespace JiraClone.views
 		private LoginViewModel viewModel;
 		private ProjectsView projectView;
 
-        private VerticalMenu menu;
+        private VerticalMenu loginForm;
+		private HorizontalMenu actionMenu;
 		private Input loginInput, passwordInput;
 		private Button submitButton;
         private bool closeFlag = false;
 
-		private void ResetView()
+		protected override void ResetView()
 		{
-			Console.Clear();
-			Console.ForegroundColor = ConsoleColor.White;
-			Console.CursorVisible = false;
-
 			loginInput.Clear();
 			passwordInput.Clear();
 
-			Print();
-			SelectTop();
+			base.ResetView();
 		}
 
 		public LoginView(LoginViewModel viewModel, ProjectsView projectView)
@@ -39,21 +35,23 @@ namespace JiraClone.views
 			this.projectView = projectView;
             viewModel.PropertyChanged += EventHandler;
 
-			menu = new VerticalMenu(3);
+			loginForm = new VerticalMenu("LOGOWANIE", 2);
+			actionMenu = new HorizontalMenu(2);
 
 			loginInput = new Input("Login", validationRule: new RequiredRule());
 			passwordInput = new Input("Hasło", isPassword: true, validationRule: new RequiredRule());
 			submitButton = new Button("Zatwierdź", OnSubmit);
 
-            menu.Add(loginInput);
-            menu.Add(passwordInput);
-			menu.Add(submitButton);
-			menu.Add(new Button("Powrót", () => { closeFlag = true; }));
+            loginForm.Add(loginInput);
+            loginForm.Add(passwordInput);
+
+			actionMenu.Add(submitButton);
+			actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
             Add(new Logo());
-			Add(new Text("LOGOWANIE"));
-			Add(menu);
+			Add(loginForm);
+			Add(actionMenu);
         }
 
 		private void EventHandler(object sender, PropertyChangedEventArgs e)

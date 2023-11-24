@@ -16,42 +16,40 @@ namespace JiraClone.views
     {
         private ProjectsViewModel viewModel;
 
-        private VerticalMenu menu;
+        private VerticalMenu shareProjectForm;
+        private HorizontalMenu actionMenu;
         private Input projectNameInput, userLoginInput;
         private Button submitButton;
         private bool closeFlag = false;
 
-        private void ResetView()
+        protected override void ResetView()
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.CursorVisible = false;
-
             projectNameInput.Clear();
             userLoginInput.Clear();
 
-            Print();
-            SelectTop();
+            base.ResetView();
         }
 
         public ShareProjectView(ProjectsViewModel viewModel)
         {
             this.viewModel = viewModel;
 
-            menu = new VerticalMenu(4);
+			shareProjectForm = new VerticalMenu("UDOSTĘPNIANIE PROJEKTU", 4);
+            actionMenu = new HorizontalMenu(2);
 
             projectNameInput = new Input("Nazwa projektu", validationRule: new RequiredRule());
             userLoginInput = new Input("Login użytkownika", validationRule: new RequiredRule());
             submitButton = new Button("Zatwierdź", OnSubmit);
 
-            menu.Add(projectNameInput);
-            menu.Add(userLoginInput);
-            menu.Add(submitButton);
-            menu.Add(new Button("Powrót", () => { closeFlag = true; }));
+			shareProjectForm.Add(projectNameInput);
+			shareProjectForm.Add(userLoginInput);
+
+			actionMenu.Add(submitButton);
+			actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-            Add(new Text("UDOSTĘPNIANIE PROJEKTU"));
-            Add(menu);
+            Add(shareProjectForm);
+            Add(actionMenu);
         }
 
         private void EventHandler(object sender, PropertyChangedEventArgs e)

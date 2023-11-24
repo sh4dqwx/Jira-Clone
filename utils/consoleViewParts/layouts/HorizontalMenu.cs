@@ -51,11 +51,15 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			switch (c.Key)
 			{
 				case ConsoleKey.LeftArrow:
-					return SelectPrevious();
+					bool leftResult = SelectPrevious();
+					if (leftResult) Print();
+					return leftResult;
 
 				case ConsoleKey.RightArrow:
 				case ConsoleKey.Tab:
-					return SelectNext();
+					bool rightResult = SelectNext();
+					if (rightResult) Print();
+					return rightResult;
 
 				default:
 					return base.UseKey(c);

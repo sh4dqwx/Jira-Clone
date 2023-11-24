@@ -16,39 +16,37 @@ namespace JiraClone.views
     {
         private ProjectsViewModel viewModel;
 
-        private VerticalMenu menu;
+        private VerticalMenu addProjectForm;
+        private HorizontalMenu actionMenu;
         private Input nameInput;
         private Button submitButton;
         private bool closeFlag = false;
 
-        private void ResetView()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.CursorVisible = false;
-
+		protected override void ResetView()
+		{
             nameInput.Clear();
 
-            Print();
-            SelectTop();
-        }
+			base.ResetView();
+		}
 
-        public AddProjectView(ProjectsViewModel viewModel)
+		public AddProjectView(ProjectsViewModel viewModel)
         {
             this.viewModel = viewModel;
             
-            menu = new VerticalMenu(3);
+            addProjectForm = new VerticalMenu("TWORZENIE PROJEKTU", 2);
+			actionMenu = new HorizontalMenu(2);
 
             nameInput = new Input("Nazwa", validationRule: new RequiredRule());
             submitButton = new Button("Zatwierdź", OnSubmit);
 
-            menu.Add(nameInput);
-            menu.Add(submitButton);
-            menu.Add(new Button("Powrót", () => { closeFlag = true; }));
+            addProjectForm.Add(nameInput);
+
+			actionMenu.Add(submitButton);
+			actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-            Add(new Text("TWORZENIE PROJEKTU"));
-            Add(menu);
+            Add(addProjectForm);
+            Add(actionMenu);
         }
 
         private void EventHandler(object sender, PropertyChangedEventArgs e)

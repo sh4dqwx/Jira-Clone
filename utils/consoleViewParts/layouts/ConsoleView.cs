@@ -12,14 +12,14 @@ namespace JiraClone.utils.consoleViewParts.layouts
 	{
 		protected List<ISelectable> selectableChildren;
 
-		protected void ResetView()
+		protected virtual void ResetView()
 		{
 			Console.Clear();
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.CursorVisible = false;
 
-			Print();
 			SelectTop();
+			Print();
 		}
 
 		public ConsoleView(): base()
@@ -140,7 +140,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
 						((Printable)selectableChildren[selectedChild]).Print();
 						return true;
 					}
-					return ((IMenu)selectableChildren[selectedChild]).SelectBottom();
+					bool result = ((IMenu)selectableChildren[selectedChild]).SelectBottom();
+					if (result) ((Printable)selectableChildren[selectedChild]).Print();
+					return result;
 				}
 			}
 			return false;
@@ -162,7 +164,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
 						((Printable)selectableChildren[selectedChild]).Print();
 						return true;
 					}
-					return ((IMenu)selectableChildren[selectedChild]).SelectTop();
+					bool result = ((IMenu)selectableChildren[selectedChild]).SelectTop();
+					if (result) ((Printable)selectableChildren[selectedChild]).Print();
+					return result;
 				}
 			}
 			return false;

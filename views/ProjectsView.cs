@@ -12,35 +12,30 @@ namespace JiraClone.views
     {
         private ProjectsViewModel viewModel;
 
-        private VerticalMenu projectsMenu, bottomMenu;
-        private HorizontalMenu actionMenu;
-        private bool closeFlag = false;
+        private VerticalMenu projectsMenu;
+        private HorizontalMenu actionMenu, bottomMenu;
+		private bool closeFlag = false;
 
-        private void ResetView()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.CursorVisible = false;
+		protected override void ResetView()
+		{
+			projectsMenu.Clear();
+			List<Project> ownedProjects = viewModel.GetOwnedProjects();
+			foreach (var project in ownedProjects)
+				projectsMenu.Add(new Button(project.Name, () => onProjectClick(project)));
 
-            projectsMenu.Clear();
-            List<Project> ownedProjects = viewModel.GetOwnedProjects();
-            foreach (var project in ownedProjects)
-                projectsMenu.Add(new Button(project.Name, () => onProjectClick(project)));
+			List<Project> sharedProjects = viewModel.GetSharedProjects();
+			foreach (var project in sharedProjects)
+				projectsMenu.Add(new Button("☁ " + project.Name, () => onProjectClick(project)));
 
-            List<Project> sharedProjects = viewModel.GetSharedProjects();
-            foreach (var project in sharedProjects)
-                projectsMenu.Add(new Button("☁ " + project.Name, () => onProjectClick(project)));
+			base.ResetView();
+		}
 
-            Print();
-            SelectTop();
-        }
-
-        public ProjectsView(ProjectsViewModel viewModel, AddProjectView addProjectView, RemoveProjectView deleteProjectView, ShareProjectView shareProjectView)
+		public ProjectsView(ProjectsViewModel viewModel, AddProjectView addProjectView, RemoveProjectView deleteProjectView, ShareProjectView shareProjectView)
         {
             this.viewModel = viewModel;
             viewModel.PropertyChanged += EventHandler;
 
-            projectsMenu = new VerticalMenu(2);
+            projectsMenu = new VerticalMenu("PROJEKTY", 3);
 
             List<Project> ownedProjects = viewModel.GetOwnedProjects();
             foreach (var project in ownedProjects)
@@ -55,11 +50,10 @@ namespace JiraClone.views
             actionMenu.Add(new Button("Usuń projekt", () => { deleteProjectView.Start(); ResetView(); }));
             actionMenu.Add(new Button("Udostępnij projekt", () => { shareProjectView.Start(); ResetView(); }));
 
-            bottomMenu = new VerticalMenu(1);
+            bottomMenu = new HorizontalMenu(1);
             bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-            Add(new Text("PROJEKTY"));
             Add(projectsMenu);
             Add(actionMenu);
             Add(bottomMenu);

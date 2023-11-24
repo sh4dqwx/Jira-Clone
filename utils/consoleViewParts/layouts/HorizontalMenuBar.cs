@@ -9,7 +9,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 {
 	public class HorizontalMenuBar : Layout, IMenu
 	{
-		private string _title;
 		private int _visibleCount;
 
 		private int GetStartIndex()
@@ -20,11 +19,10 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return selectedChild - _visibleCount / 2;
 		}
 
-		public HorizontalMenuBar(string title, int visibleCount): base()
+		public HorizontalMenuBar(int visibleCount): base()
 		{
-			Height = 6;
-			Width = title.Length + 4;
-			_title = title;
+			Height = 4;
+			Width = 5;
 			_visibleCount = visibleCount;
 		}
 
@@ -40,9 +38,11 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			else Console.Write(" ");
 			cursorLeft += 2;
 
-			Console.SetCursorPosition(cursorLeft + (Width - _title.Length) / 2, cursorTop);
-			Console.Write(_title);
-			cursorTop += 2;
+			for (int i = cursorTop; i < cursorTop + Height - 2; i++)
+			{
+				Console.SetCursorPosition(cursorLeft, i);
+				Console.Write(new StringBuilder().Append(' ', Width - 4));
+			}
 
 			for (int i = startIndex; i < Math.Min(_visibleCount + startIndex, children.Count); i++)
 			{
@@ -82,11 +82,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			base.Add(child);
 			Height = Math.Max(Height, child.Height + 2); 
 			if (children.Count > _visibleCount) return;
-			if (children.Count == 1) Width = child.Width + 4;
-			else
-			{
-				Width += child.Width + 1;
-			}
+			if (children.Count > 1) Width++;
+			Width += child.Width;
 		}
 
 		public override void Remove(Printable child)
@@ -95,15 +92,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			base.Remove(child);
 			if (children.Count > _visibleCount) return;
-			if (children.Count == 0)
-			{
-				Height = 6;
-				Width = _title.Length + 4;
-			}
-			else
-			{
-				Width -= child.Width + 1;
-			}
+			if (children.Count > 1) Width--;
+			Width -= child.Width;
 		}
 
 		public void UnselectSelected()
@@ -141,15 +131,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			UnselectSelected();
 
 			selectedChild = children.Count - 1;
-
-			for (int i = children.Count - 1; i >= 0; i--, selectedChild = i)
-			{
-				VerticalMenu child = (VerticalMenu)children[i];
-				if (child.SelectBottom())
-					return true;
-			}
-
-			return false;
+			((VerticalMenu)children[selectedChild]).SelectTop();
+			Print();
+			return true;
 		}
 
 		public bool SelectNext()
@@ -157,9 +141,10 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if (selectedChild == -1)
 				return false;
 
-			UnselectSelected();
 			if (selectedChild == children.Count - 1)
 				return false;
+
+			UnselectSelected();
 
 			((VerticalMenu)children[++selectedChild]).SelectTop();
 			Print();
@@ -172,9 +157,10 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if (selectedChild == -1)
 				return false;
 
-			UnselectSelected();
 			if (selectedChild <= 0)
 				return false;
+
+			UnselectSelected();
 
 			((VerticalMenu)children[--selectedChild]).SelectTop();
 			Print();
