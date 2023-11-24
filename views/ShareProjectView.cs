@@ -116,7 +116,7 @@ namespace JiraClone.views
         {
             if (!AreInputsValid()) return;
 
-            string? error = null; //viewModel.ShareProject(projectNameInput.Value, userLoginInput.Value);
+            string? error = viewModel.ShareProject(projectNameInput.Value, userLoginInput.Value);
             if (error != null)
             {
                 submitButton.Error = error;

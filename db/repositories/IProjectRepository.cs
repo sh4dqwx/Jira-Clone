@@ -13,6 +13,8 @@ namespace JiraClone.db.repositories
 		public Project? GetProjectByName(string name);
 
         public void AddProject(Project project);
-		public void RemoveProject(Project project);
+		public void UpdateProject(Project project);
+
+        public void RemoveProject(Project project);
 	}
 }
