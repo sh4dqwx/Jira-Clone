@@ -22,6 +22,11 @@ namespace JiraClone.views
             Console.ForegroundColor = ConsoleColor.White;
             Console.CursorVisible = false;
 
+            projectsMenu.Clear();
+            List<Project> projects = viewModel.GetProjects();
+            foreach (var project in projects)
+                projectsMenu.Add(new Button(project.Name, () => onProjectClick(project)));
+
             Print();
             SelectTop();
         }
@@ -31,7 +36,7 @@ namespace JiraClone.views
             this.viewModel = viewModel;
             viewModel.PropertyChanged += EventHandler;
 
-            projectsMenu = new VerticalMenu(5);
+            projectsMenu = new VerticalMenu(2);
 
             List<Project> projects = viewModel.GetProjects();
             foreach (var project in projects)

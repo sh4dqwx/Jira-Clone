@@ -21,7 +21,7 @@ namespace JiraClone.db.repositories
 			if(account == null)
 				return new List<Project>();
 			else return _db.Projects
-				.Where(project => project.Owner.Id == account.Id || project.AssignedAccounts.Contains(account))
+				.Where(project => project.OwnerId == account.Id || project.AssignedAccounts.Contains(account))
 				.ToList();
 		}
 

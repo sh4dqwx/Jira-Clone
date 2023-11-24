@@ -112,14 +112,9 @@ namespace JiraClone.views
         {
             if (!AreInputsValid()) return;
 
-            string? error = null;//do viewModelu odwołanie
+            viewModel.CreateProject(nameInput.Value);
 
-            if (error != null)
-            {
-                submitButton.Error = error;
-                submitButton.Print();
-            }
-            else closeFlag = true;
+            closeFlag = true;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace JiraClone.Migrations
                         new
                         {
                             Id = 1,
-                            CreationTimestamp = 1699802065L,
+                            CreationTimestamp = 1700769058L,
                             Email = "admin@test.com",
                             Login = "admin",
                             Name = "Jan",
@@ -122,7 +122,12 @@ namespace JiraClone.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Projects");
                 });
@@ -233,6 +238,17 @@ namespace JiraClone.Migrations
                     b.Navigation("Ticket");
                 });
 
+            modelBuilder.Entity("JiraClone.db.dbmodels.Project", b =>
+                {
+                    b.HasOne("JiraClone.db.dbmodels.Account", "Owner")
+                        .WithMany("OwnedProjects")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("JiraClone.db.dbmodels.Status", b =>
                 {
                     b.HasOne("JiraClone.db.dbmodels.Project", "Project")
@@ -282,6 +298,8 @@ namespace JiraClone.Migrations
                     b.Navigation("AsigneeTickets");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("OwnedProjects");
 
                     b.Navigation("ReporterTickets");
                 });

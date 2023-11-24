@@ -34,12 +34,19 @@ namespace JiraClone.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    OwnerId = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     CreationTimestamp = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Projects_Accounts_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,7 +170,7 @@ namespace JiraClone.Migrations
             migrationBuilder.InsertData(
                 table: "Accounts",
                 columns: new[] { "Id", "CreationTimestamp", "Email", "Login", "Name", "Password", "Surname" },
-                values: new object[] { 1, 1699802065L, "admin@test.com", "admin", "Jan", "admin", "Kowalski" });
+                values: new object[] { 1, 1700769058L, "admin@test.com", "admin", "Jan", "admin", "Kowalski" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountProjects_ProjectId",
@@ -179,6 +186,11 @@ namespace JiraClone.Migrations
                 name: "IX_Comments_TicketId",
                 table: "Comments",
                 column: "TicketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_OwnerId",
+                table: "Projects",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Statuses_ProjectId",
@@ -219,13 +231,13 @@ namespace JiraClone.Migrations
                 name: "Tickets");
 
             migrationBuilder.DropTable(
-                name: "Accounts");
-
-            migrationBuilder.DropTable(
                 name: "Statuses");
 
             migrationBuilder.DropTable(
                 name: "Projects");
+
+            migrationBuilder.DropTable(
+                name: "Accounts");
         }
     }
 }
