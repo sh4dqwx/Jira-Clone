@@ -19,6 +19,18 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return selectedChild - _visibleCount / 2;
 		}
 
+		public override void Add(Printable child)
+		{
+			if (child is not Option) throw new NotSupportedException();
+			base.Add(child);
+		}
+
+		public override void Remove(Printable child)
+		{
+			if (child is not Option) throw new NotSupportedException();
+			base.Remove(child);
+		}
+
 		public bool SelectPrevious()
 		{
             if (selectedChild == -1)

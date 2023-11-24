@@ -49,8 +49,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 		public override void Add(Printable child)
 		{
-            if (child is not Option) throw new NotSupportedException();
-
             base.Add(child);
             if (children.Count > _visibleCount) return;
             if (children.Count > 1) Height++;
@@ -59,8 +57,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 		public override void Remove(Printable child)
 		{
-            if (child is not Option) throw new NotSupportedException();
-
             base.Remove(child);
             if (children.Count > _visibleCount) return;
             if (children.Count > 1) Height--;
