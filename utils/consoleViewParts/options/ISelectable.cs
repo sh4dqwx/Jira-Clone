@@ -2,9 +2,10 @@
 
 namespace JiraClone.utils.consoleViewParts.options
 {
-    public interface IOption
+    public interface ISelectable
     {
         public bool Selected { get; set; }
-        public void UseKey(char c);
+        public bool CanSelect();
+        public bool UseKey(ConsoleKeyInfo c);
     }
 }

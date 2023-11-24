@@ -45,9 +45,14 @@ namespace JiraClone.utils.consoleViewParts.options
             }
         }
 
-		public override void UseKey(char c)
+		public override bool UseKey(ConsoleKeyInfo c)
 		{
-			if(c == '\n' || c == '\r') _callback();
+			if(c.Key == ConsoleKey.Enter)
+			{
+				_callback();
+				return true;
+			}
+			return false;
 		}
 	}
 }

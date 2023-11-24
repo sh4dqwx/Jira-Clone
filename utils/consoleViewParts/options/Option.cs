@@ -3,7 +3,7 @@ using System.Text;
 
 namespace JiraClone.utils.consoleViewParts.options
 {
-    public abstract class Option : Printable, IOption
+    public abstract class Option : Printable, ISelectable
     {
         private readonly string _name;
 
@@ -42,7 +42,12 @@ namespace JiraClone.utils.consoleViewParts.options
 				.Append('+'));
 		}
 
-		public abstract void UseKey(char c);
+		public abstract bool UseKey(ConsoleKeyInfo c);
+
+		public bool CanSelect()
+		{
+			return true;
+		}
 
 		public bool Selected { get; set; }
 		public string Error { get; set; }

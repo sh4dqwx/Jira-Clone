@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-	public abstract class Menu : Layout, ISelectable
+	public abstract class Menu : Layout, IMenu
 	{
 		protected int _visibleCount;
 
@@ -36,10 +36,10 @@ namespace JiraClone.utils.consoleViewParts.layouts
             if (selectedChild == -1)
                 return false;
 
-            UnselectSelected();
-			if(selectedChild <= 0)
+			if (selectedChild <= 0)
 				return false;
 
+			UnselectSelected();
 			((Option)children[--selectedChild]).Selected = true;
 			Print();
 
@@ -51,12 +51,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if (selectedChild == -1)
 				return false;
 
-			UnselectSelected();
 			if (selectedChild == children.Count - 1)
 				return false;
 
+			UnselectSelected();
 			((Option)children[++selectedChild]).Selected = true;
 			Print();
+
 			return true;
 		}
 
@@ -95,10 +96,15 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			Print();
 		}
 
-		public void UseKey(char c)
+		public virtual bool UseKey(ConsoleKeyInfo c)
 		{
-			if (selectedChild < 0) return;
-			((Option)children[selectedChild]).UseKey(c);
+			return ((ISelectable)children[selectedChild]).UseKey(c);
+		}
+
+		public bool CanSelect()
+		{
+			if (children.Count > 0) return true;
+			return false;
 		}
 
 		public bool Selected { get; set; }

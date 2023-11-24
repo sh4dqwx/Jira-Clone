@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-	public class HorizontalMenuBar : Layout, ISelectable
+	public class HorizontalMenuBar : Layout, IMenu
 	{
+		private string _title;
 		private int _visibleCount;
 
 		private int GetStartIndex()
@@ -19,10 +20,11 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return selectedChild - _visibleCount / 2;
 		}
 
-		public HorizontalMenuBar(int visibleCount): base()
+		public HorizontalMenuBar(string title, int visibleCount): base()
 		{
-			Height = 4;
-			Width = 5;
+			Height = 6;
+			Width = title.Length + 4;
+			_title = title;
 			_visibleCount = visibleCount;
 		}
 
@@ -38,6 +40,10 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			else Console.Write(" ");
 			cursorLeft += 2;
 
+			Console.SetCursorPosition(cursorLeft + (Width - _title.Length) / 2, cursorTop);
+			Console.Write(_title);
+			cursorTop += 2;
+
 			for (int i = startIndex; i < Math.Min(_visibleCount + startIndex, children.Count); i++)
 			{
 				Console.SetCursorPosition(cursorLeft, cursorTop);
@@ -50,8 +56,23 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			Console.SetCursorPosition(cursorLeft, cursorTop + (Height - 1) / 2);
 			if (startIndex < children.Count - _visibleCount) Console.Write(">");
 			else Console.Write(" ");
+		}
 
-			if (selectedChild != -1) children[selectedChild].Print();
+		public bool UseKey(ConsoleKeyInfo c)
+		{
+			if (selectedChild < 0) return false;
+			
+			switch (c.Key)
+			{
+				case ConsoleKey.LeftArrow:
+					return SelectPrevious();
+
+				case ConsoleKey.RightArrow:
+					return SelectNext();
+
+				default:
+					return ((VerticalMenu)children[selectedChild]).UseKey(c);
+			}
 		}
 
 		public override void Add(Printable child)
@@ -59,10 +80,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if (child is not VerticalMenu) throw new NotSupportedException();
 
 			base.Add(child);
-			Height = Math.Max(Height, child.Height); 
+			Height = Math.Max(Height, child.Height + 2); 
 			if (children.Count > _visibleCount) return;
-			if (children.Count > 1) Width++;
-			Width += child.Width;
+			if (children.Count == 1) Width = child.Width + 4;
+			else
+			{
+				Width += child.Width + 1;
+			}
 		}
 
 		public override void Remove(Printable child)
@@ -70,10 +94,16 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if (child is not VerticalMenu) throw new NotSupportedException();
 
 			base.Remove(child);
-			if (children.Count == 0) Height = 4;
 			if (children.Count > _visibleCount) return;
-			if (children.Count > 1) Width--;
-			Width -= child.Width;
+			if (children.Count == 0)
+			{
+				Height = 6;
+				Width = _title.Length + 4;
+			}
+			else
+			{
+				Width -= child.Width + 1;
+			}
 		}
 
 		public void UnselectSelected()
@@ -82,7 +112,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 				return;
 
 			((VerticalMenu)children[selectedChild]).UnselectSelected();
-			((VerticalMenu)children[selectedChild]).Selected = false;
 		}
 
 		public bool SelectTop()
@@ -153,10 +182,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return true;
 		}
 
-		public void UseKey(char c)
+		public bool CanSelect()
 		{
-			if (selectedChild < 0) return;
-			((VerticalMenu)children[selectedChild]).UseKey(c);
+			foreach (VerticalMenu child in children)
+			{
+				if (child.CanSelect()) return true;
+			}
+			return false;
 		}
 
 		public bool Selected { get; set; }

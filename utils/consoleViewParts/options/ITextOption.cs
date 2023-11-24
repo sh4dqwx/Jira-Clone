@@ -2,7 +2,7 @@
 
 namespace JiraClone.utils.consoleViewParts.options
 {
-    public interface ITextOption : IOption
+    public interface ITextOption : ISelectable
     {
         public string Value { get; }
     }

@@ -66,36 +66,9 @@ namespace JiraClone.views
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+				UseKey(keyInfo);
 
-                switch (keyInfo.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        if (selectableChildren[selectedChild] is VerticalMenu)
-                            SelectPrevious();
-                        break;
-
-                    case ConsoleKey.DownArrow:
-                        if (selectableChildren[selectedChild] is VerticalMenu)
-                            SelectNext();
-                        break;
-
-                    case ConsoleKey.LeftArrow:
-                        if (selectableChildren[selectedChild] is HorizontalMenu)
-                            SelectPrevious();
-                        break;
-
-                    case ConsoleKey.RightArrow:
-                        if (selectableChildren[selectedChild] is HorizontalMenu)
-                            SelectNext();
-                        break;
-
-                    default:
-                        UseKey(keyInfo.KeyChar);
-                        break;
-                }
-
-
-                if (closeFlag)
+				if (closeFlag)
                 {
                     closeFlag = false;
                     ResetView();

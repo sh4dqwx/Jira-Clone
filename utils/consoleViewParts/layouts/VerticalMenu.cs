@@ -63,7 +63,25 @@ namespace JiraClone.utils.consoleViewParts.layouts
             Height -= child.Height;
 		}
 
-        public override void Clear()
+		public override bool UseKey(ConsoleKeyInfo c)
+		{
+			if (selectedChild < 0) return false;
+
+            switch (c.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    return SelectPrevious();
+
+                case ConsoleKey.DownArrow:
+				case ConsoleKey.Tab:
+					return SelectNext();
+
+                default:
+					return base.UseKey(c);
+			}
+		}
+
+		public override void Clear()
         {
             base.Clear();
             Height = 4;

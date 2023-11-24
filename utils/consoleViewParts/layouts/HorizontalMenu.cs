@@ -44,6 +44,24 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if(selectedChild != -1) children[selectedChild].Print();
 		}
 
+		public override bool UseKey(ConsoleKeyInfo c)
+		{
+			if (selectedChild < 0) return false;
+
+			switch (c.Key)
+			{
+				case ConsoleKey.LeftArrow:
+					return SelectPrevious();
+
+				case ConsoleKey.RightArrow:
+				case ConsoleKey.Tab:
+					return SelectNext();
+
+				default:
+					return base.UseKey(c);
+			}
+		}
+
 		public override void Add(Printable child)
 		{
 			base.Add(child);
