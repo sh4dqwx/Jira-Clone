@@ -8,10 +8,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JiraClone.views
 {
-    public class DeleteProjectView: ConsoleView
+    public class RemoveProjectView: ConsoleView
     {
         private ProjectsViewModel viewModel;
 
@@ -32,7 +33,7 @@ namespace JiraClone.views
             SelectTop();
         }
 
-        public DeleteProjectView(ProjectsViewModel viewModel)
+        public RemoveProjectView(ProjectsViewModel viewModel)
         {
             this.viewModel = viewModel;
 
@@ -111,9 +112,14 @@ namespace JiraClone.views
         {
             if (!AreInputsValid()) return;
 
-            //viewModel.RemoveProject(nameInput.Value);
+            string? error = viewModel.RemoveProject(nameInput.Value);
 
-            closeFlag = true;
+            if (error != null)
+            {
+                submitButton.Error = error;
+                submitButton.Print();
+            }
+            else closeFlag = true;
         }
     }
 }

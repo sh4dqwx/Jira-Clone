@@ -63,8 +63,8 @@ namespace JiraClone.utils.consoleViewParts.options
 				else Console.Write('|');
 			}
 
-			int marginLeft = Math.Max(0, (Constants.InputSpacer - Name.Length) / 2);
             cursorTop += 2;
+			int marginLeft = Math.Max(0, (Constants.InputSpacer - Name.Length) / 2);
 			Console.SetCursorPosition(cursorLeft + marginLeft, cursorTop);
             Console.Write(Name);
             cursorTop++;
@@ -75,7 +75,7 @@ namespace JiraClone.utils.consoleViewParts.options
 
 				ConsoleColor prevColor = Console.ForegroundColor;
 				Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("↑ " + Error + " ↑");
+                Console.Write(Error);
 				Console.ForegroundColor = prevColor;
 			}
             cursorTop--;
