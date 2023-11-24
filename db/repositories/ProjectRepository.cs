@@ -17,16 +17,26 @@ namespace JiraClone.db.repositories
 		{
 			_db = db;
 		}
-		public List<Project> GetProjectsByUser(Account? account)
+		public List<Project> GetProjectsOwnedByUser(Account? account)
 		{
 			if(account == null)
 				return new List<Project>();
 			else return _db.Projects
-				.Where(project => project.OwnerId == account.Id || project.AssignedAccounts.Contains(account))
+				.Where(project => project.OwnerId == account.Id)
 				.ToList();
 		}
 
-		public Project? GetProjectByName(string name)
+		public List<Project> GetProjectsSharedForUser(Account? account)
+		{
+			if(account == null)
+				return new List<Project>();
+			else return _db.Projects
+					.Where(project => project.AssignedAccounts.Contains(account))
+					.ToList();
+		}
+
+
+        public Project? GetProjectByName(string name)
 		{
 			if (name == null)
 				return null;
