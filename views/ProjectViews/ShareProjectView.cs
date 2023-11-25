@@ -10,9 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace JiraClone.views
+namespace JiraClone.views.ProjectViews
 {
-    public class ShareProjectView: ConsoleView
+    public class ShareProjectView : ConsoleView
     {
         private ProjectsViewModel viewModel;
 
@@ -34,18 +34,18 @@ namespace JiraClone.views
         {
             this.viewModel = viewModel;
 
-			shareProjectForm = new VerticalMenu("UDOSTĘPNIANIE PROJEKTU", 4);
+            shareProjectForm = new VerticalMenu("UDOSTĘPNIANIE PROJEKTU", 4);
             actionMenu = new HorizontalMenu(2);
 
             projectNameInput = new Input("Nazwa projektu", validationRule: new RequiredRule());
             userLoginInput = new Input("Login użytkownika", validationRule: new RequiredRule());
             submitButton = new Button("Zatwierdź", OnSubmit);
 
-			shareProjectForm.Add(projectNameInput);
-			shareProjectForm.Add(userLoginInput);
+            shareProjectForm.Add(projectNameInput);
+            shareProjectForm.Add(userLoginInput);
 
-			actionMenu.Add(submitButton);
-			actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
+            actionMenu.Add(submitButton);
+            actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
             Add(shareProjectForm);
@@ -64,9 +64,9 @@ namespace JiraClone.views
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-				UseKey(keyInfo);
+                UseKey(keyInfo);
 
-				if (closeFlag)
+                if (closeFlag)
                 {
                     closeFlag = false;
                     ResetView();

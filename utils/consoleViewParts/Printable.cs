@@ -22,8 +22,8 @@ namespace JiraClone.utils.consoleViewParts
 
 		public int Top { get; set; }
 
-		public int Height { get; set; }
+		public virtual int Height { get; set; }
 
-		public int Width { get; set; }
+		public virtual int Width { get; set; }
 	}
 }

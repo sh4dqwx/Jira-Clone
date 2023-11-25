@@ -7,6 +7,7 @@ using JiraClone.utils.consoleViewParts.options;
 using JiraClone.utils.consoleViewParts.layouts;
 using System.Runtime.CompilerServices;
 using JiraClone.utils.validators;
+using JiraClone.views.ProjectViews;
 
 namespace JiraClone.views
 {

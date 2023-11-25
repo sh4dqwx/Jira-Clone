@@ -2,36 +2,45 @@
 using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
 using JiraClone.viewmodels;
+using JiraClone.views.TicketViews;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace JiraClone.views
+namespace JiraClone.views.ProjectViews
 {
-    public class ProjectsView: ConsoleView
+    public class ProjectsView : ConsoleView
     {
         private ProjectsViewModel viewModel;
 
+        private TicketsView ticketsView;
         private VerticalMenu projectsMenu;
         private HorizontalMenu actionMenu, bottomMenu;
-		private bool closeFlag = false;
+        private bool closeFlag = false;
 
-		protected override void ResetView()
-		{
-			projectsMenu.Clear();
-			List<Project> ownedProjects = viewModel.GetOwnedProjects();
-			foreach (var project in ownedProjects)
-				projectsMenu.Add(new Button(project.Name, () => onProjectClick(project)));
-
-			List<Project> sharedProjects = viewModel.GetSharedProjects();
-			foreach (var project in sharedProjects)
-				projectsMenu.Add(new Button("☁ " + project.Name, () => onProjectClick(project)));
-
-			base.ResetView();
-		}
-
-		public ProjectsView(ProjectsViewModel viewModel, AddProjectView addProjectView, RemoveProjectView deleteProjectView, ShareProjectView shareProjectView)
+        protected override void ResetView()
         {
+            projectsMenu.Clear();
+            List<Project> ownedProjects = viewModel.GetOwnedProjects();
+            foreach (var project in ownedProjects)
+                projectsMenu.Add(new Button(project.Name, () => OnProjectClick(project)));
+
+            List<Project> sharedProjects = viewModel.GetSharedProjects();
+            foreach (var project in sharedProjects)
+                projectsMenu.Add(new Button("☁ " + project.Name, () => OnProjectClick(project)));
+
+            base.ResetView();
+        }
+
+        public ProjectsView(
+            ProjectsViewModel viewModel,
+            AddProjectView addProjectView,
+            RemoveProjectView deleteProjectView,
+            ShareProjectView shareProjectView,
+            TicketsView ticketsView
+        ) {
+            this.ticketsView = ticketsView;
+
             this.viewModel = viewModel;
             viewModel.PropertyChanged += EventHandler;
 
@@ -39,11 +48,11 @@ namespace JiraClone.views
 
             List<Project> ownedProjects = viewModel.GetOwnedProjects();
             foreach (var project in ownedProjects)
-                projectsMenu.Add(new Button(project.Name, () => onProjectClick(project)));
+                projectsMenu.Add(new Button(project.Name, () => OnProjectClick(project)));
 
             List<Project> sharedProjects = viewModel.GetSharedProjects();
             foreach (var project in sharedProjects)
-                projectsMenu.Add(new Button("☁ " + project.Name, () => onProjectClick(project)));
+                projectsMenu.Add(new Button("☁ " + project.Name, () => OnProjectClick(project)));
 
             actionMenu = new HorizontalMenu(2);
             actionMenu.Add(new Button("Stwórz projekt", () => { addProjectView.Start(); ResetView(); }));
@@ -71,9 +80,9 @@ namespace JiraClone.views
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-				UseKey(keyInfo);
+                UseKey(keyInfo);
 
-				if (closeFlag)
+                if (closeFlag)
                 {
                     closeFlag = false;
                     ResetView();
@@ -82,9 +91,9 @@ namespace JiraClone.views
             }
         }
 
-        private void onProjectClick(Project project)
+        private void OnProjectClick(Project project)
         {
-            //Przechodzenie do kolejnego widoku
+            ticketsView.Start(project);
             ResetView();
         }
     }
