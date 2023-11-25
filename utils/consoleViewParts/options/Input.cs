@@ -31,19 +31,22 @@ namespace JiraClone.utils.consoleViewParts.options
 			_validationRule = validationRule;
 		}
 
-        public override void UseKey(char c)
+        public override bool UseKey(ConsoleKeyInfo c)
         {
-            if (Console.CursorLeft < Left + Width - Constants.InputMargin - 1 && c >= 32 && c <= 127)
+            if (Console.CursorLeft < Left + Width - Constants.InputMargin - 1 && c.KeyChar >= 32 && c.KeyChar <= 127)
             {
-                valueBuilder.Append(c);
+                valueBuilder.Append(c.KeyChar);
                 if (_isPassword) Console.Write('*');
-                else Console.Write(c);
+                else Console.Write(c.KeyChar);
+                return true;
             }
-            else if (Console.CursorLeft > Left + Constants.InputSpacer + Constants.InputMargin && c == '\b')
+            else if (Console.CursorLeft > Left + Constants.InputSpacer + Constants.InputMargin && c.Key == ConsoleKey.Backspace)
             {
                 valueBuilder.Remove(valueBuilder.Length - 1, 1);
                 Console.Write("\b \b");
+                return true;
             }
+            return false;
         }
 
         public override void Print()

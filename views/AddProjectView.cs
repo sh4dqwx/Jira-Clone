@@ -16,39 +16,37 @@ namespace JiraClone.views
     {
         private ProjectsViewModel viewModel;
 
-        private VerticalMenu menu;
+        private VerticalMenu addProjectForm;
+        private HorizontalMenu actionMenu;
         private Input nameInput;
         private Button submitButton;
         private bool closeFlag = false;
 
-        private void ResetView()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.CursorVisible = false;
-
+		protected override void ResetView()
+		{
             nameInput.Clear();
 
-            Print();
-            SelectTop();
-        }
+			base.ResetView();
+		}
 
-        public AddProjectView(ProjectsViewModel viewModel)
+		public AddProjectView(ProjectsViewModel viewModel)
         {
             this.viewModel = viewModel;
             
-            menu = new VerticalMenu(3);
+            addProjectForm = new VerticalMenu("TWORZENIE PROJEKTU", 2);
+			actionMenu = new HorizontalMenu(2);
 
             nameInput = new Input("Nazwa", validationRule: new RequiredRule());
             submitButton = new Button("Zatwierdź", OnSubmit);
 
-            menu.Add(nameInput);
-            menu.Add(submitButton);
-            menu.Add(new Button("Powrót", () => { closeFlag = true; }));
+            addProjectForm.Add(nameInput);
+
+			actionMenu.Add(submitButton);
+			actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-            Add(new Text("TWORZENIE PROJEKTU"));
-            Add(menu);
+            Add(addProjectForm);
+            Add(actionMenu);
         }
 
         private void EventHandler(object sender, PropertyChangedEventArgs e)
@@ -63,36 +61,9 @@ namespace JiraClone.views
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+				UseKey(keyInfo);
 
-                switch (keyInfo.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        if (selectableChildren[selectedChild] is VerticalMenu)
-                            SelectPrevious();
-                        break;
-
-                    case ConsoleKey.DownArrow:
-                        if (selectableChildren[selectedChild] is VerticalMenu)
-                            SelectNext();
-                        break;
-
-                    case ConsoleKey.LeftArrow:
-                        if (selectableChildren[selectedChild] is HorizontalMenu)
-                            SelectPrevious();
-                        break;
-
-                    case ConsoleKey.RightArrow:
-                        if (selectableChildren[selectedChild] is HorizontalMenu)
-                            SelectNext();
-                        break;
-
-                    default:
-                        UseKey(keyInfo.KeyChar);
-                        break;
-                }
-
-
-                if (closeFlag)
+				if (closeFlag)
                 {
                     closeFlag = false;
                     ResetView();

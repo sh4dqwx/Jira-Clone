@@ -44,10 +44,30 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if(selectedChild != -1) children[selectedChild].Print();
 		}
 
+		public override bool UseKey(ConsoleKeyInfo c)
+		{
+			if (selectedChild < 0) return false;
+
+			switch (c.Key)
+			{
+				case ConsoleKey.LeftArrow:
+					bool leftResult = SelectPrevious();
+					if (leftResult) Print();
+					return leftResult;
+
+				case ConsoleKey.RightArrow:
+				case ConsoleKey.Tab:
+					bool rightResult = SelectNext();
+					if (rightResult) Print();
+					return rightResult;
+
+				default:
+					return base.UseKey(c);
+			}
+		}
+
 		public override void Add(Printable child)
 		{
-			if (child is not Option) throw new NotSupportedException();
-
 			base.Add(child);
 			if (children.Count > _visibleCount) return;
 			if (children.Count > 1) Width++;
@@ -56,8 +76,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 		public override void Remove(Printable child)
 		{
-			if (child is not Option) throw new NotSupportedException();
-
 			base.Remove(child);
 			if (children.Count > _visibleCount) return;
 			if (children.Count > 1) Width--;

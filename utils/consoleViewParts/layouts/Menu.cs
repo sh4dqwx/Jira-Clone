@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-	public abstract class Menu : Layout, ISelectable
+	public abstract class Menu : Layout, IMenu
 	{
 		protected int _visibleCount;
 
@@ -19,17 +19,29 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return selectedChild - _visibleCount / 2;
 		}
 
+		public override void Add(Printable child)
+		{
+			if (child is not Option) throw new NotSupportedException();
+			base.Add(child);
+		}
+
+		public override void Remove(Printable child)
+		{
+			if (child is not Option) throw new NotSupportedException();
+			base.Remove(child);
+		}
+
 		public bool SelectPrevious()
 		{
             if (selectedChild == -1)
                 return false;
 
-            UnselectSelected();
-			if(selectedChild <= 0)
+			if (selectedChild <= 0)
 				return false;
 
+			UnselectSelected();
 			((Option)children[--selectedChild]).Selected = true;
-			Print();
+			//Print();
 
 			return true;
 		}
@@ -39,12 +51,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if (selectedChild == -1)
 				return false;
 
-			UnselectSelected();
 			if (selectedChild == children.Count - 1)
 				return false;
 
+			UnselectSelected();
 			((Option)children[++selectedChild]).Selected = true;
-			Print();
+			//Print();
+
 			return true;
 		}
 
@@ -57,7 +70,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			selectedChild = 0;
 			((Option)children[selectedChild]).Selected = true;
-			Print();
+			//Print();
+
 			return true;
 		}
 
@@ -70,7 +84,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			selectedChild = children.Count - 1;
 			((Option)children[selectedChild]).Selected = true;
-			Print();
+			//Print();
 			return true;
 		}
 
@@ -83,10 +97,15 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			Print();
 		}
 
-		public void UseKey(char c)
+		public virtual bool UseKey(ConsoleKeyInfo c)
 		{
-			if (selectedChild < 0) return;
-			((Option)children[selectedChild]).UseKey(c);
+			return ((ISelectable)children[selectedChild]).UseKey(c);
+		}
+
+		public bool CanSelect()
+		{
+			if (children.Count > 0) return true;
+			return false;
 		}
 
 		public bool Selected { get; set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-    public interface ISelectable : IOption
+    public interface IMenu : ISelectable
     {
         public void UnselectSelected();
         public bool SelectTop();

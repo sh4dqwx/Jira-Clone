@@ -12,10 +12,15 @@ namespace JiraClone.utils.consoleViewParts.layouts
 {
     public class VerticalMenu : Menu
     {
-        public VerticalMenu(int visibleCount): base()
+        private string? _title;
+
+        public VerticalMenu(string? title, int visibleCount): base()
         {
-            Height = 4;
+			Height = (visibleCount * Constants.BUTTON_HEIGHT) + (visibleCount - 1);
+            if (title != null) Height += 6;
+            else Height += 4;
             Width = Constants.BUTTON_WIDTH;
+            _title = title;
             _visibleCount = visibleCount;
         }
 
@@ -26,7 +31,14 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
             int startIndex = GetStartIndex();
 
-            Console.SetCursorPosition(cursorLeft + (Width - 1) / 2, cursorTop);
+            if (_title != null)
+            {
+				Console.SetCursorPosition(cursorLeft + (Width - _title.Length) / 2, cursorTop);
+				Console.Write(_title);
+				cursorTop += 2;
+			}
+
+			Console.SetCursorPosition(cursorLeft + (Width - 1) / 2, cursorTop);
             if (startIndex > 0) Console.Write("^");
             else Console.Write(" ");
             cursorTop += 2;
@@ -39,6 +51,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
                 child.Print();
                 cursorTop += child.Height + 1;
             }
+            cursorTop = Top + Height - 1;
 
             Console.SetCursorPosition(cursorLeft + ((Width - 1) / 2), cursorTop);
             if (startIndex < children.Count - _visibleCount) Console.Write("v");
@@ -47,30 +60,31 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if(selectedChild != -1) children[selectedChild].Print();
 		}
 
-		public override void Add(Printable child)
+		public override bool UseKey(ConsoleKeyInfo c)
 		{
-            if (child is not Option) throw new NotSupportedException();
+			if (selectedChild < 0) return false;
 
-            base.Add(child);
-            if (children.Count > _visibleCount) return;
-            if (children.Count > 1) Height++;
-            Height += child.Height;
+            switch (c.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    bool upResult = SelectPrevious();
+                    if (upResult) Print();
+                    return upResult;
+
+                case ConsoleKey.DownArrow:
+				case ConsoleKey.Tab:
+					bool downResult = SelectNext();
+                    if (downResult) Print();
+                    return downResult;
+
+                default:
+					return base.UseKey(c);
+			}
 		}
 
-		public override void Remove(Printable child)
-		{
-            if (child is not Option) throw new NotSupportedException();
-
-            base.Remove(child);
-            if (children.Count > _visibleCount) return;
-            if (children.Count > 1) Height--;
-            Height -= child.Height;
-		}
-
-        public override void Clear()
+		public override void Clear()
         {
             base.Clear();
-            Height = 4;
             selectedChild = -1;
         }
     }

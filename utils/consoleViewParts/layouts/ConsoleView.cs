@@ -4,12 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace JiraClone.utils.consoleViewParts.layouts
 {
-    public class ConsoleView : Layout, ISelectable
+    public class ConsoleView : Layout, IMenu
 	{
 		protected List<ISelectable> selectableChildren;
+
+		protected virtual void ResetView()
+		{
+			Console.Clear();
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.CursorVisible = false;
+
+			SelectTop();
+			Print();
+		}
 
 		public ConsoleView(): base()
 		{
@@ -37,13 +48,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
 		public override void Add(Printable child)
 		{
 			base.Add(child);
-			if (child is ISelectable) selectableChildren.Add((ISelectable)child);
+			if (child is IMenu) selectableChildren.Add((IMenu)child);
 		}
 
 		public override void Remove(Printable child)
 		{
 			base.Remove(child);
-			if (child is ISelectable) selectableChildren.Remove((ISelectable)child);
+			if (child is IMenu) selectableChildren.Remove((IMenu)child);
 		}
 
 		public void UnselectSelected()
@@ -56,7 +67,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 				selectableChildren[selectedChild].Selected = false;
 				((Printable)selectableChildren[selectedChild]).Print();
 			}
-			else selectableChildren[selectedChild].UnselectSelected();
+			else ((IMenu)selectableChildren[selectedChild]).UnselectSelected();
 
 			selectableChildren[selectedChild].Selected = false;
 		}
@@ -72,7 +83,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			for (int i = 0; i < selectableChildren.Count; i++, selectedChild = i)
             {
-                ISelectable child = selectableChildren[i];
+                IMenu child = (IMenu)selectableChildren[i];
                 if (child is Option)
                 {
                     child.Selected = true;
@@ -98,7 +109,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
             for (int i = selectableChildren.Count - 1; i >= 0; i--, selectedChild = i)
             {
-				ISelectable child = selectableChildren[i];
+				IMenu child = (IMenu)selectableChildren[i];
                 if (child is Option)
                 {
                     child.Selected = true;
@@ -117,72 +128,77 @@ namespace JiraClone.utils.consoleViewParts.layouts
 		{
 			if (selectedChild == -1) return false;
 
-			if (selectableChildren[selectedChild] is Option)
+			for (int i = selectedChild - 1; i >= 0; i++)
 			{
-				if (selectedChild <= 0) return false;
-				else
+				if (selectableChildren[i].CanSelect())
 				{
 					UnselectSelected();
-					selectableChildren[--selectedChild].Selected = true;
-					((Printable)selectableChildren[selectedChild]).Print();
-					return true;
+					selectedChild = i;
+					if (selectableChildren[selectedChild] is Option)
+					{
+						selectableChildren[selectedChild].Selected = true;
+						((Printable)selectableChildren[selectedChild]).Print();
+						return true;
+					}
+					bool result = ((IMenu)selectableChildren[selectedChild]).SelectBottom();
+					if (result) ((Printable)selectableChildren[selectedChild]).Print();
+					return result;
 				}
 			}
-			else
-			{
-				bool result = selectableChildren[selectedChild].SelectPrevious();
-				if (result == true) return true;
-				if (selectedChild <= 0)
-				{
-					selectableChildren[selectedChild].SelectTop();
-					return false;
-                }
-				if (!selectableChildren[--selectedChild].SelectBottom())
-				{
-                    selectableChildren[++selectedChild].SelectTop();
-					return false;
-                }
-				return true;
-			}
+			return false;
 		}
 
 		public bool SelectNext()
 		{
 			if (selectedChild == -1) return false;
 
-			if (selectableChildren[selectedChild] is Option)
+			for (int i = selectedChild + 1; i < selectableChildren.Count; i++)
 			{
-				if (selectedChild >= selectableChildren.Count - 1) return false;
-				else
+				if (selectableChildren[i].CanSelect())
 				{
 					UnselectSelected();
-					selectableChildren[++selectedChild].Selected = true;
-					((Printable)selectableChildren[selectedChild]).Print();
-					return true;
+					selectedChild = i;
+					if (selectableChildren[selectedChild] is Option)
+					{
+						selectableChildren[selectedChild].Selected = true;
+						((Printable)selectableChildren[selectedChild]).Print();
+						return true;
+					}
+					bool result = ((IMenu)selectableChildren[selectedChild]).SelectTop();
+					if (result) ((Printable)selectableChildren[selectedChild]).Print();
+					return result;
 				}
 			}
-			else
+			return false;
+		}
+
+		public bool UseKey(ConsoleKeyInfo c)
+		{
+			if (selectedChild < 0) return false;
+
+			switch (c.Key)
 			{
-				bool result = selectableChildren[selectedChild].SelectNext();
-				if (result == true) return true;
-				if (selectedChild >= selectableChildren.Count - 1)
-				{
-					selectableChildren[selectedChild].SelectBottom();
-					return false;
-                }
-				if (!selectableChildren[++selectedChild].SelectTop())
-				{
-					selectableChildren[--selectedChild].SelectBottom();
-					return false;
-				}
-				return true;
+				case ConsoleKey.UpArrow:
+					if (selectableChildren[selectedChild].UseKey(c)) return true;
+					return SelectPrevious();
+
+				case ConsoleKey.DownArrow:
+				case ConsoleKey.Tab:
+					if (selectableChildren[selectedChild].UseKey(c)) return true;
+					return SelectNext();
+
+				default:
+					return selectableChildren[selectedChild].UseKey(c);
 			}
 		}
 
-		public void UseKey(char c)
+		public bool CanSelect()
 		{
-			if (selectedChild < 0) return;
-			selectableChildren[selectedChild].UseKey(c);
+			foreach (ISelectable child in selectableChildren)
+			{
+				if (child.CanSelect()) return true;
+			}
+			return false;
 		}
 
 		public bool Selected { get; set; }
