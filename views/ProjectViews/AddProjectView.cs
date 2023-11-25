@@ -10,9 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JiraClone.views
+namespace JiraClone.views.ProjectViews
 {
-    public class AddProjectView: ConsoleView
+    public class AddProjectView : ConsoleView
     {
         private ProjectsViewModel viewModel;
 
@@ -22,27 +22,27 @@ namespace JiraClone.views
         private Button submitButton;
         private bool closeFlag = false;
 
-		protected override void ResetView()
-		{
+        protected override void ResetView()
+        {
             nameInput.Clear();
 
-			base.ResetView();
-		}
+            base.ResetView();
+        }
 
-		public AddProjectView(ProjectsViewModel viewModel)
+        public AddProjectView(ProjectsViewModel viewModel)
         {
             this.viewModel = viewModel;
-            
+
             addProjectForm = new VerticalMenu("TWORZENIE PROJEKTU", 2);
-			actionMenu = new HorizontalMenu(2);
+            actionMenu = new HorizontalMenu(2);
 
             nameInput = new Input("Nazwa", validationRule: new RequiredRule());
             submitButton = new Button("Zatwierdź", OnSubmit);
 
             addProjectForm.Add(nameInput);
 
-			actionMenu.Add(submitButton);
-			actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
+            actionMenu.Add(submitButton);
+            actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
             Add(addProjectForm);
@@ -61,9 +61,9 @@ namespace JiraClone.views
             while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-				UseKey(keyInfo);
+                UseKey(keyInfo);
 
-				if (closeFlag)
+                if (closeFlag)
                 {
                     closeFlag = false;
                     ResetView();

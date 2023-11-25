@@ -4,6 +4,8 @@ using JiraClone.models;
 using JiraClone.utils;
 using JiraClone.viewmodels;
 using JiraClone.views;
+using JiraClone.views.ProjectViews;
+using JiraClone.views.TicketViews;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,8 +41,13 @@ namespace JiraClone
                 services.AddSingleton<AddProjectView>();
                 services.AddSingleton<RemoveProjectView>();
                 services.AddSingleton<ShareProjectView>();
-                //ViewModels
-                services.AddSingleton<LoginViewModel>();
+				services.AddSingleton<TicketsView>();
+				services.AddSingleton<AddTicketView>();
+				services.AddSingleton<RemoveTicketView>();
+				services.AddSingleton<AssignTicketView>();
+                services.AddSingleton<ChangeStatusView>();
+				//ViewModels
+				services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<RegisterViewModel>();
                 services.AddSingleton<ProjectsViewModel>();
                 //Repositories

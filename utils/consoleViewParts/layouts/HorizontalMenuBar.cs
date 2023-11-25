@@ -80,7 +80,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if (child is not VerticalMenu) throw new NotSupportedException();
 
 			base.Add(child);
-			Height = Math.Max(Height, child.Height + 2); 
 			if (children.Count > _visibleCount) return;
 			if (children.Count > 1) Width++;
 			Width += child.Width;
@@ -178,5 +177,10 @@ namespace JiraClone.utils.consoleViewParts.layouts
 		}
 
 		public bool Selected { get; set; }
+
+		public override int Height
+		{
+			get { return Math.Max(4, children.Select(child => child.Height).DefaultIfEmpty().Max()); }
+		}
 	}
 }
