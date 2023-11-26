@@ -56,6 +56,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			Console.SetCursorPosition(cursorLeft, cursorTop + (Height - 1) / 2);
 			if (startIndex < children.Count - _visibleCount) Console.Write(">");
 			else Console.Write(" ");
+
+			if (selectedChild != -1) children[selectedChild].Print();
 		}
 
 		public bool UseKey(ConsoleKeyInfo c)
