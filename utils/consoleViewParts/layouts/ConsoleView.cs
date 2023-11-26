@@ -42,6 +42,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 				
 				cursorTop += child.Height + 1;
 			}
+
+			if (selectedChild != -1) ((Printable)selectableChildren[selectedChild]).Print();
 		}
 
 		public override void Add(Printable child)

@@ -41,7 +41,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			if (startIndex < children.Count - _visibleCount) Console.Write(">");
 			else Console.Write(" ");
 
-			if(selectedChild != -1) children[selectedChild].Print();
+			if (selectedChild != -1) children[selectedChild].Print();
 		}
 
 		public override bool UseKey(ConsoleKeyInfo c)
