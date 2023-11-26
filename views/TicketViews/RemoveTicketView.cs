@@ -13,6 +13,8 @@ namespace JiraClone.views.TicketViews
 {
     public class RemoveTicketView : ConsoleView
     {
+		private TicketsViewModel viewModel;
+
 		private VerticalMenu removeTicketForm;
 		private HorizontalMenu actionMenu;
 		private Input codeInput;
@@ -26,8 +28,10 @@ namespace JiraClone.views.TicketViews
 			base.ResetView();
 		}
 
-		public RemoveTicketView()
+		public RemoveTicketView(TicketsViewModel ticketsViewModel)
 		{
+			viewModel = ticketsViewModel;
+
 			removeTicketForm = new VerticalMenu("USUWANIE ZADANIA", 3);
 			actionMenu = new HorizontalMenu(2);
 
@@ -47,6 +51,7 @@ namespace JiraClone.views.TicketViews
 		public void Start()
 		{
 			ResetView();
+			Print();
 
 			while (true)
 			{
@@ -73,7 +78,14 @@ namespace JiraClone.views.TicketViews
 		{
 			if (!AreInputsValid()) return;
 
-			closeFlag = true;
+			string? error = viewModel.RemoveTicket(codeInput.Value);
+
+			if (error != null)
+			{
+				submitButton.Error = error;
+				submitButton.Print();
+			}
+			else closeFlag = true;
 		}
 	}
 }

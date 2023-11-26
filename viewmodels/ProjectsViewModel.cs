@@ -16,12 +16,18 @@ namespace JiraClone.viewmodels
         public event PropertyChangedEventHandler? PropertyChanged;
         private IProjectRepository projectRepository;
         private IAccountRepository accountRepository;
+        private IStatusRepository statusRepository;
         private ApplicationState applicationState;
 
-        public ProjectsViewModel(IProjectRepository projectRepository, IAccountRepository accountRepository, ApplicationState applicationState)
-        {
+        public ProjectsViewModel(
+            IProjectRepository projectRepository,
+            IAccountRepository accountRepository,
+            ApplicationState applicationState,
+            IStatusRepository statusRepository
+        ) {
             this.projectRepository = projectRepository;
             this.accountRepository = accountRepository;
+            this.statusRepository = statusRepository;
             this.applicationState = applicationState;
         }
 
@@ -50,7 +56,10 @@ namespace JiraClone.viewmodels
             };
 
             projectRepository.AddProject(newProject);
-        }
+            statusRepository.AddStatus(new Status { Name = "TO DO", ProjectId = newProject.Id, Order = 1 });
+			statusRepository.AddStatus(new Status { Name = "IN PROGRESS", ProjectId = newProject.Id, Order = 2 });
+			statusRepository.AddStatus(new Status { Name = "DONE", ProjectId = newProject.Id, Order = 3 });
+		}
 
         public string? RemoveProject(string name)
         {

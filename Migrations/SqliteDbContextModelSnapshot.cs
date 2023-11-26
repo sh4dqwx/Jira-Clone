@@ -54,7 +54,7 @@ namespace JiraClone.Migrations
                         new
                         {
                             Id = 1,
-                            CreationTimestamp = 1700769058L,
+                            CreationTimestamp = 1700984308L,
                             Email = "admin@test.com",
                             Login = "admin",
                             Name = "Jan",
@@ -161,7 +161,7 @@ namespace JiraClone.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AsigneeId")
+                    b.Property<int?>("AssigneeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
@@ -193,7 +193,7 @@ namespace JiraClone.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AsigneeId");
+                    b.HasIndex("AssigneeId");
 
                     b.HasIndex("ProjectId");
 
@@ -264,7 +264,7 @@ namespace JiraClone.Migrations
                 {
                     b.HasOne("JiraClone.db.dbmodels.Account", "Asignee")
                         .WithMany("AsigneeTickets")
-                        .HasForeignKey("AsigneeId");
+                        .HasForeignKey("AssigneeId");
 
                     b.HasOne("JiraClone.db.dbmodels.Project", "Project")
                         .WithMany("Tickets")

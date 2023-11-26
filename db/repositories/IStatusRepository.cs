@@ -10,6 +10,7 @@ namespace JiraClone.db.repositories
     public interface IStatusRepository
     {
         public Status? GetStatusById(int id);
+        public Status? GetStatusByName(string name);
         public List<Status> GetStatusesFromProject(Project project);
         public void AddStatus(Status status);
         public void UpdateStatus(Status status);
