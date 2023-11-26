@@ -55,9 +55,9 @@ namespace JiraClone.views.ProjectViews
                 projectsMenu.Add(new Button("☁ " + project.Name, () => OnProjectClick(project)));
 
             actionMenu = new HorizontalMenu(2);
-            actionMenu.Add(new Button("Stwórz projekt", () => { addProjectView.Start(); ResetView(); }));
-            actionMenu.Add(new Button("Usuń projekt", () => { deleteProjectView.Start(); ResetView(); }));
-            actionMenu.Add(new Button("Udostępnij projekt", () => { shareProjectView.Start(); ResetView(); }));
+            actionMenu.Add(new Button("Stwórz projekt", () => { addProjectView.Start(); ResetView(); Print(); }));
+            actionMenu.Add(new Button("Usuń projekt", () => { deleteProjectView.Start(); ResetView(); Print(); }));
+            actionMenu.Add(new Button("Udostępnij projekt", () => { shareProjectView.Start(); ResetView(); Print(); }));
 
             bottomMenu = new HorizontalMenu(1);
             bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
@@ -76,8 +76,9 @@ namespace JiraClone.views.ProjectViews
         public void Start()
         {
             ResetView();
+			Print();
 
-            while (true)
+			while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                 UseKey(keyInfo);
@@ -95,6 +96,7 @@ namespace JiraClone.views.ProjectViews
         {
             ticketsView.Start(project);
             ResetView();
-        }
+			Print();
+		}
     }
 }

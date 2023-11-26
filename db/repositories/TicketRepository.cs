@@ -18,12 +18,17 @@ namespace JiraClone.db.repositories
 
         public Ticket? GetTicketById(int id)
         {
-            return _db.Tickets.Where(ticket  => ticket.Id == id).FirstOrDefault();
+            return _db.Tickets.Where(ticket => ticket.Id == id).FirstOrDefault();
         }
 
-        public List<Ticket> GetTicketsFromProject(Project project)
+        public Ticket? GetTicketByCode(string code)
         {
-            return _db.Tickets.Where(ticket =>ticket.Project.Id == project.Id).ToList();
+            return _db.Tickets.Where(ticket => ticket.Code == code).FirstOrDefault();
+        }
+
+        public List<Ticket> GetTicketsFromProject(Project project, Status status)
+        {
+            return _db.Tickets.Where(ticket => ticket.ProjectId == project.Id && ticket.StatusId == status.Id).ToList();
         }
 
         public void AddTicket(Ticket ticket)

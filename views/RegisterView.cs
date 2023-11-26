@@ -72,6 +72,7 @@ namespace JiraClone.views
         public void Start()
 		{
 			ResetView();
+			Print();
 
 			while (true)
 			{

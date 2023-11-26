@@ -13,6 +13,8 @@ namespace JiraClone.views.TicketViews
 {
     public class AssignTicketView : ConsoleView
     {
+		private TicketsViewModel viewModel;
+
 		private VerticalMenu assignTicketForm;
 		private HorizontalMenu actionMenu;
 		private Input ticketCodeInput, userLoginInput;
@@ -27,8 +29,10 @@ namespace JiraClone.views.TicketViews
 			base.ResetView();
 		}
 
-		public AssignTicketView(ProjectsViewModel viewModel)
+		public AssignTicketView(TicketsViewModel ticketsViewModel)
 		{
+			viewModel = ticketsViewModel;
+
 			assignTicketForm = new VerticalMenu("PRZYDZIELANIE ZADANIA", 4);
 			actionMenu = new HorizontalMenu(2);
 
@@ -55,6 +59,7 @@ namespace JiraClone.views.TicketViews
 		public void Start()
 		{
 			ResetView();
+			Print();
 
 			while (true)
 			{
@@ -82,7 +87,13 @@ namespace JiraClone.views.TicketViews
 		{
 			if (!AreInputsValid()) return;
 
-			closeFlag = true;
+			string? error = viewModel.AssignTicket(ticketCodeInput.Value, userLoginInput.Value);
+			if (error != null)
+			{
+				submitButton.Error = error;
+				submitButton.Print();
+			}
+			else closeFlag = true;
 		}
 	}
 }

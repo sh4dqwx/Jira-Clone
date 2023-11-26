@@ -65,10 +65,14 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			switch (c.Key)
 			{
 				case ConsoleKey.LeftArrow:
-					return SelectPrevious();
+					bool leftResult = SelectPrevious();
+					if (leftResult) Print();
+					return leftResult;
 
 				case ConsoleKey.RightArrow:
-					return SelectNext();
+					bool rightResult = SelectNext();
+					if (rightResult) Print();
+					return rightResult;
 
 				default:
 					return ((VerticalMenu)children[selectedChild]).UseKey(c);
@@ -111,15 +115,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			UnselectSelected();
 
 			selectedChild = 0;
-
-			for (int i = 0; i < children.Count; i++, selectedChild = i)
-			{
-				VerticalMenu child = (VerticalMenu)children[i];
-				if (child.SelectTop())
-					return true;
-			}
-
-			return false;
+			((VerticalMenu)children[selectedChild]).SelectTop();
+			return true;
 		}
 
 		public bool SelectBottom()
@@ -131,7 +128,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			selectedChild = children.Count - 1;
 			((VerticalMenu)children[selectedChild]).SelectTop();
-			Print();
 			return true;
 		}
 
@@ -146,7 +142,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			UnselectSelected();
 
 			((VerticalMenu)children[++selectedChild]).SelectTop();
-			Print();
 
 			return true;
 		}
@@ -162,7 +157,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			UnselectSelected();
 
 			((VerticalMenu)children[--selectedChild]).SelectTop();
-			Print();
 
 			return true;
 		}
@@ -174,6 +168,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
 				if (child.CanSelect()) return true;
 			}
 			return false;
+		}
+
+		public override void Clear()
+		{
+			base.Clear();
+			Height = 4;
+			Width = 5;
 		}
 
 		public bool Selected { get; set; }

@@ -13,6 +13,8 @@ namespace JiraClone.views.TicketViews
 {
 	public class ChangeStatusView : ConsoleView
 	{
+		private TicketsViewModel viewModel;
+
 		private VerticalMenu changeStatusForm;
 		private HorizontalMenu actionMenu;
 		private Input ticketCodeInput, statusInput;
@@ -27,8 +29,10 @@ namespace JiraClone.views.TicketViews
 			base.ResetView();
 		}
 
-		public ChangeStatusView()
+		public ChangeStatusView(TicketsViewModel ticketsViewModel)
 		{
+			viewModel = ticketsViewModel;
+
 			changeStatusForm = new VerticalMenu("ZMIANA STATUSU ZADANIA", 4);
 			actionMenu = new HorizontalMenu(2);
 
@@ -55,6 +59,7 @@ namespace JiraClone.views.TicketViews
 		public void Start()
 		{
 			ResetView();
+			Print();
 
 			while (true)
 			{
@@ -82,7 +87,13 @@ namespace JiraClone.views.TicketViews
 		{
 			if (!AreInputsValid()) return;
 
-			closeFlag = true;
+			string? error = viewModel.ChangeStatus(ticketCodeInput.Value, statusInput.Value);
+			if (error != null)
+			{
+				submitButton.Error = error;
+				submitButton.Print();
+			}
+			else closeFlag = true;
 		}
 	}
 }

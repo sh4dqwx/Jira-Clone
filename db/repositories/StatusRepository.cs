@@ -21,9 +21,14 @@ namespace JiraClone.db.repositories
             return _db.Statuses.Where(status => status.Id == id).FirstOrDefault();
         }
 
-        public List<Status> GetStatusesFromProject(Project project)
+		public Status? GetStatusByName(string name)
+		{
+			return _db.Statuses.Where(status => status.Name == name).FirstOrDefault();
+		}
+
+		public List<Status> GetStatusesFromProject(Project project)
         {
-            return _db.Statuses.Where(status => status.Project.Id == project.Id).ToList();
+            return _db.Statuses.Where(status => status.ProjectId == project.Id).ToList();
         }
 
         public void AddStatus(Status status)

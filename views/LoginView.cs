@@ -63,8 +63,9 @@ namespace JiraClone.views
         public void Start()
         {
             ResetView();
+			Print();
 
-            while (true)
+			while (true)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 				UseKey(keyInfo);
@@ -103,6 +104,7 @@ namespace JiraClone.views
 			{
 				projectView.Start();
 				ResetView();
+				Print();
 			}
 		}
 	}

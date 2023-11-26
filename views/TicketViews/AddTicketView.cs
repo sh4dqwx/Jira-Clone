@@ -1,4 +1,5 @@
-﻿using JiraClone.utils.consoleViewParts.layouts;
+﻿using JiraClone.db.dbmodels;
+using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
 using JiraClone.utils.validators;
 using JiraClone.viewmodels;
@@ -13,6 +14,9 @@ namespace JiraClone.views.TicketViews
 {
     public class AddTicketView : ConsoleView
     {
+		private Project? _project;
+		private TicketsViewModel viewModel;
+
 		private VerticalMenu addTicketForm;
 		private HorizontalMenu actionMenu;
 		private Input titleInput, descriptionInput, typeInput;
@@ -28,8 +32,10 @@ namespace JiraClone.views.TicketViews
 			base.ResetView();
 		}
 
-		public AddTicketView()
+		public AddTicketView(TicketsViewModel ticketsViewModel)
 		{
+			viewModel = ticketsViewModel;
+
 			addTicketForm = new VerticalMenu("TWORZENIE ZADANIA", 3);
 			actionMenu = new HorizontalMenu(2);
 
@@ -53,6 +59,7 @@ namespace JiraClone.views.TicketViews
 		public void Start()
 		{
 			ResetView();
+			Print();
 
 			while (true)
 			{
@@ -80,6 +87,8 @@ namespace JiraClone.views.TicketViews
 		private void OnSubmit()
 		{
 			if (!AreInputsValid()) return;
+
+			viewModel.AddTicket(titleInput.Value, descriptionInput.Value, typeInput.Value);
 
 			closeFlag = true;
 		}

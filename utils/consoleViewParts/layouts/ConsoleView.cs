@@ -19,7 +19,6 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			Console.CursorVisible = false;
 
 			SelectTop();
-			Print();
 		}
 
 		public ConsoleView(): base()
@@ -37,8 +36,8 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			foreach (Printable child in children)
 			{
 				Console.SetCursorPosition(cursorLeft, cursorTop);
-				child.Left = (Width - child.Width) / 2 + Console.CursorLeft;
-				child.Top = Console.CursorTop;
+				child.Left = (Width - child.Width) / 2 + cursorLeft;
+				child.Top = cursorTop;
 				child.Print();
 				
 				cursorTop += child.Height + 1;
