@@ -54,7 +54,7 @@ namespace JiraClone.Migrations
                         new
                         {
                             Id = 1,
-                            CreationTimestamp = 1700984308L,
+                            CreationTimestamp = 1701122511L,
                             Email = "admin@test.com",
                             Login = "admin",
                             Name = "Jan",
@@ -114,6 +114,10 @@ namespace JiraClone.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("CreationTimestamp")
                         .HasColumnType("INTEGER");
