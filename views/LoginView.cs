@@ -67,6 +67,9 @@ namespace JiraClone.views
 
 			while (true)
             {
+                if (!Console.KeyAvailable)
+                    continue;
+
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 				UseKey(keyInfo);
 
