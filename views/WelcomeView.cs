@@ -9,15 +9,18 @@ namespace JiraClone.views
     public class WelcomeView: ConsoleView
     {
         private VerticalMenu menu;
+		private Logo logo;
 
         public WelcomeView(LoginView loginView, RegisterView registerView)
         {
 			menu = new VerticalMenu("MENU GŁÓWNE", 2);
-			menu.Add(new Button("Zaloguj sięZaloguj sięZaloguj sięZaloguj sięZaloguj sięZaloguj sięZaloguj sięZaloguj sięZaloguj się", () => { loginView.Start(); ResetView(); Print(); }));
-            menu.Add(new Button("Zarejestruj się", () => { registerView.Start(); ResetView(); Print(); }));
+			menu.Add(new Button("Zaloguj się", () => { StartNewConsoleView(loginView.Start); }));
+            menu.Add(new Button("Zarejestruj się", () => { StartNewConsoleView(registerView.Start); }));
+
+			logo = new Logo();
 
 			Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-            Add(new Logo());
+            Add(logo);
 			Add(menu);
         }
 
@@ -25,6 +28,7 @@ namespace JiraClone.views
 		{
 			ResetView();
 			Print();
+			StartLoop(logo.ShiftToSide);
 
 			while (true)
 			{

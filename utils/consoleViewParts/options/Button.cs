@@ -78,7 +78,7 @@ namespace JiraClone.utils.consoleViewParts.options
 			set
 			{
 				base.Left = value;
-				int margin = Math.Max(Constants.InputMargin, (Width - Name.Length) / 2);
+				int margin = Math.Max(Constants.INPUT_MARGIN, (Width - Name.Length) / 2);
 				_nameStart = Left + margin;
 				_nameEnd = Left + Width - margin;
 				_nameWidth = _nameEnd - _nameStart;

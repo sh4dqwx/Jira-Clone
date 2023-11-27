@@ -23,11 +23,11 @@ namespace JiraClone.views.ProjectViews
             projectsMenu.Clear();
             List<Project> ownedProjects = viewModel.GetOwnedProjects();
             foreach (var project in ownedProjects)
-                projectsMenu.Add(new Button(project.Name, () => OnProjectClick(project)));
+                projectsMenu.Add(new Button(project.Name, () => StartNewConsoleView(() => ticketsView.Start(project))));
 
             List<Project> sharedProjects = viewModel.GetSharedProjects();
             foreach (var project in sharedProjects)
-                projectsMenu.Add(new Button("☁ " + project.Name, () => OnProjectClick(project)));
+                projectsMenu.Add(new Button("☁ " + project.Name, () => StartNewConsoleView(() => ticketsView.Start(project))));
 
             base.ResetView();
         }
@@ -48,16 +48,16 @@ namespace JiraClone.views.ProjectViews
 
             List<Project> ownedProjects = viewModel.GetOwnedProjects();
             foreach (var project in ownedProjects)
-                projectsMenu.Add(new Button(project.Name, () => OnProjectClick(project)));
+                projectsMenu.Add(new Button(project.Name, () => StartNewConsoleView(() => ticketsView.Start(project))));
 
             List<Project> sharedProjects = viewModel.GetSharedProjects();
             foreach (var project in sharedProjects)
-                projectsMenu.Add(new Button("☁ " + project.Name, () => OnProjectClick(project)));
+                projectsMenu.Add(new Button("☁ " + project.Name, () => StartNewConsoleView(() => ticketsView.Start(project))));
 
             actionMenu = new HorizontalMenu(2);
-            actionMenu.Add(new Button("Stwórz projekt", () => { addProjectView.Start(); ResetView(); Print(); }));
-            actionMenu.Add(new Button("Usuń projekt", () => { deleteProjectView.Start(); ResetView(); Print(); }));
-            actionMenu.Add(new Button("Udostępnij projekt", () => { shareProjectView.Start(); ResetView(); Print(); }));
+            actionMenu.Add(new Button("Stwórz projekt", () => { StartNewConsoleView(addProjectView.Start); }));
+            actionMenu.Add(new Button("Usuń projekt", () => { StartNewConsoleView(deleteProjectView.Start); }));
+            actionMenu.Add(new Button("Udostępnij projekt", () => { StartNewConsoleView(shareProjectView.Start); }));
 
             bottomMenu = new HorizontalMenu(1);
             bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
@@ -91,12 +91,5 @@ namespace JiraClone.views.ProjectViews
                 }
             }
         }
-
-        private void OnProjectClick(Project project)
-        {
-            ticketsView.Start(project);
-            ResetView();
-			Print();
-		}
     }
 }
