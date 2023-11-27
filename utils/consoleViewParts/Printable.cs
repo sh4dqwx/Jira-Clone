@@ -18,7 +18,7 @@ namespace JiraClone.utils.consoleViewParts
 			Width = width;
 		}
 
-		public int Left { get; set; }
+		public virtual int Left { get; set; }
 
 		public int Top { get; set; }
 
