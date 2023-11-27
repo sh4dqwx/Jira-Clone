@@ -67,11 +67,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			switch (c.Key)
 			{
 				case ConsoleKey.LeftArrow:
+					if (((VerticalMenu)children[selectedChild]).UseKey(c)) return true;
 					bool leftResult = SelectPrevious();
 					if (leftResult) Print();
 					return leftResult;
 
 				case ConsoleKey.RightArrow:
+					if (((VerticalMenu)children[selectedChild]).UseKey(c)) return true;
 					bool rightResult = SelectNext();
 					if (rightResult) Print();
 					return rightResult;

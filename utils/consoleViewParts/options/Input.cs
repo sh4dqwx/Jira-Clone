@@ -168,6 +168,8 @@ namespace JiraClone.utils.consoleViewParts.options
         public void Clear()
         {
             valueBuilder.Clear();
+            _startIndex = 0;
+            _endIndex = 0;
             Error = "";
         }
 
