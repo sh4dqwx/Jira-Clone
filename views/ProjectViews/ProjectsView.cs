@@ -12,8 +12,8 @@ namespace JiraClone.views.ProjectViews
     public class ProjectsView : ConsoleView
     {
         private ProjectsViewModel viewModel;
+        private ProjectDetailsView projectDetailsView;
 
-        private TicketsView ticketsView;
         private VerticalMenu projectsMenu;
         private HorizontalMenu actionMenu, bottomMenu;
         private bool closeFlag = false;
@@ -23,11 +23,11 @@ namespace JiraClone.views.ProjectViews
             projectsMenu.Clear();
             List<Project> ownedProjects = viewModel.GetOwnedProjects();
             foreach (var project in ownedProjects)
-                projectsMenu.Add(new Button(project.Name, () => StartNewConsoleView(() => ticketsView.Start(project))));
+                projectsMenu.Add(new Button(project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
 
             List<Project> sharedProjects = viewModel.GetSharedProjects();
             foreach (var project in sharedProjects)
-                projectsMenu.Add(new Button("☁ " + project.Name, () => StartNewConsoleView(() => ticketsView.Start(project))));
+                projectsMenu.Add(new Button("☁ " + project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
 
             base.ResetView();
         }
@@ -37,9 +37,9 @@ namespace JiraClone.views.ProjectViews
             AddProjectView addProjectView,
             RemoveProjectView deleteProjectView,
             ShareProjectView shareProjectView,
-            TicketsView ticketsView
+            ProjectDetailsView projectDetailsView
         ) {
-            this.ticketsView = ticketsView;
+            this.projectDetailsView = projectDetailsView;
 
             this.viewModel = viewModel;
             viewModel.PropertyChanged += EventHandler;
@@ -48,11 +48,11 @@ namespace JiraClone.views.ProjectViews
 
             List<Project> ownedProjects = viewModel.GetOwnedProjects();
             foreach (var project in ownedProjects)
-                projectsMenu.Add(new Button(project.Name, () => StartNewConsoleView(() => ticketsView.Start(project))));
+                projectsMenu.Add(new Button(project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
 
             List<Project> sharedProjects = viewModel.GetSharedProjects();
             foreach (var project in sharedProjects)
-                projectsMenu.Add(new Button("☁ " + project.Name, () => StartNewConsoleView(() => ticketsView.Start(project))));
+                projectsMenu.Add(new Button("☁ " + project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
 
             actionMenu = new HorizontalMenu(2);
             actionMenu.Add(new Button("Stwórz projekt", () => { StartNewConsoleView(addProjectView.Start); }));

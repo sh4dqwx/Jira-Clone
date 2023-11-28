@@ -14,7 +14,6 @@ namespace JiraClone.views.TicketViews
     public class TicketsView : ConsoleView
     {
         private TicketsViewModel viewModel;
-        private Project? project;
 
         private HorizontalMenuBar statusMenu;
         private HorizontalMenu actionMenu, bottomMenu;
@@ -68,7 +67,6 @@ namespace JiraClone.views.TicketViews
 
         public void Start(Project project)
         {
-            this.project = project;
             viewModel.Project = project;
             viewModel.GetStatuses();
 			ResetView();
