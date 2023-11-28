@@ -38,7 +38,7 @@ namespace JiraClone.views.ProjectViews
 
             StringBuilder sb = new StringBuilder();
             sb.Append("Nazwa projektu: " + currentProject.Name + '\n');
-            sb.Append("Data stworzenia projektu: " + new DateTime(currentProject.CreationTimestamp * 10).ToString("yyyy-MM-dd HH:mm:ss") + '\n');
+            sb.Append("Data stworzenia projektu: " + DateTimeOffset.FromUnixTimeSeconds(currentProject.CreationTimestamp).ToString("yyyy-MM-dd HH:mm:ss") + '\n');
             sb.Append("Nazwa właściciela projektu: " + currentProject.Owner.Name + ' ' + currentProject.Owner.Surname + '\n');
             sb.Append("Ilość osób z dostępem: " + currentProject.AssignedAccounts.Count + '\n');
             sb.Append("Ilość zgłoszeń: " + currentProject.Tickets.Count + '\n');
