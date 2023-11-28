@@ -41,8 +41,6 @@ namespace JiraClone.viewmodels
 
             accountRepository.AddAccount(newAccount);
 
-            //List<Account> accounts = accountRepository.GetAllAccounts();
-
             return null;
         }
     }
