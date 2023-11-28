@@ -40,6 +40,8 @@ namespace JiraClone.utils.consoleViewParts
 
         public void ShiftToSide()
         {
+            bool cursorViibility = Console.CursorVisible;
+            Console.CursorVisible = false;
             (int left, int top) = Console.GetCursorPosition();
             ConsoleColor consoleColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.White;
@@ -64,6 +66,7 @@ namespace JiraClone.utils.consoleViewParts
             Print();
             Console.ForegroundColor = consoleColor;
             Console.SetCursorPosition(left, top);
+            Console.CursorVisible = cursorViibility;
         }
 
         public override int Left
