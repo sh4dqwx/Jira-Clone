@@ -26,6 +26,11 @@ namespace JiraClone.db.repositories
             return _db.Tickets.Where(ticket => ticket.Code == code).FirstOrDefault();
         }
 
+        public Ticket? GetLatestTicketFromProject(Project project)
+        {
+            return _db.Tickets.Where(ticket => ticket.ProjectId == project.Id).OrderByDescending(ticket => ticket.CreationTimestamp).FirstOrDefault();
+        }
+
         public List<Ticket> GetTicketsFromProject(Project project, Status status)
         {
             return _db.Tickets.Where(ticket => ticket.ProjectId == project.Id && ticket.StatusId == status.Id).ToList();

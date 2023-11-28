@@ -51,6 +51,7 @@ namespace JiraClone.viewmodels
 
             Project newProject = new Project {
                 Name = name,
+                Code = name.Substring(0, 2),
                 CreationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 OwnerId = loggedUser.Id
             };

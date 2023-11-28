@@ -49,7 +49,10 @@ namespace JiraClone.db
 			modelBuilder.Entity<Project>()
 				.Property(p => p.Name)
 				.IsRequired();
-			modelBuilder.Entity<Project>()
+            modelBuilder.Entity<Project>()
+                .Property(p => p.Code)
+                .IsRequired();
+            modelBuilder.Entity<Project>()
 				.HasOne(p => p.Owner)
 				.WithMany(o => o.OwnedProjects)
 				.HasForeignKey(p => p.OwnerId)

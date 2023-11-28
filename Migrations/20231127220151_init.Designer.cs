@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JiraClone.Migrations
 {
     [DbContext(typeof(SqliteDbContext))]
-    [Migration("20231126073828_changedAsigneeToAssignee")]
-    partial class changedAsigneeToAssignee
+    [Migration("20231127220151_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace JiraClone.Migrations
                         new
                         {
                             Id = 1,
-                            CreationTimestamp = 1700984308L,
+                            CreationTimestamp = 1701122511L,
                             Email = "admin@test.com",
                             Login = "admin",
                             Name = "Jan",
@@ -117,6 +117,10 @@ namespace JiraClone.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("CreationTimestamp")
                         .HasColumnType("INTEGER");

@@ -26,6 +26,7 @@ namespace JiraClone.viewmodels
 			ITicketRepository ticketRepository,
 			IStatusRepository statusRepository,
 			IAccountRepository accountRepository,
+			IProjectRepository projectRepository,
 			ApplicationState applicationState
 		) {
 			_ticketRepository = ticketRepository;
@@ -52,16 +53,21 @@ namespace JiraClone.viewmodels
 			if (loggedUser == null)
 				return;
 
-			//obliczanie kodu zadania
-
 			List<Status> statusList = _statusRepository.GetStatusesFromProject(Project);
+
+			Ticket? ticket = _ticketRepository.GetLatestTicketFromProject(Project);
+			string ticketCode;
+			if (ticket != null)
+				ticketCode = Project.Code + "-" + (int.Parse(ticket.Code.Split('-', 2)[1]) + 1).ToString();
+			else
+				ticketCode = Project.Code + "-1";
 
 			_ticketRepository.AddTicket(new Ticket
 			{
 				Title = title,
 				Description = description,
 				Type = type,
-				Code = "P-1",
+				Code = ticketCode,
 				CreationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
 				ProjectId = Project.Id,
 				ReporterId = loggedUser.Id,
