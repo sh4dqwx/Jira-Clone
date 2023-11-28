@@ -240,7 +240,15 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return false;
 		}
 
-		public void StartNewConsoleView(Action action)
+        public override void Clear()
+        {
+            foreach (ISelectable child in selectableChildren)
+			{
+				child.Clear();
+			}
+        }
+
+        public void StartNewConsoleView(Action action)
 		{
 			Action? actionForLoop = this.actionForLoop;
 			if (loopThread.IsAlive)

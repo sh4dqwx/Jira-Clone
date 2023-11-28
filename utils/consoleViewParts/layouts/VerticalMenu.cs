@@ -82,9 +82,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			}
 		}
 
-		public override void Clear()
+		public override void ClearChildren()
         {
-            base.Clear();
+            base.ClearChildren();
             selectedChild = -1;
         }
     }

@@ -23,8 +23,7 @@ namespace JiraClone.views.TicketViews
 
 		protected override void ResetView()
 		{
-			codeInput.Clear();
-
+			Clear();
 			base.ResetView();
 		}
 

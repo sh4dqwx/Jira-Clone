@@ -165,12 +165,12 @@ namespace JiraClone.utils.consoleViewParts.options
             }
         }
 
-        public void Clear()
+        public override void Clear()
         {
+            base.Clear();
             valueBuilder.Clear();
             _startIndex = 0;
             _endIndex = 0;
-            Error = "";
         }
 
 		public override int Left

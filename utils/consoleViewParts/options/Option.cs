@@ -49,6 +49,11 @@ namespace JiraClone.utils.consoleViewParts.options
 			return true;
 		}
 
+		public virtual void Clear()
+		{
+			Error = "";
+		}
+
 		public bool Selected { get; set; }
 		public string Error { get; set; }
 		public string Name { get => _name; }

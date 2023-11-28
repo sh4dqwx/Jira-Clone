@@ -11,6 +11,12 @@ namespace JiraClone.views
         private VerticalMenu menu;
 		private Logo logo;
 
+		protected override void ResetView()
+		{
+			Clear();
+			base.ResetView();
+		}
+
         public WelcomeView(LoginView loginView, RegisterView registerView)
         {
 			menu = new VerticalMenu("MENU GŁÓWNE", 2);

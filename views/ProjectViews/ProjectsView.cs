@@ -20,7 +20,9 @@ namespace JiraClone.views.ProjectViews
 
         protected override void ResetView()
         {
-            projectsMenu.Clear();
+            Clear();
+
+            projectsMenu.ClearChildren();
             List<Project> ownedProjects = viewModel.GetOwnedProjects();
             foreach (var project in ownedProjects)
                 projectsMenu.Add(new Button(project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));

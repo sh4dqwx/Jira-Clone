@@ -28,7 +28,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
             children.Remove(child);
         }
 
-        public virtual void Clear()
+        public abstract void Clear();
+
+        public virtual void ClearChildren()
         {
             children.Clear();
         }

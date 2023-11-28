@@ -174,9 +174,17 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return false;
 		}
 
-		public override void Clear()
+        public override void Clear()
+        {
+            foreach (VerticalMenu child in children)
+			{
+				child.Clear();
+			}
+        }
+
+        public override void ClearChildren()
 		{
-			base.Clear();
+			base.ClearChildren();
 			Height = 4;
 			Width = 5;
 		}

@@ -25,9 +25,7 @@ namespace JiraClone.views.TicketViews
 
 		protected override void ResetView()
 		{
-			titleInput.Clear();
-			descriptionInput.Clear();
-			typeInput.Clear();
+			Clear();
 
 			base.ResetView();
 		}

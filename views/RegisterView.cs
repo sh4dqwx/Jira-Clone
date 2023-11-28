@@ -26,12 +26,7 @@ namespace JiraClone.views
 
 		protected override void ResetView()
 		{
-			loginInput.Clear();
-			passwordInput.Clear();
-			emailInput.Clear();
-			nameInput.Clear();
-			surnameInput.Clear();
-
+			Clear();
 			base.ResetView();
 		}
 
