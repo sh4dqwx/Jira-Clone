@@ -4,6 +4,7 @@ using JiraClone.models;
 using JiraClone.utils;
 using JiraClone.viewmodels;
 using JiraClone.views;
+using JiraClone.views.CommentViews;
 using JiraClone.views.ProjectViews;
 using JiraClone.views.TicketViews;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,7 @@ namespace JiraClone
 				services.AddSingleton<RemoveTicketView>();
 				services.AddSingleton<AssignTicketView>();
                 services.AddSingleton<ChangeStatusView>();
+                services.AddSingleton<CommentsView>();
 				//ViewModels
 				services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<RegisterViewModel>();
