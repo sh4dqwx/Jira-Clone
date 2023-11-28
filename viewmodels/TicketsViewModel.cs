@@ -108,6 +108,9 @@ namespace JiraClone.viewmodels
 			if (account == null)
 				return "Użytkownik o podanej nazwie nie istnieje";
 
+			if (!Project.AssignedAccounts.Contains(account))
+				return "Użytkownik nie ma dostępu do tego projektu";
+
 			ticket.AssigneeId = account.Id;
 			_ticketRepository.UpdateTicket(ticket);
 			GetStatuses();
