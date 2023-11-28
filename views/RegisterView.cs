@@ -4,6 +4,7 @@ using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
 using JiraClone.utils.validators;
 using JiraClone.viewmodels;
+using JiraClone.views.ProjectViews;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,8 @@ namespace JiraClone.views
 {
     public class RegisterView : ConsoleView
 	{
+		private ProjectsView projectsView;
+
 		private VerticalMenu registerForm;
 		private HorizontalMenu actionMenu;
 		private RegisterViewModel viewModel;
@@ -30,9 +33,10 @@ namespace JiraClone.views
 			base.ResetView();
 		}
 
-		public RegisterView(RegisterViewModel viewModel)
+		public RegisterView(RegisterViewModel viewModel, ProjectsView projectsView)
 		{
 			this.viewModel = viewModel;
+			this.projectsView = projectsView;
             viewModel.PropertyChanged += EventHandler;
 
             registerForm = new VerticalMenu("REJESTRACJA", 3);
@@ -113,12 +117,13 @@ namespace JiraClone.views
 				name: nameInput.Value,
 				surname: surnameInput.Value);
 
-            if (error != null)
-            {
-                submitButton.Error = error;
-                Print();
-                return;
-            }
+			if (error != null)
+			{
+				submitButton.Error = error;
+				Print();
+				return;
+			}
+			else StartNewConsoleView(projectsView.Start);
         }
 	}
 }
