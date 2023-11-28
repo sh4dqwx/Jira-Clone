@@ -47,11 +47,11 @@ namespace JiraClone.viewmodels
 			}
 		}
 
-		public void AddTicket(string title, string? description, string type)
+		public string AddTicket(string title, string? description, string type)
 		{
 			Account? loggedUser = _applicationState.GetLoggedUser();
 			if (loggedUser == null)
-				return;
+				return "Użytkownik nie jest zalogowany";
 
 			List<Status> statusList = _statusRepository.GetStatusesFromProject(Project);
 
@@ -75,6 +75,8 @@ namespace JiraClone.viewmodels
 			});
 
 			GetStatuses();
+
+			return null;
 		}
 
 		public string? RemoveTicket(string code)

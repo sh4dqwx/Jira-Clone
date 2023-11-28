@@ -39,7 +39,7 @@ namespace JiraClone.views.TicketViews
 
 			titleInput = new Input("Tytuł", validationRule: new RequiredRule());
 			descriptionInput = new Input("Opis");
-			typeInput = new Input("Typ", validationRule: new RequiredRule());
+			typeInput = new Input("Typ", validationRule: new TicketTypeRule());
 			submitButton = new Button("Zatwierdź", OnSubmit);
 
 			addTicketForm.Add(titleInput);
@@ -89,7 +89,13 @@ namespace JiraClone.views.TicketViews
 		{
 			if (!AreInputsValid()) return;
 
-			viewModel.AddTicket(titleInput.Value, descriptionInput.Value, typeInput.Value);
+			string error = viewModel.AddTicket(titleInput.Value, descriptionInput.Value, typeInput.Value);
+			if(error != null)
+			{
+				submitButton.Error = error;
+				Print();
+				return;
+			}
 
 			closeFlag = true;
 		}
