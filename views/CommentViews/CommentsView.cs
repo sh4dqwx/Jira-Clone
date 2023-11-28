@@ -4,6 +4,7 @@ using JiraClone.utils.consoleViewParts.options;
 using JiraClone.viewmodels;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace JiraClone.views.CommentViews
 {
     public class CommentsView: ConsoleView
     {
-        //private CommentsViewModel viewModel;
+        private CommentsViewModel viewModel;
 
         private VerticalMenu commentsMenu;
         private HorizontalMenu actionMenu;
@@ -26,9 +27,26 @@ namespace JiraClone.views.CommentViews
             base.ResetView();
         }
 
-        public CommentsView(/*CommentsViewModel viewModel, AddComentView addCommentView*/)
+        private void OnCommentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            //this.viewModel = viewModel;
+            if (e.NewItems == null)
+            {
+                commentsMenu.ClearChildren();
+                return;
+            }
+            foreach (Comment comment in e.NewItems)
+            {
+                commentsMenu.Add(new Button(
+                    $"{comment.Account.Name} {comment.Account.Surname}: {comment.Content}",
+                    () => { }
+                ));
+            }
+        }
+
+        public CommentsView(CommentsViewModel commentsViewModel/*, AddComentView addCommentView*/)
+        {
+            viewModel = commentsViewModel;
+            viewModel.CommentList.CollectionChanged += OnCommentsChanged!;
 
             commentsMenu = new VerticalMenu("KOMENTARZE", 3);
 
@@ -44,6 +62,9 @@ namespace JiraClone.views.CommentViews
         public void Start(Ticket ticket)
         {
             currentTicket = ticket;
+
+            viewModel.Ticket = ticket;
+            viewModel.GetComments();
             ResetView();
             Print();
 
