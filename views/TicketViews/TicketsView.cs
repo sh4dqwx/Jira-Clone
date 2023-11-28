@@ -76,6 +76,9 @@ namespace JiraClone.views.TicketViews
 			
             while (true)
             {
+                if (!Console.KeyAvailable)
+                    continue;
+
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                 UseKey(keyInfo);
 
