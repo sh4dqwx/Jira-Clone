@@ -20,6 +20,7 @@ namespace JiraClone.views
 		private HorizontalMenu actionMenu;
 		private Input loginInput, passwordInput;
 		private Button submitButton;
+		private Logo logo;
         private bool closeFlag = false;
 
 		protected override void ResetView()
@@ -49,8 +50,10 @@ namespace JiraClone.views
 			actionMenu.Add(submitButton);
 			actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
+			logo = new Logo();
+
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-            Add(new Logo());
+            Add(logo);
 			Add(loginForm);
 			Add(actionMenu);
         }
@@ -64,6 +67,7 @@ namespace JiraClone.views
         {
             ResetView();
 			Print();
+			StartLoop(logo.ShiftToSide);
 
 			while (true)
             {
@@ -76,6 +80,7 @@ namespace JiraClone.views
 				if (closeFlag)
                 {
                     closeFlag = false;
+					EndLoop();
                     ResetView();
                     return;
                 }
@@ -101,14 +106,9 @@ namespace JiraClone.views
 			if (error != null)
 			{
 				submitButton.Error = error;
-				submitButton.Print();
-			}
-			else
-			{
-				projectView.Start();
-				ResetView();
 				Print();
 			}
+			else StartNewConsoleView(projectView.Start);
 		}
 	}
 }

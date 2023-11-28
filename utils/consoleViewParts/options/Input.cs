@@ -118,20 +118,20 @@ namespace JiraClone.utils.consoleViewParts.options
 
 			for (int i = 0; i < Height; i++)
 			{
-				Console.SetCursorPosition(cursorLeft + Constants.InputSpacer - 1, Top + i);
+				Console.SetCursorPosition(cursorLeft + Constants.INPUT_SPACER - 1, Top + i);
 				if (i == 0 || i == Height - 1) Console.Write('+');
 				else Console.Write('|');
 			}
 
             cursorTop += 2;
-			int marginLeft = Math.Max(0, (Constants.InputSpacer - Name.Length) / 2);
+			int marginLeft = Math.Max(0, (Constants.INPUT_SPACER - Name.Length) / 2);
 			Console.SetCursorPosition(cursorLeft + marginLeft, cursorTop);
             Console.Write(Name);
             cursorTop++;
 
             if (Error.Length > 0)
             {
-                Console.SetCursorPosition(cursorLeft + Constants.InputSpacer + Constants.InputMargin, cursorTop);
+                Console.SetCursorPosition(cursorLeft + Constants.INPUT_SPACER + Constants.INPUT_MARGIN, cursorTop);
 
 				ConsoleColor prevColor = Console.ForegroundColor;
 				Console.ForegroundColor = ConsoleColor.Red;
@@ -140,7 +140,7 @@ namespace JiraClone.utils.consoleViewParts.options
 			}
             cursorTop--;
 
-			Console.SetCursorPosition(cursorLeft + Constants.InputSpacer + Constants.InputMargin, cursorTop);
+			Console.SetCursorPosition(cursorLeft + Constants.INPUT_SPACER + Constants.INPUT_MARGIN, cursorTop);
 			Console.ForegroundColor = ConsoleColor.White;
             PrintValue();
             if (Selected) Console.CursorVisible = true;
@@ -179,8 +179,8 @@ namespace JiraClone.utils.consoleViewParts.options
             set
             {
                 base.Left = value;
-				_inputStart = Left + Constants.InputSpacer + Constants.InputMargin;
-				_inputEnd = Left + Width - Constants.InputMargin - 2;
+				_inputStart = Left + Constants.INPUT_SPACER + Constants.INPUT_MARGIN;
+				_inputEnd = Left + Width - Constants.INPUT_MARGIN - 2;
 				_inputWidth = _inputEnd - _inputStart + 1;
 			}
         }

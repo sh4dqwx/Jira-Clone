@@ -51,10 +51,10 @@ namespace JiraClone.views.TicketViews
             statusMenu = new HorizontalMenuBar(1);
 
             actionMenu = new HorizontalMenu(2);
-            actionMenu.Add(new Button("Dodaj zadanie", () => { addTicketView.Start(); ResetView(); Print(); }));
-            actionMenu.Add(new Button("Usuń zadanie", () => { removeTicketView.Start(); ResetView(); Print(); }));
-            actionMenu.Add(new Button("Przydziel zadanie", () => { assignTicketView.Start(); ResetView(); Print(); }));
-			actionMenu.Add(new Button("Zmień status zadania", () => { changeStatusView.Start(); ResetView(); Print(); }));
+            actionMenu.Add(new Button("Dodaj zadanie", () => { StartNewConsoleView(addTicketView.Start); }));
+            actionMenu.Add(new Button("Usuń zadanie", () => { StartNewConsoleView(removeTicketView.Start); }));
+            actionMenu.Add(new Button("Przydziel zadanie", () => { StartNewConsoleView(assignTicketView.Start); }));
+			actionMenu.Add(new Button("Zmień status zadania", () => { StartNewConsoleView(changeStatusView.Start); }));
 
 			bottomMenu = new HorizontalMenu(1);
 			bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));

@@ -9,7 +9,9 @@ namespace JiraClone.utils
 		public const int BUTTON_WIDTH = 55;
 		public const int BUTTON_HEIGHT = 5;
 
-        public const int InputMargin = 2;
-        public const int InputSpacer = 20;
+        public const int INPUT_MARGIN = 2;
+        public const int INPUT_SPACER = 20;
+
+        public const int MOVEMENT_LIMIT = 6;
     }
 }

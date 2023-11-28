@@ -95,7 +95,7 @@ namespace JiraClone.views.ProjectViews
             if (error != null)
             {
                 submitButton.Error = error;
-                submitButton.Print();
+                Print();
             }
             else closeFlag = true;
         }

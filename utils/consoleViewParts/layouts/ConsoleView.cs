@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
@@ -11,12 +12,18 @@ namespace JiraClone.utils.consoleViewParts.layouts
     public class ConsoleView : Layout, IMenu
 	{
 		protected List<ISelectable> selectableChildren;
+		protected readonly object consoleLock = new();
+		private Thread loopThread;
+		private Action? actionForLoop;
 
 		protected virtual void ResetView()
 		{
-			Console.Clear();
-			Console.ForegroundColor = ConsoleColor.White;
-			Console.CursorVisible = false;
+			lock (consoleLock)
+			{
+				Console.Clear();
+				Console.ForegroundColor = ConsoleColor.White;
+				Console.CursorVisible = false;
+			}
 
 			SelectTop();
 		}
@@ -26,24 +33,28 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			Height = Constants.WINDOW_HEIGHT;
 			Width = Constants.WINDOW_WIDTH;
 			selectableChildren = new();
+			loopThread = new Thread(Loop);
 		}
 
 		public override void Print()
 		{
-			int cursorLeft = Left;
-			int cursorTop = Top;
-
-			foreach (Printable child in children)
+			lock (consoleLock)
 			{
-				Console.SetCursorPosition(cursorLeft, cursorTop);
-				child.Left = (Width - child.Width) / 2 + cursorLeft;
-				child.Top = cursorTop;
-				child.Print();
-				
-				cursorTop += child.Height + 1;
-			}
+				int cursorLeft = Left;
+				int cursorTop = Top;
 
-			if (selectedChild != -1) ((Printable)selectableChildren[selectedChild]).Print();
+				foreach (Printable child in children)
+				{
+					Console.SetCursorPosition(cursorLeft, cursorTop);
+					child.Left = (Width - child.Width) / 2 + cursorLeft;
+					child.Top = cursorTop;
+					child.Print();
+
+					cursorTop += child.Height + 1;
+				}
+
+				if (selectedChild != -1) ((Printable)selectableChildren[selectedChild]).Print();
+			}
 		}
 
 		public override void Add(Printable child)
@@ -65,8 +76,11 @@ namespace JiraClone.utils.consoleViewParts.layouts
 
 			if (selectableChildren[selectedChild] is Option)
 			{
-				selectableChildren[selectedChild].Selected = false;
-				((Printable)selectableChildren[selectedChild]).Print();
+				lock (consoleLock)
+				{
+					selectableChildren[selectedChild].Selected = false;
+					((Printable)selectableChildren[selectedChild]).Print();
+				}
 			}
 			else ((IMenu)selectableChildren[selectedChild]).UnselectSelected();
 
@@ -87,8 +101,11 @@ namespace JiraClone.utils.consoleViewParts.layouts
                 IMenu child = (IMenu)selectableChildren[i];
                 if (child is Option)
                 {
-                    child.Selected = true;
-                    ((Printable)child).Print();
+					lock (consoleLock)
+					{
+						child.Selected = true;
+						((Printable)child).Print();
+					}
                     return true;
                 }
 
@@ -113,8 +130,11 @@ namespace JiraClone.utils.consoleViewParts.layouts
 				IMenu child = (IMenu)selectableChildren[i];
                 if (child is Option)
                 {
-                    child.Selected = true;
-                    ((Printable)child).Print();
+					lock (consoleLock)
+					{
+						child.Selected = true;
+						((Printable)child).Print();
+					}
                     return true;
                 }
 
@@ -137,12 +157,16 @@ namespace JiraClone.utils.consoleViewParts.layouts
 					selectedChild = i;
 					if (selectableChildren[selectedChild] is Option)
 					{
-						selectableChildren[selectedChild].Selected = true;
-						((Printable)selectableChildren[selectedChild]).Print();
+						lock (consoleLock)
+						{
+							selectableChildren[selectedChild].Selected = true;
+							((Printable)selectableChildren[selectedChild]).Print();
+						}
 						return true;
 					}
 					bool result = ((IMenu)selectableChildren[selectedChild]).SelectBottom();
-					if (result) ((Printable)selectableChildren[selectedChild]).Print();
+					if (result)
+						lock (consoleLock) ((Printable)selectableChildren[selectedChild]).Print();
 					return result;
 				}
 			}
@@ -161,12 +185,16 @@ namespace JiraClone.utils.consoleViewParts.layouts
 					selectedChild = i;
 					if (selectableChildren[selectedChild] is Option)
 					{
-						selectableChildren[selectedChild].Selected = true;
-						((Printable)selectableChildren[selectedChild]).Print();
+						lock(consoleLock)
+						{
+							selectableChildren[selectedChild].Selected = true;
+							((Printable)selectableChildren[selectedChild]).Print();
+						}
 						return true;
 					}
 					bool result = ((IMenu)selectableChildren[selectedChild]).SelectTop();
-					if (result) ((Printable)selectableChildren[selectedChild]).Print();
+					if (result)
+						lock (consoleLock) ((Printable)selectableChildren[selectedChild]).Print();
 					return result;
 				}
 			}
@@ -180,17 +208,27 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			switch (c.Key)
 			{
 				case ConsoleKey.UpArrow:
-					if (selectableChildren[selectedChild].UseKey(c)) return true;
+					if (UseKeyOnChild(c, selectableChildren[selectedChild])) return true;
 					return SelectPrevious();
 
 				case ConsoleKey.DownArrow:
 				case ConsoleKey.Tab:
-					if (selectableChildren[selectedChild].UseKey(c)) return true;
+					if (UseKeyOnChild(c, selectableChildren[selectedChild])) return true;
 					return SelectNext();
 
-				default:
-					return selectableChildren[selectedChild].UseKey(c);
+                default:
+					return UseKeyOnChild(c, selectableChildren[selectedChild]);
 			}
+		}
+
+		private bool UseKeyOnChild(ConsoleKeyInfo consoleKey, ISelectable child)
+		{
+			if(consoleKey.Key == ConsoleKey.Enter)
+				return child.UseKey(consoleKey);
+
+			bool returnValue;
+			lock (consoleLock) returnValue = child.UseKey(consoleKey);
+			return returnValue;
 		}
 
 		public bool CanSelect()
@@ -201,6 +239,55 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			}
 			return false;
 		}
+
+		public void StartNewConsoleView(Action action)
+		{
+			Action? actionForLoop = this.actionForLoop;
+			if (loopThread.IsAlive)
+				EndLoop();
+
+            action();
+
+            ResetView();
+            Print();
+
+            if (actionForLoop != null && !loopThread.IsAlive)
+			{
+				StartLoop(actionForLoop);
+			}
+		}
+
+		public void StartLoop(Action action)
+		{
+			if (actionForLoop != null || loopThread.IsAlive)
+				throw new Exception("Loop already started");
+
+			actionForLoop = action;
+			if(loopThread.ThreadState == ThreadState.Unstarted)
+				loopThread.Start();
+			else
+			{
+                loopThread = new Thread(Loop);
+				loopThread.Start();
+            }
+		}
+
+		public void EndLoop()
+		{
+			if (actionForLoop == null && !loopThread.IsAlive)
+				return;
+
+			lock (consoleLock) actionForLoop = null;
+		}
+
+		private void Loop()
+		{
+			while (actionForLoop != null)
+			{
+				Thread.Sleep(500);
+				lock(consoleLock) actionForLoop?.Invoke();
+			}
+		} 
 
 		public bool Selected { get; set; }
 	}

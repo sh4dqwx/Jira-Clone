@@ -94,7 +94,7 @@ namespace JiraClone.views.TicketViews
 			if (error != null)
 			{
 				submitButton.Error = error;
-				submitButton.Print();
+				Print();
 			}
 			else closeFlag = true;
 		}
