@@ -15,7 +15,7 @@ namespace JiraClone.views.TicketViews
     public class TicketsView : ConsoleView
     {
         private TicketsViewModel viewModel;
-        private CommentsView commentsView;
+        private TicketDetailsView ticketDetailsView;
 
         private HorizontalMenuBar statusMenu;
         private HorizontalMenu actionMenu, bottomMenu;
@@ -33,7 +33,7 @@ namespace JiraClone.views.TicketViews
 				VerticalMenu vMenu = new VerticalMenu(status.Key, 3);
 				foreach (Ticket ticket in status.Value)
 				{
-					vMenu.Add(new Button($"[{ticket.Code}] {ticket.Title}", () => { StartNewConsoleView(() => commentsView.Start(ticket)); }));
+					vMenu.Add(new Button($"[{ticket.Code}] {ticket.Title}", () => { StartNewConsoleView(() => ticketDetailsView.Start(ticket)); }));
 				}
 				statusMenu.Add(vMenu);
 			}
@@ -45,11 +45,11 @@ namespace JiraClone.views.TicketViews
             RemoveTicketView removeTicketView,
             AssignTicketView assignTicketView,
             ChangeStatusView changeStatusView,
-            CommentsView commentsView
+            TicketDetailsView ticketDetailsView
         ) {
             viewModel = ticketsViewModel;
-            this.commentsView = commentsView;
             viewModel.StatusList.CollectionChanged += OnTicketsChanged!;
+            this.ticketDetailsView = ticketDetailsView;
 
             statusMenu = new HorizontalMenuBar(1);
 

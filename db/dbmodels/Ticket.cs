@@ -20,7 +20,7 @@ namespace JiraClone.db.dbmodels
 		public long CreationTimestamp { get; set; }
 		public Project Project { get; set; } = null!;
 		public Account Reporter { get; set; } = null!;
-		public Account? Asignee { get; set; }
+		public Account? Assignee { get; set; }
 		public Status Status { get; set; } = null!;
 		public List<Comment> Comments { get; set; } = new();
 	}
