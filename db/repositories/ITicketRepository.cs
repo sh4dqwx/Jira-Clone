@@ -10,7 +10,7 @@ namespace JiraClone.db.repositories
     public interface ITicketRepository
     {
         public Ticket? GetTicketById(int id);
-        public Ticket? GetTicketByCode(string code);
+        public Ticket? GetTicketByCode(string code, Project project);
         public Ticket? GetLatestTicketFromProject(Project project);
         public List<Ticket> GetTicketsFromProject(Project project, Status status);
         public void AddTicket(Ticket ticket);

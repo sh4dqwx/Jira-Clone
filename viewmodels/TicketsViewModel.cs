@@ -83,7 +83,7 @@ namespace JiraClone.viewmodels
 			if (account == null)
 				return "Użytkownik nie jest zalogowany";
 
-			Ticket? ticket = _ticketRepository.GetTicketByCode(code);
+			Ticket? ticket = _ticketRepository.GetTicketByCode(code, Project);
 			if (ticket == null)
 				return "Zadanie o podanej nazwie nie istnieje";
 
@@ -98,7 +98,7 @@ namespace JiraClone.viewmodels
 			if (loggedAccount == null)
 				return "Użytkownik nie jest zalogowany";
 
-			Ticket? ticket = _ticketRepository.GetTicketByCode(ticketCode);
+			Ticket? ticket = _ticketRepository.GetTicketByCode(ticketCode, Project);
 			if (ticket == null)
 				return "Zadanie o podanej nazwie nie istnieje";
 
@@ -118,7 +118,7 @@ namespace JiraClone.viewmodels
 			if (loggedAccount == null)
 				return "Użytkownik nie jest zalogowany";
 
-			Ticket? ticket = _ticketRepository.GetTicketByCode(ticketCode);
+			Ticket? ticket = _ticketRepository.GetTicketByCode(ticketCode, Project);
 			if (ticket == null)
 				return "Zadanie o podanej nazwie nie istnieje";
 
