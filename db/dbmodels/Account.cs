@@ -19,7 +19,7 @@ namespace JiraClone.db.dbmodels
         public List<Project> OwnedProjects { get; set; } = new();
         public List<Project> AssignedProjects { get; set; } = new();
         public List<Ticket> ReporterTickets { get; set; } = new();
-        public List<Ticket> AsigneeTickets { get; set; } = new();
+        public List<Ticket> AssigneeTickets { get; set; } = new();
         public List<Comment> Comments { get; set; } = new();
     }
 }
