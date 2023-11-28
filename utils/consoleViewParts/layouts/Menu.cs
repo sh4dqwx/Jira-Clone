@@ -108,6 +108,14 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			return false;
 		}
 
-		public bool Selected { get; set; }
+        public override void Clear()
+        {
+            foreach (Option child in children)
+			{
+				child.Clear();
+			}
+        }
+
+        public bool Selected { get; set; }
 	}
 }

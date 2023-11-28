@@ -82,9 +82,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			Width -= child.Width;
 		}
 
-		public override void Clear()
+		public override void ClearChildren()
 		{
-			base.Clear();
+			base.ClearChildren();
 			Width = 4;
 			selectedChild = -1;
 		}

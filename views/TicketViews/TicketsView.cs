@@ -23,7 +23,7 @@ namespace JiraClone.views.TicketViews
         {
             if (e.NewItems == null)
             {
-				statusMenu.Clear();
+				statusMenu.ClearChildren();
                 return;
 			}
 			foreach (KeyValuePair<string, List<Ticket>> status in e.NewItems)

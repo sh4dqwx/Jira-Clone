@@ -24,8 +24,7 @@ namespace JiraClone.views.ProjectViews
 
         protected override void ResetView()
         {
-            projectNameInput.Clear();
-            userLoginInput.Clear();
+            Clear();
 
             base.ResetView();
         }

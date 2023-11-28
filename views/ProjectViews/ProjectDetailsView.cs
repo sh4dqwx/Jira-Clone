@@ -33,6 +33,8 @@ namespace JiraClone.views.ProjectViews
 
         protected override void ResetView()
         {
+            Clear();
+
             StringBuilder sb = new StringBuilder();
             sb.Append("Nazwa projektu: " + currentProject.Name + '\n');
             sb.Append("Data stworzenia projektu: " + new DateTime(currentProject.CreationTimestamp * 10).ToString("yyyy-MM-dd HH:mm:ss") + '\n');
