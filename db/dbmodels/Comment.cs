@@ -13,7 +13,7 @@ namespace JiraClone.db.dbmodels
 		public int AccountId { get; set; }
 		public required string Content { get; set; }
 		public long CreationTimestamp { get; set; }
-		public Ticket Ticket { get; set; } = null!;
-		public Account Account { get; set; } = null!;
+        public virtual Ticket Ticket { get; set; } = null!;
+        public virtual Account Account { get; set; } = null!;
 	}
 }
