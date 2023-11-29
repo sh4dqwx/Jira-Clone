@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace JiraClone.views.TicketViews
 {
-    public class AssignTicketView : ConsoleView
-    {
+	public class UnassignTicketView : ConsoleView
+	{
 		private TicketsViewModel viewModel;
 
-		private VerticalMenu assignTicketForm;
+		private VerticalMenu unassignTicketForm;
 		private HorizontalMenu actionMenu;
-		private Input ticketCodeInput, userLoginInput;
+		private Input ticketCodeInput;
 		private Button submitButton;
 		private bool closeFlag = false;
 
@@ -28,25 +28,23 @@ namespace JiraClone.views.TicketViews
 			base.ResetView();
 		}
 
-		public AssignTicketView(TicketsViewModel ticketsViewModel)
+		public UnassignTicketView(TicketsViewModel ticketsViewModel)
 		{
 			viewModel = ticketsViewModel;
 
-			assignTicketForm = new VerticalMenu("PRZYDZIELANIE ZADANIA", 4);
+			unassignTicketForm = new VerticalMenu("ODDZIELANIE ZADANIA", 4);
 			actionMenu = new HorizontalMenu(2);
 
 			ticketCodeInput = new Input("Kod zadania", validationRule: new RequiredRule());
-			userLoginInput = new Input("Login użytkownika", validationRule: new RequiredRule());
 			submitButton = new Button("Zatwierdź", OnSubmit);
 
-			assignTicketForm.Add(ticketCodeInput);
-			assignTicketForm.Add(userLoginInput);
+			unassignTicketForm.Add(ticketCodeInput);
 
 			actionMenu.Add(submitButton);
 			actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
 			Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
-			Add(assignTicketForm);
+			Add(unassignTicketForm);
 			Add(actionMenu);
 		}
 
@@ -57,10 +55,10 @@ namespace JiraClone.views.TicketViews
 
 			while (true)
 			{
-                if (!Console.KeyAvailable)
-                    continue;
+				if (!Console.KeyAvailable)
+					continue;
 
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+				ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 				UseKey(keyInfo);
 
 				if (closeFlag)
@@ -76,7 +74,6 @@ namespace JiraClone.views.TicketViews
 		{
 			bool areValid = true;
 			if (!ticketCodeInput.Validate()) areValid = false;
-			if (!userLoginInput.Validate()) areValid = false;
 			return areValid;
 		}
 
@@ -84,7 +81,7 @@ namespace JiraClone.views.TicketViews
 		{
 			if (!AreInputsValid()) return;
 
-			string? error = viewModel.AssignTicket(ticketCodeInput.Value, userLoginInput.Value);
+			string? error = viewModel.UnassignTicket(ticketCodeInput.Value);
 			if (error != null)
 			{
 				submitButton.Error = error;
