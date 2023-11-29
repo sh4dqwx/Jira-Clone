@@ -53,6 +53,7 @@ namespace JiraClone
                 services.AddSingleton<UnassignTicketView>();
                 services.AddSingleton<ChangeStatusView>();
                 services.AddSingleton<CommentsView>();
+                services.AddSingleton<AddCommentView>();
 				//ViewModels
 				services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<RegisterViewModel>();

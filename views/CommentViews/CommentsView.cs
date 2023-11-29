@@ -37,13 +37,13 @@ namespace JiraClone.views.CommentViews
             foreach (Comment comment in e.NewItems)
             {
                 commentsMenu.Add(new Button(
-                    $"{comment.Account.Name} {comment.Account.Surname}: {comment.Content}",
+                    $"{comment.Account.Name} {comment.Account.Surname} ({DateTimeOffset.FromUnixTimeSeconds(comment.CreationTimestamp).ToString("yyyy-MM-dd HH:mm:ss")}): {comment.Content}",
                     () => { }
                 ));
             }
         }
 
-        public CommentsView(CommentsViewModel commentsViewModel/*, AddComentView addCommentView*/)
+        public CommentsView(CommentsViewModel commentsViewModel, AddCommentView addCommentView)
         {
             viewModel = commentsViewModel;
             viewModel.CommentList.CollectionChanged += OnCommentsChanged!;
@@ -51,7 +51,7 @@ namespace JiraClone.views.CommentViews
             commentsMenu = new VerticalMenu("KOMENTARZE", 3);
 
             actionMenu = new HorizontalMenu(2);
-            actionMenu.Add(new Button("Dodaj komentarz", () => { /*StartNewConsoleView(addCommentView(ticket))*/ }));
+            actionMenu.Add(new Button("Dodaj komentarz", () => { StartNewConsoleView(addCommentView.Start); }));
             actionMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
 
             Add(new Text("Nacisnij CTRL+I aby zmienic interfejs"));
