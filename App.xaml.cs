@@ -43,6 +43,7 @@ namespace JiraClone
                 services.AddSingleton<AddProjectView>();
                 services.AddSingleton<RemoveProjectView>();
                 services.AddSingleton<ShareProjectView>();
+                services.AddSingleton<RevokeProjectView>();
 				services.AddSingleton<TicketsView>();
                 services.AddSingleton<TicketDetailsView>();
 				services.AddSingleton<AddTicketView>();
