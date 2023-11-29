@@ -14,7 +14,6 @@ namespace JiraClone.views.TicketViews
 {
     public class AddTicketView : ConsoleView
     {
-		private Project? _project;
 		private TicketsViewModel viewModel;
 
 		private VerticalMenu addTicketForm;

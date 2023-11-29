@@ -127,6 +127,31 @@ namespace JiraClone.viewmodels
             return null;
         }
 
+        public string? RevokeProject(string projectName, string userLogin)
+        {
+            Account? loggedAccount = _applicationState.GetLoggedUser();
+            if (loggedAccount == null)
+                return "U¿ytkownik nie jest zalogowany";
+
+            Project? project = _projectRepository.GetProjectByName(projectName);
+            if (project == null)
+                return "Projekt o podanej nazwie nie istnieje";
+
+            Account? account = _accountRepository.GetAccountByLogin(userLogin);
+            if (account == null)
+                return "U¿ytkownik o podanej nazwie nie istnieje";
+
+            if (loggedAccount.Id == account.Id)
+                return "Nie mo¿esz odebraæ dostêpu do projektu sobie";
+
+            project.AssignedAccounts.Remove(account);
+            _projectRepository.UpdateProject(project);
+
+            GetOwnedProjects();
+            GetSharedProjects();
+            return null;
+        }
+
         public ObservableCollection<Project> OwnedProjectList
         {
             get => _ownedProjectList;

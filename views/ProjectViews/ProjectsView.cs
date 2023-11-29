@@ -43,6 +43,7 @@ namespace JiraClone.views.ProjectViews
             AddProjectView addProjectView,
             RemoveProjectView deleteProjectView,
             ShareProjectView shareProjectView,
+            RevokeProjectView revokeProjectView,
             ProjectDetailsView projectDetailsView
         ) {
             this.projectDetailsView = projectDetailsView;
@@ -57,6 +58,7 @@ namespace JiraClone.views.ProjectViews
             actionMenu.Add(new Button("Stwórz projekt", () => { StartNewConsoleView(addProjectView.Start); }));
             actionMenu.Add(new Button("Usuń projekt", () => { StartNewConsoleView(deleteProjectView.Start); }));
             actionMenu.Add(new Button("Udostępnij projekt", () => { StartNewConsoleView(shareProjectView.Start); }));
+            actionMenu.Add(new Button("Odbierz projekt", () => { StartNewConsoleView(revokeProjectView.Start); }));
 
             bottomMenu = new HorizontalMenu(1);
             bottomMenu.Add(new Button("Powrót", () => { closeFlag = true; }));
