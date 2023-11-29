@@ -115,6 +115,9 @@ namespace JiraClone.viewmodels
             if (account == null)
                 return "U¿ytkownik o podanej nazwie nie istnieje";
 
+            if (account.AssignedProjects.Contains(project))
+                return "U¿ytkownik jest ju¿ przypisany do tego projektu";
+
             if (loggedAccount.Id == account.Id)
                 return "Nie mo¿esz udostêpniæ projektu sobie";
 
