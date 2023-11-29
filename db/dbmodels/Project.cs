@@ -13,9 +13,9 @@ namespace JiraClone.db.dbmodels
 		public required string Name { get; set; }
 		public long CreationTimestamp { get; set; }
 		public required string Code { get; set; }
-		public Account Owner { get; set; } = null!;
-		public List<Account> AssignedAccounts { get; set; } = new();
-		public List<Ticket> Tickets { get; set; } = new();
-		public List<Status> Statuses { get; set; } = new();
+        public virtual Account Owner { get; set; } = null!;
+        public virtual List<Account> AssignedAccounts { get; set; } = new();
+        public virtual List<Ticket> Tickets { get; set; } = new();
+        public virtual List<Status> Statuses { get; set; } = new();
 	}
 }

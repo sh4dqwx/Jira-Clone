@@ -12,7 +12,7 @@ namespace JiraClone.db.dbmodels
 		public int ProjectId { get; set; }
 		public required string Name { get; set; }
 		public int Order { get; set; }
-		public Project Project { get; set; } = null!;
-		public List<Ticket> Tickets { get; set; } = new();
+        public virtual Project Project { get; set; } = null!;
+        public virtual List<Ticket> Tickets { get; set; } = new();
 	}
 }

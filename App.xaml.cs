@@ -29,6 +29,7 @@ namespace JiraClone
 				{
 					//dodać connection string
 					options.UseSqlite($"Data Source={AppDomain.CurrentDomain.BaseDirectory}/sqlite.db");
+                    options.UseLazyLoadingProxies().UseSqlite($"Data Source={AppDomain.CurrentDomain.BaseDirectory}/sqlite.db");
 				});
         
                 //States
