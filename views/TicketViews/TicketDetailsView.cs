@@ -43,7 +43,7 @@ namespace JiraClone.views.TicketViews
             else sb.Append("Opis zadania: " + currentTicket.Description + '\n');
             sb.Append("Typ zadania: " + currentTicket.Type + '\n');
             sb.Append("Kod zadania: " + currentTicket.Code + '\n');
-            sb.Append("Data stworzenia zadania: " + new DateTime(currentTicket.CreationTimestamp * 10).ToString("yyyy-MM-dd HH:mm:ss") + '\n');
+            sb.Append("Data stworzenia zadania: " + DateTimeOffset.FromUnixTimeSeconds(currentTicket.CreationTimestamp).ToString("yyyy-MM-dd HH:mm:ss") + '\n');
             sb.Append("Nazwa twórcy zadania: " + currentTicket.Reporter.Name + ' ' + currentTicket.Reporter.Surname + '\n');
             if (currentTicket.Assignee == null)
                 sb.Append("Nazwa wykonawcy zadania: ---\n");
