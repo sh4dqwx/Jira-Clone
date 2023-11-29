@@ -90,6 +90,9 @@ namespace JiraClone.viewmodels
             if (project == null)
                 return "Projekt o podanej nazwie nie istnieje";
 
+            if (project.OwnerId != account.Id)
+                return "Nie jesteœ w³aœcicielem tego projektu";
+
             _projectRepository.RemoveProject(project);
 
             GetOwnedProjects();
