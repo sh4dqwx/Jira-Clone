@@ -54,7 +54,7 @@ namespace JiraClone.Migrations
                         new
                         {
                             Id = 1,
-                            CreationTimestamp = 1701122511L,
+                            CreationTimestamp = 1701246549L,
                             Email = "admin@test.com",
                             Login = "admin",
                             Name = "Jan",
@@ -266,8 +266,8 @@ namespace JiraClone.Migrations
 
             modelBuilder.Entity("JiraClone.db.dbmodels.Ticket", b =>
                 {
-                    b.HasOne("JiraClone.db.dbmodels.Account", "Asignee")
-                        .WithMany("AsigneeTickets")
+                    b.HasOne("JiraClone.db.dbmodels.Account", "Assignee")
+                        .WithMany("AssigneeTickets")
                         .HasForeignKey("AssigneeId");
 
                     b.HasOne("JiraClone.db.dbmodels.Project", "Project")
@@ -288,7 +288,7 @@ namespace JiraClone.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Asignee");
+                    b.Navigation("Assignee");
 
                     b.Navigation("Project");
 
@@ -299,7 +299,7 @@ namespace JiraClone.Migrations
 
             modelBuilder.Entity("JiraClone.db.dbmodels.Account", b =>
                 {
-                    b.Navigation("AsigneeTickets");
+                    b.Navigation("AssigneeTickets");
 
                     b.Navigation("Comments");
 

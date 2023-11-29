@@ -39,6 +39,13 @@ namespace JiraClone.views.TicketViews
 			}
 		}
 
+        protected override void ResetView()
+        {
+            Clear();
+
+            base.ResetView();
+        }
+
         public TicketsView(
             TicketsViewModel ticketsViewModel,
             AddTicketView addTicketView,
