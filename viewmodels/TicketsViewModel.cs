@@ -116,6 +116,25 @@ namespace JiraClone.viewmodels
 			return null;
 		}
 
+		public string? UnassignTicket(string ticketCode)
+		{
+			Account? loggedAccount = _applicationState.GetLoggedUser();
+			if (loggedAccount == null)
+				return "Użytkownik nie jest zalogowany";
+
+			Ticket? ticket = _ticketRepository.GetTicketByCode(ticketCode, Project);
+			if (ticket == null)
+				return "Zadanie o podanej nazwie nie istnieje";
+
+			if (ticket.AssigneeId == null)
+				return "Zadanie nie jest do nikogo przydzielone";
+
+			ticket.AssigneeId = null;
+			_ticketRepository.UpdateTicket(ticket);
+			GetStatuses();
+			return null;
+		}
+
 		public string? ChangeStatus(string ticketCode, string statusName)
 		{
 			Account? loggedAccount = _applicationState.GetLoggedUser();

@@ -28,7 +28,7 @@ namespace JiraClone.views.ProjectViews
 
             List<Project> sharedProjects = viewModel.SharedProjectList.ToList() ?? new();
             foreach (var project in sharedProjects)
-                projectsMenu.Add(new Button("☁ " + project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
+                projectsMenu.Add(new Button("(SHARED) " + project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
         }
 
         protected override void ResetView()

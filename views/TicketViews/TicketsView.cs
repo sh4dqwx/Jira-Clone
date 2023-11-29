@@ -51,6 +51,7 @@ namespace JiraClone.views.TicketViews
             AddTicketView addTicketView,
             RemoveTicketView removeTicketView,
             AssignTicketView assignTicketView,
+            UnassignTicketView unassignTicketView,
             ChangeStatusView changeStatusView,
             TicketDetailsView ticketDetailsView
         ) {
@@ -64,6 +65,7 @@ namespace JiraClone.views.TicketViews
             actionMenu.Add(new Button("Dodaj zadanie", () => { StartNewConsoleView(addTicketView.Start); }));
             actionMenu.Add(new Button("Usuń zadanie", () => { StartNewConsoleView(removeTicketView.Start); }));
             actionMenu.Add(new Button("Przydziel zadanie", () => { StartNewConsoleView(assignTicketView.Start); }));
+			actionMenu.Add(new Button("Oddziel zadanie", () => { StartNewConsoleView(unassignTicketView.Start); }));
 			actionMenu.Add(new Button("Zmień status zadania", () => { StartNewConsoleView(changeStatusView.Start); }));
 
 			bottomMenu = new HorizontalMenu(1);
