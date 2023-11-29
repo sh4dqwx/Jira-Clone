@@ -2,10 +2,11 @@
 using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
 using JiraClone.viewmodels;
-using JiraClone.views.TicketViews;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 
 namespace JiraClone.views.ProjectViews
 {
@@ -18,24 +19,27 @@ namespace JiraClone.views.ProjectViews
         private HorizontalMenu actionMenu, bottomMenu;
         private bool closeFlag = false;
 
-        protected override void ResetView()
+        private void OnProjectsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Clear();
-
             projectsMenu.ClearChildren();
-            List<Project> ownedProjects = viewModel.GetOwnedProjects();
+            List<Project> ownedProjects = viewModel.OwnedProjectList.ToList() ?? new();
             foreach (var project in ownedProjects)
                 projectsMenu.Add(new Button(project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
 
-            List<Project> sharedProjects = viewModel.GetSharedProjects();
+            List<Project> sharedProjects = viewModel.SharedProjectList.ToList() ?? new();
             foreach (var project in sharedProjects)
                 projectsMenu.Add(new Button("☁ " + project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
+        }
+
+        protected override void ResetView()
+        {
+            Clear();
 
             base.ResetView();
         }
 
         public ProjectsView(
-            ProjectsViewModel viewModel,
+            ProjectsViewModel projectsViewModel,
             AddProjectView addProjectView,
             RemoveProjectView deleteProjectView,
             ShareProjectView shareProjectView,
@@ -43,18 +47,11 @@ namespace JiraClone.views.ProjectViews
         ) {
             this.projectDetailsView = projectDetailsView;
 
-            this.viewModel = viewModel;
-            viewModel.PropertyChanged += EventHandler;
+            viewModel = projectsViewModel;
+            viewModel.OwnedProjectList.CollectionChanged += OnProjectsChanged!;
+            viewModel.SharedProjectList.CollectionChanged += OnProjectsChanged!;
 
             projectsMenu = new VerticalMenu("PROJEKTY", 3);
-
-            List<Project> ownedProjects = viewModel.GetOwnedProjects();
-            foreach (var project in ownedProjects)
-                projectsMenu.Add(new Button(project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
-
-            List<Project> sharedProjects = viewModel.GetSharedProjects();
-            foreach (var project in sharedProjects)
-                projectsMenu.Add(new Button("☁ " + project.Name, () => StartNewConsoleView(() => projectDetailsView.Start(project))));
 
             actionMenu = new HorizontalMenu(2);
             actionMenu.Add(new Button("Stwórz projekt", () => { StartNewConsoleView(addProjectView.Start); }));
@@ -70,13 +67,10 @@ namespace JiraClone.views.ProjectViews
             Add(bottomMenu);
         }
 
-        private void EventHandler(object sender, PropertyChangedEventArgs e)
-        {
-            Console.WriteLine(e.PropertyName);
-        }
-
         public void Start()
         {
+            viewModel.GetOwnedProjects();
+            viewModel.GetSharedProjects();
             ResetView();
 			Print();
 

@@ -3,6 +3,7 @@ using JiraClone.db.repositories;
 using JiraClone.models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -14,10 +15,12 @@ namespace JiraClone.viewmodels
     public class ProjectsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private IProjectRepository projectRepository;
-        private IAccountRepository accountRepository;
-        private IStatusRepository statusRepository;
-        private ApplicationState applicationState;
+        private IProjectRepository _projectRepository;
+        private IAccountRepository _accountRepository;
+        private IStatusRepository _statusRepository;
+        private ApplicationState _applicationState;
+        private ObservableCollection<Project> _ownedProjectList;
+        private ObservableCollection<Project> _sharedProjectList;
 
         public ProjectsViewModel(
             IProjectRepository projectRepository,
@@ -25,27 +28,39 @@ namespace JiraClone.viewmodels
             ApplicationState applicationState,
             IStatusRepository statusRepository
         ) {
-            this.projectRepository = projectRepository;
-            this.accountRepository = accountRepository;
-            this.statusRepository = statusRepository;
-            this.applicationState = applicationState;
+            _projectRepository = projectRepository;
+            _accountRepository = accountRepository;
+            _statusRepository = statusRepository;
+            _applicationState = applicationState;
+            _ownedProjectList = new();
+            _sharedProjectList = new();
         }
 
-        public List<Project> GetOwnedProjects()
+        public void GetOwnedProjects()
         {
-            Account? loggedUser = applicationState.GetLoggedUser();
-            return projectRepository.GetProjectsOwnedByUser(loggedUser);
+            Account? loggedUser = _applicationState.GetLoggedUser();
+            List<Project> projectList = _projectRepository.GetProjectsOwnedByUser(loggedUser);
+            _ownedProjectList.Clear();
+            foreach (Project project in projectList)
+            {
+                _ownedProjectList.Add(project);
+            }
         }
 
-        public List<Project> GetSharedProjects()
+        public void GetSharedProjects()
         {
-            Account? loggedUser = applicationState.GetLoggedUser();
-            return projectRepository.GetProjectsSharedForUser(loggedUser);
+            Account? loggedUser = _applicationState.GetLoggedUser();
+            List<Project> projectList = _projectRepository.GetProjectsSharedForUser(loggedUser);
+            _sharedProjectList.Clear();
+            foreach (Project project in projectList)
+            {
+                _sharedProjectList.Add(project);
+            }
         }
 
         public void CreateProject(string name)
         {
-            Account? loggedUser = applicationState.GetLoggedUser();
+            Account? loggedUser = _applicationState.GetLoggedUser();
             if (loggedUser == null)
                 return;
 
@@ -56,37 +71,44 @@ namespace JiraClone.viewmodels
                 OwnerId = loggedUser.Id
             };
 
-            projectRepository.AddProject(newProject);
-            statusRepository.AddStatus(new Status { Name = "TO DO", ProjectId = newProject.Id, Order = 1 });
-			statusRepository.AddStatus(new Status { Name = "IN PROGRESS", ProjectId = newProject.Id, Order = 2 });
-			statusRepository.AddStatus(new Status { Name = "DONE", ProjectId = newProject.Id, Order = 3 });
-		}
+            _projectRepository.AddProject(newProject);
+            _statusRepository.AddStatus(new Status { Name = "TO DO", ProjectId = newProject.Id, Order = 1 });
+			_statusRepository.AddStatus(new Status { Name = "IN PROGRESS", ProjectId = newProject.Id, Order = 2 });
+			_statusRepository.AddStatus(new Status { Name = "DONE", ProjectId = newProject.Id, Order = 3 });
+
+            GetOwnedProjects();
+            GetSharedProjects();
+        }
 
         public string? RemoveProject(string name)
         {
-            Account? account = applicationState.GetLoggedUser();
+            Account? account = _applicationState.GetLoggedUser();
             if (account == null)
                 return "U¿ytkownik nie jest zalogowany";
 
-            Project? project = projectRepository.GetProjectByName(name);
+            Project? project = _projectRepository.GetProjectByName(name);
             if (project == null)
                 return "Projekt o podanej nazwie nie istnieje";
 
-            projectRepository.RemoveProject(project);
+            _projectRepository.RemoveProject(project);
+
+            GetOwnedProjects();
+            GetSharedProjects();
+
             return null;
         }
 
         public string? ShareProject(string projectName, string userLogin)
         {
-            Account? loggedAccount = applicationState.GetLoggedUser();
+            Account? loggedAccount = _applicationState.GetLoggedUser();
             if (loggedAccount == null)
                 return "U¿ytkownik nie jest zalogowany";
 
-            Project? project = projectRepository.GetProjectByName(projectName);
+            Project? project = _projectRepository.GetProjectByName(projectName);
             if (project == null)
                 return "Projekt o podanej nazwie nie istnieje";
 
-            Account? account = accountRepository.GetAccountByLogin(userLogin);
+            Account? account = _accountRepository.GetAccountByLogin(userLogin);
             if (account == null)
                 return "U¿ytkownik o podanej nazwie nie istnieje";
 
@@ -94,9 +116,22 @@ namespace JiraClone.viewmodels
                 return "Nie mo¿esz udostêpniæ projektu sobie";
 
             project.AssignedAccounts.Add(account);
-            projectRepository.UpdateProject(project);
+            _projectRepository.UpdateProject(project);
+
+            GetOwnedProjects();
+            GetSharedProjects();
 
             return null;
+        }
+
+        public ObservableCollection<Project> OwnedProjectList
+        {
+            get => _ownedProjectList;
+        }
+
+        public ObservableCollection<Project> SharedProjectList
+        {
+            get => _sharedProjectList;
         }
     }
 }

@@ -26,7 +26,6 @@ namespace JiraClone.viewmodels
 			ITicketRepository ticketRepository,
 			IStatusRepository statusRepository,
 			IAccountRepository accountRepository,
-			IProjectRepository projectRepository,
 			ApplicationState applicationState
 		) {
 			_ticketRepository = ticketRepository;
