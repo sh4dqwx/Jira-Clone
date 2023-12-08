@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32.SafeHandles;
+﻿using JiraClone.utils.consoleViewParts.layouts;
+using JiraClone.views;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -56,23 +58,26 @@ namespace JiraClone.utils
 
         private static InterfaceController? controller;
 
-        public static InterfaceController CreateController(MainWindow? window = null)
+        public static void CreateController(MainWindow? window = null, WelcomeView? console = null)
         {
             if (controller == null)
             {
                 if (window == null)
                     throw new Exception("No window was provided to controller");
-                else
-                    controller = new InterfaceController(window);
+
+                if (console == null)
+                    throw new Exception("No console was provided to controller");
+
+                controller = new InterfaceController(window, console);
             }
-            return controller;
         }
 
-        private InterfaceController(MainWindow window)
+        private InterfaceController(MainWindow window, WelcomeView console)
         {
             this.window = window;
-            if(!window.IsVisible) 
-                ShowConsole();
+            window.Show();
+            //ShowConsole();
+            //console.Start();
         }
 
         public void ChangeInterface()

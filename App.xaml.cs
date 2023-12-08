@@ -79,10 +79,8 @@ namespace JiraClone
             AppHost = BuildAppHost();
 
             MainWindow window = new();
-            InterfaceController.CreateController(window);
-
             WelcomeView console = AppHost.Services.GetRequiredService<WelcomeView>();
-            console.Start();
+            InterfaceController.CreateController(window, console);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
