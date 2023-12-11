@@ -1,5 +1,6 @@
 ﻿using JiraClone.db;
 using JiraClone.db.repositories;
+using JiraClone.graphicViews;
 using JiraClone.models;
 using JiraClone.utils;
 using JiraClone.viewmodels;
@@ -34,8 +35,7 @@ namespace JiraClone
         
                 //States
                 services.AddSingleton<ApplicationState>();
-
-                //Views
+                //ConsoleViews
                 services.AddSingleton<WelcomeView>();
                 services.AddSingleton<LoginView>();
                 services.AddSingleton<RegisterView>();
@@ -54,6 +54,9 @@ namespace JiraClone
                 services.AddSingleton<ChangeStatusView>();
                 services.AddSingleton<CommentsView>();
                 services.AddSingleton<AddCommentView>();
+                //GraphicViews
+                services.AddSingleton<MainWindow>();
+                services.AddSingleton<LoginPage>();
 				//ViewModels
 				services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<RegisterViewModel>();
@@ -78,7 +81,7 @@ namespace JiraClone
         public App() {
             AppHost = BuildAppHost();
 
-            MainWindow window = new();
+            MainWindow window = AppHost.Services.GetRequiredService<MainWindow>();
             WelcomeView console = AppHost.Services.GetRequiredService<WelcomeView>();
             InterfaceController.CreateController(window, console);
         }
