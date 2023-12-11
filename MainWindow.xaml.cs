@@ -1,4 +1,5 @@
-﻿using JiraClone.utils;
+﻿using JiraClone.graphicViews;
+using JiraClone.utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,16 +19,19 @@ namespace JiraClone
 {
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        //private WelcomePage _welcomePage;
+        public MainWindow(/*WelcomePage welcomePage,*/)
         {
             InitializeComponent();
+            //_welcomePage = welcomePage;
+            //PageFrame.Navigate(_welcomePage);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            if (e.Key == Key.I)
-                InterfaceController.CreateController().ChangeInterface();
+            //if (e.Key == Key.I)
+            //    InterfaceController.CreateController().ChangeInterface();
         }
     }
 }
