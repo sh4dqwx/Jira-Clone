@@ -20,6 +20,7 @@ namespace JiraClone.graphicViews
 	{
 		//private ProjectsPage _projectsPage;
 		private LoginViewModel _viewModel;
+
 		private bool AreInputsValid()
 		{
 			bool areValid = true;
@@ -37,7 +38,7 @@ namespace JiraClone.graphicViews
 				password: passwordTextBox.Password
 			);
 
-			if(error != null)
+			if (error != null)
 			{
 				formError.Content = error;
 			}
@@ -49,7 +50,7 @@ namespace JiraClone.graphicViews
 
 		private void OnGoBack(object sender, RoutedEventArgs e)
 		{
-			if(NavigationService.CanGoBack)
+			if (NavigationService.CanGoBack)
 			{
 				NavigationService.GoBack();
 			}
@@ -76,7 +77,7 @@ namespace JiraClone.graphicViews
 			Loaded += OnLoaded;
 		}
 
-		public string Login { get; set; } = "";
-		public string Password { get; set; } = "";
+		public string Login { get; set; } = string.Empty;
+		public string Password { get; set; } = string.Empty;
 	}
 }
