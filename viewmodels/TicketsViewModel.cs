@@ -37,13 +37,26 @@ namespace JiraClone.viewmodels
 
 		public void GetStatuses()
 		{
-			List<Status> statusList = _statusRepository.GetStatusesFromProject(Project);
-			_statusList.Clear();
-			foreach (Status status in statusList)
+			//List<Status> statusList = _statusRepository.GetStatusesFromProject(Project);
+			//_statusList.Clear();
+			//foreach (Status status in statusList)
+			//{
+			//	List<Ticket> ticketList = _ticketRepository.GetTicketsFromProject(Project, status);
+			//	_statusList.Add(new KeyValuePair<string, List<Ticket>>(status.Name, ticketList));
+			//}
+
+			_statusList.Add(new KeyValuePair<string, List<Ticket>>("TO DO", new List<Ticket>()
 			{
-				List<Ticket> ticketList = _ticketRepository.GetTicketsFromProject(Project, status);
-				_statusList.Add(new KeyValuePair<string, List<Ticket>>(status.Name, ticketList));
-			}
+				new Ticket { Title = "test1", Code = "te-1", Type = "FEATURE" },
+				new Ticket { Title = "test2", Code = "te-2", Type = "FEATURE" },
+				new Ticket { Title = "test3", Code = "te-3", Type = "FEATURE" },
+			}));
+			_statusList.Add(new KeyValuePair<string, List<Ticket>>("IN PROGRESS", new List<Ticket>()));
+			_statusList.Add(new KeyValuePair<string, List<Ticket>>("DONE", new List<Ticket>()
+			{
+				new Ticket { Title = "test4", Code = "te-4", Type = "FEATURE" },
+				new Ticket { Title = "test5", Code = "te-5", Type = "FEATURE" },
+			}));
 		}
 
 		public string AddTicket(string title, string? description, string type)

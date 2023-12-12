@@ -1,4 +1,5 @@
 ﻿using JiraClone.graphicViews;
+using JiraClone.graphicViews.ticketViews;
 using JiraClone.utils;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,14 @@ namespace JiraClone
     public partial class MainWindow : Window
     {
         //private WelcomePage _welcomePage;
-        public MainWindow(/*WelcomePage welcomePage,*/)
+        private TicketsPage _ticketsPage;
+        public MainWindow(/*WelcomePage welcomePage,*/ TicketsPage ticketsPage)
         {
             InitializeComponent();
             //_welcomePage = welcomePage;
+            _ticketsPage = ticketsPage;
             //PageFrame.Navigate(_welcomePage);
+            PageFrame.Navigate(_ticketsPage);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
