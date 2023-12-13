@@ -85,7 +85,7 @@
                                                     </ControlTemplate>
                                                 </Button.Template>
                                             </Button>
-                                            <Button Grid.Column="3" Margin="5" ToolTip="Oddziel użytkownika">
+                                            <Button Grid.Column="3" Margin="5" ToolTip="Oddziel użytkownika" Click="OnUnassignTicket">
                                                 <Button.Template>
                                                     <ControlTemplate>
                                                         <fa:FontAwesome Icon="Remove" />
@@ -99,7 +99,7 @@
                                                     </ControlTemplate>
                                                 </Button.Template>
                                             </Button>
-                                            <Button Grid.Column="5" Margin="5" ToolTip="Usuń zadanie">
+                                            <Button Grid.Column="5" Margin="5" ToolTip="Usuń zadanie" Click="OnRemoveTicket">
                                                 <Button.Template>
                                                     <ControlTemplate>
                                                         <fa:FontAwesome Icon="Trash" />

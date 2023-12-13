@@ -46,6 +46,34 @@ namespace JiraClone.graphicViews.ticketViews
 			assignTicketDialog.ShowDialog();
 		}
 
+		private void OnUnassignTicket(object sender, EventArgs e)
+		{
+			if (sender is not FrameworkElement icon) return;
+			if (icon.DataContext is not Ticket ticket) return;
+
+			string? error = _viewModel.UnassignTicket(ticket.Code);
+			if (error != null)
+			{
+				MessageBox.Show(error, "UWAGA", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+			else
+			{
+				MessageBox.Show($"Użytkownik {ticket?.Assignee?.Name} {ticket?.Assignee?.Surname} został oddzielony od zadania");
+			}
+		}
+
+		private void OnRemoveTicket(object sender, EventArgs e)
+		{
+			if (sender is not FrameworkElement icon) return;
+			if (icon.DataContext is not Ticket ticket) return;
+
+			string? error = _viewModel.UnassignTicket(ticket.Code);
+			if (error != null)
+			{
+				MessageBox.Show(error, "UWAGA", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
 		private void OnGoBack(object sender, EventArgs e)
 		{
 			if (NavigationService.CanGoBack)
