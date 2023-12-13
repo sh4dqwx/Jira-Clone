@@ -71,11 +71,41 @@
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
-                                            <fa:FontAwesome Grid.Column="1" Icon="Cog" Margin="5" ToolTip="Szczegóły zadania" />
-                                            <fa:FontAwesome Grid.Column="2" Icon="UserPlus" Margin="5" ToolTip="Przydziel użytkownika" />
-                                            <fa:FontAwesome Grid.Column="3" Icon="Remove" Margin="5" ToolTip="Oddziel użytkownika" />
-                                            <fa:FontAwesome Grid.Column="4" Icon="ArrowRight" Margin="5" ToolTip="Zmień status" />
-                                            <fa:FontAwesome Grid.Column="5" Icon="Trash" Margin="5" ToolTip="Usuń zadanie" />
+                                            <Button Grid.Column="1" Margin="5" ToolTip="Szczegóły zadania" Click="OnShowDetails">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <fa:FontAwesome Icon="Cog" />
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button Grid.Column="2" Margin="5" ToolTip="Przydziel użytkownika">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <fa:FontAwesome Icon="UserPlus" />
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button Grid.Column="3" Margin="5" ToolTip="Oddziel użytkownika">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <fa:FontAwesome Icon="Remove" />
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button Grid.Column="4" Margin="5" ToolTip="Zmień status">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <fa:FontAwesome Icon="ArrowRight" />
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                            <Button Grid.Column="5" Margin="5" ToolTip="Usuń zadanie">
+                                                <Button.Template>
+                                                    <ControlTemplate>
+                                                        <fa:FontAwesome Icon="Trash" />
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>

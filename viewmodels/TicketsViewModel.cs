@@ -47,15 +47,15 @@ namespace JiraClone.viewmodels
 
 			_statusList.Add(new KeyValuePair<string, List<Ticket>>("TO DO", new List<Ticket>()
 			{
-				new Ticket { Title = "test1", Code = "te-1", Type = "FEATURE" },
-				new Ticket { Title = "test2", Code = "te-2", Type = "FEATURE" },
-				new Ticket { Title = "test3", Code = "te-3", Type = "FEATURE" },
+				new Ticket { Id = 1, Title = "test1", Code = "te-1", Type = "FEATURE" },
+				new Ticket { Id = 2, Title = "test2", Code = "te-2", Type = "FEATURE" },
+				new Ticket { Id = 3, Title = "test3", Code = "te-3", Type = "FEATURE" },
 			}));
 			_statusList.Add(new KeyValuePair<string, List<Ticket>>("IN PROGRESS", new List<Ticket>()));
 			_statusList.Add(new KeyValuePair<string, List<Ticket>>("DONE", new List<Ticket>()
 			{
-				new Ticket { Title = "test4", Code = "te-4", Type = "FEATURE" },
-				new Ticket { Title = "test5", Code = "te-5", Type = "FEATURE" },
+				new Ticket { Id = 4, Title = "test4", Code = "te-4", Type = "FEATURE" },
+				new Ticket { Id = 5, Title = "test5", Code = "te-5", Type = "FEATURE" },
 			}));
 		}
 

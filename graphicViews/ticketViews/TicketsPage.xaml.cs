@@ -28,6 +28,15 @@ namespace JiraClone.graphicViews.ticketViews
 			addTicketDialog.ShowDialog();
 		}
 
+		private void OnShowDetails(object sender, EventArgs e)
+		{
+			if (sender is not FrameworkElement icon) return;
+			if (icon.DataContext is not Ticket ticket) return;
+
+			TicketDetailsDialog ticketDetailsDialog = new(ticket);
+			ticketDetailsDialog.ShowDialog();
+		}
+
 		private void OnGoBack(object sender, EventArgs e)
 		{
 			if (NavigationService.CanGoBack)
