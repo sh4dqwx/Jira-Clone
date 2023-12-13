@@ -37,6 +37,15 @@ namespace JiraClone.graphicViews.ticketViews
 			ticketDetailsDialog.ShowDialog();
 		}
 
+		private void OnAssignTicket(object sender, EventArgs e)
+		{
+			if (sender is not FrameworkElement icon) return;
+			if (icon.DataContext is not Ticket ticket) return;
+
+			AssignTicketDialog assignTicketDialog = new(_viewModel, ticket);
+			assignTicketDialog.ShowDialog();
+		}
+
 		private void OnGoBack(object sender, EventArgs e)
 		{
 			if (NavigationService.CanGoBack)

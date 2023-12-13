@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace JiraClone.graphicViews.ticketViews
 {
-    /// <summary>
-    /// Interaction logic for TicketDetailsDialog.xaml
-    /// </summary>
     public partial class TicketDetailsDialog : Window
     {
         public TicketDetailsDialog(Ticket ticket)

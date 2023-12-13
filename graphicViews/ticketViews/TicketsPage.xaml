@@ -78,7 +78,7 @@
                                                     </ControlTemplate>
                                                 </Button.Template>
                                             </Button>
-                                            <Button Grid.Column="2" Margin="5" ToolTip="Przydziel użytkownika">
+                                            <Button Grid.Column="2" Margin="5" ToolTip="Przydziel użytkownika" Click="OnAssignTicket">
                                                 <Button.Template>
                                                     <ControlTemplate>
                                                         <fa:FontAwesome Icon="UserPlus" />
