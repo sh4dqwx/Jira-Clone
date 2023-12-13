@@ -22,6 +22,20 @@ namespace JiraClone.graphicViews.ticketViews
 	{
 		private TicketsViewModel _viewModel;
 
+		private void OnAddTicket(object sender, EventArgs e)
+		{
+			AddTicketDialog addTicketDialog = new(_viewModel);
+			addTicketDialog.ShowDialog();
+		}
+
+		private void OnGoBack(object sender, EventArgs e)
+		{
+			if (NavigationService.CanGoBack)
+			{
+				NavigationService.GoBack();
+			}
+		}
+
 		public TicketsPage(TicketsViewModel viewModel)
 		{
 			InitializeComponent();
