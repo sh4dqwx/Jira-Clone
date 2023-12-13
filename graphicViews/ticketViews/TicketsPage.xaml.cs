@@ -22,26 +22,12 @@ namespace JiraClone.graphicViews.ticketViews
 	{
 		private TicketsViewModel _viewModel;
 
-		private void OnTicketsChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			if(e.NewItems == null)
-			{
-				
-				return;
-			}
-			foreach (KeyValuePair<string, List<Ticket>> status in e.NewItems)
-			{
-				
-			}
-		}
-
 		public TicketsPage(TicketsViewModel viewModel)
 		{
 			InitializeComponent();
 			_viewModel = viewModel;
 			DataContext = _viewModel;
 
-			_viewModel.StatusList.CollectionChanged += OnTicketsChanged!;
 			_viewModel.GetStatuses();
 		}
 	}
