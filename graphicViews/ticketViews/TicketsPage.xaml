@@ -46,7 +46,7 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Label Grid.Row="0" Content="{Binding Key}"/>
-                            <ListBox Grid.Row="1" ItemsSource="{Binding Value}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                            <ListBox Grid.Row="1" ItemsSource="{Binding Value}" SelectionChanged="OnSelect" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Vertical" />

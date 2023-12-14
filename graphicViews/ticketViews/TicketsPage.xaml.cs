@@ -20,7 +20,17 @@ namespace JiraClone.graphicViews.ticketViews
 {
 	public partial class TicketsPage : Page
 	{
+		//private CommentsPage _commentsPage;
 		private TicketsViewModel _viewModel;
+
+		private void OnSelect(object sender, EventArgs e)
+		{
+            if (sender is not ListBox status) return;
+            if (status.DataContext is not KeyValuePair<string, List<Ticket>> tickets) return;
+
+			//_commentsPage.SetTicket(tickets.Value[status.SelectedIndex]);
+			//NavigationService.Navigate(_commentsPage);
+        }
 
 		private void OnAddTicket(object sender, EventArgs e)
 		{
@@ -91,9 +101,10 @@ namespace JiraClone.graphicViews.ticketViews
 			}
 		}
 
-		public TicketsPage(TicketsViewModel viewModel)
+		public TicketsPage(/*CommentsPage commentsPage,*/ TicketsViewModel viewModel)
 		{
 			InitializeComponent();
+			//_commentsPage = commentsPage;
 			_viewModel = viewModel;
 			DataContext = _viewModel;
 

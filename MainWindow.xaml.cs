@@ -21,14 +21,12 @@ namespace JiraClone
     public partial class MainWindow : Window
     {
         //private WelcomePage _welcomePage;
-        private TicketsPage _ticketsPage;
-        public MainWindow(/*WelcomePage welcomePage,*/ TicketsPage ticketsPage)
+
+        public MainWindow(/*WelcomePage welcomePage,*/)
         {
             InitializeComponent();
             //_welcomePage = welcomePage;
-            _ticketsPage = ticketsPage;
             //PageFrame.Navigate(_welcomePage);
-            PageFrame.Navigate(_ticketsPage);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
