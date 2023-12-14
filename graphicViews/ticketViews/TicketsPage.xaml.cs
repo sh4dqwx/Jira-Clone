@@ -62,6 +62,15 @@ namespace JiraClone.graphicViews.ticketViews
 			}
 		}
 
+		private void OnChangeStatus(object sender, EventArgs e)
+		{
+            if (sender is not FrameworkElement icon) return;
+            if (icon.DataContext is not Ticket ticket) return;
+
+            ChangeStatusDialog changeStatusDialog = new(_viewModel, ticket);
+            changeStatusDialog.ShowDialog();
+        }
+
 		private void OnRemoveTicket(object sender, EventArgs e)
 		{
 			if (sender is not FrameworkElement icon) return;
