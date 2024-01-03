@@ -19,7 +19,7 @@ namespace JiraClone.utils.validators
             if (requiredResult != ValidationResult.ValidResult) return requiredResult;
 
             if (!TYPES.Contains((string)value))
-                return new ValidationResult(false, "Niepoprawny typ");
+                return new ValidationResult(false, "Niepoprawny typ, dozwolone są FEATURE lub BUG");
 
             return ValidationResult.ValidResult;
         }

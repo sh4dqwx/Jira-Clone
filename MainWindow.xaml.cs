@@ -1,4 +1,5 @@
 ﻿using JiraClone.graphicViews;
+using JiraClone.graphicViews.ticketViews;
 using JiraClone.utils;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace JiraClone
     public partial class MainWindow : Window
     {
         //private WelcomePage _welcomePage;
+
         public MainWindow(/*WelcomePage welcomePage,*/)
         {
             InitializeComponent();
