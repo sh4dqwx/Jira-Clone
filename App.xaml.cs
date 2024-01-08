@@ -1,6 +1,7 @@
 ﻿using JiraClone.db;
 using JiraClone.db.repositories;
 using JiraClone.graphicViews;
+using JiraClone.graphicViews.commentsViews;
 using JiraClone.graphicViews.ticketViews;
 using JiraClone.models;
 using JiraClone.utils;
@@ -60,6 +61,7 @@ namespace JiraClone
                 services.AddSingleton<LoginPage>();
                 services.AddSingleton<RegisterPage>();
                 services.AddSingleton<TicketsPage>();
+                services.AddSingleton<CommentsPage>();
 				//ViewModels
 				services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<RegisterViewModel>();
