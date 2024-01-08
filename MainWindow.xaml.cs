@@ -1,4 +1,5 @@
 ﻿using JiraClone.graphicViews;
+using JiraClone.graphicViews.ticketViews;
 using JiraClone.utils;
 using System;
 using System.Collections.Generic;
