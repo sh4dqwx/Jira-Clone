@@ -11,20 +11,36 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace JiraClone.graphicViews.projectsViews
 {
-    public partial class ProjectsPage : Page
+    public partial class RemoveProjectDialog : Window
     {
         private ProjectsViewModel _viewModel;
-        public ProjectsPage(ProjectsViewModel viewModel)
+
+        public RemoveProjectDialog(ProjectsViewModel viewModel)
         {
             _viewModel = viewModel;
             InitializeComponent();
         }
 
+        private bool AreInputValid()
+        {
+            bool areValid = true;
+            if (Validation.GetHasError(nameTextBox)) areValid = false;
+            return areValid;
+        }
 
+        private void OnSubmit(object sender, EventArgs e)
+        {
+            if (!AreInputValid()) return;
+
+            _viewModel.RemoveProject(nameTextBox.Text);
+
+            Close();
+        }
+
+        public string ProjectName { get; set; } = string.Empty;
     }
 }

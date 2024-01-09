@@ -1,5 +1,4 @@
-﻿using JiraClone.viewmodels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,20 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace JiraClone.graphicViews.projectsViews
 {
-    public partial class ProjectsPage : Page
+    /// <summary>
+    /// Logika interakcji dla klasy ProjectDetailsDialog.xaml
+    /// </summary>
+    public partial class ProjectDetailsDialog : Window
     {
-        private ProjectsViewModel _viewModel;
-        public ProjectsPage(ProjectsViewModel viewModel)
+        public ProjectDetailsDialog()
         {
-            _viewModel = viewModel;
             InitializeComponent();
         }
-
-
     }
 }
