@@ -1,4 +1,5 @@
-﻿using JiraClone.viewmodels;
+﻿using JiraClone.graphicViews.ticketViews;
+using JiraClone.viewmodels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,18 @@ namespace JiraClone.graphicViews.projectsViews
             InitializeComponent();
         }
 
+        private void OnAddProject(object sender, EventArgs e)
+        {
+            AddProjectDialog addProjectDialog = new(_viewModel);
+            addProjectDialog.ShowDialog();
+        }
 
+        private void OnGoBack(object sender, EventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+        }
     }
 }
