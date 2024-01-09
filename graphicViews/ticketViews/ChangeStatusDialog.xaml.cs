@@ -21,18 +21,13 @@ namespace JiraClone.graphicViews.ticketViews
         private TicketsViewModel _viewModel;
         private Ticket _ticket;
 
-        private bool AreInputsValid()
-        {
-            bool areValid = true;
-            if (Validation.GetHasError(statusTextBox)) areValid = false;
-            return areValid;
-        }
-
         private void OnSubmit(object sender, EventArgs e)
         {
-            if (!AreInputsValid()) return;
+            string? error = _viewModel.ChangeStatus(
+                _ticket.Code,
+                (string)((ComboBoxItem)statusComboBox.SelectedItem).Content
+            );
 
-            string? error = _viewModel.ChangeStatus(_ticket.Code, statusTextBox.Text);
             if(error != null)
             {
                 formError.Content = error;

@@ -24,7 +24,6 @@ namespace JiraClone.graphicViews.ticketViews
             bool areValid = true;
             if (Validation.GetHasError(titleTextBox)) areValid = false;
 			if (Validation.GetHasError(descriptionTextBox)) areValid = false;
-			if (Validation.GetHasError(typeTextBox)) areValid = false;
             return areValid;
 		}
 
@@ -35,7 +34,7 @@ namespace JiraClone.graphicViews.ticketViews
 			string error = _viewModel.AddTicket(
                 titleTextBox.Text,
                 descriptionTextBox.Text,
-                typeTextBox.Text
+                (string)((ComboBoxItem)typeComboBox.SelectedItem).Content
             );
 
 			if (error != null)
@@ -56,6 +55,5 @@ namespace JiraClone.graphicViews.ticketViews
 
         public string TicketTitle { get; set; } = string.Empty;
 		public string Description { get; set; } = string.Empty;
-		public string Type { get; set; } = string.Empty;
 	}
 }

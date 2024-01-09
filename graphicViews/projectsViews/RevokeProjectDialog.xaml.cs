@@ -20,14 +20,20 @@ namespace JiraClone.graphicViews.projectsViews
         private ProjectsViewModel _viewModel;
         public RevokeProjectDialog(ProjectsViewModel viewModel)
         {
-            _viewModel = viewModel;
             InitializeComponent();
+            _viewModel = viewModel;
+            DataContext = _viewModel;
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            _viewModel.GetAccountsToShare();
         }
 
         private bool AreInputValid()
         {
             bool areValid = true;
-            if (Validation.GetHasError(nameTextBox)) areValid = false;
             if (Validation.GetHasError(userTextBox)) areValid = false;
             return areValid;
         }
@@ -36,7 +42,7 @@ namespace JiraClone.graphicViews.projectsViews
         {
             if (!AreInputValid()) return;
 
-            string? error = _viewModel.RevokeProject(nameTextBox.Text, userTextBox.Text);
+            string? error = _viewModel.RevokeProject(ProjectName, userTextBox.Text);
 
             if(error != null)
             {

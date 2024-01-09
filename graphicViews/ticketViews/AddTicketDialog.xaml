@@ -58,24 +58,10 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Typ:" />
-            <TextBox Grid.Column="1" x:Name="typeTextBox" VerticalContentAlignment="Center">
-                <TextBox.Text>
-                    <Binding Path="Type" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validation:TicketTypeRule ValidatesOnTargetUpdated="True" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-                <TextBox.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <Trigger Property="Validation.HasError" Value="True">
-                                <Setter Property="ToolBar.ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
+            <ComboBox Grid.Column="1" x:Name="typeComboBox" VerticalContentAlignment="Center" SelectedIndex="0">
+                <ComboBoxItem Content="FEATURE" />
+                <ComboBoxItem Content="BUG" />
+            </ComboBox>
         </Grid>
         <Grid Grid.Row="4" Margin="5">
             <Grid.ColumnDefinitions>

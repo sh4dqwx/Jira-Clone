@@ -21,6 +21,7 @@ namespace JiraClone.viewmodels
         private ApplicationState _applicationState;
         private ObservableCollection<Project> _ownedProjectList;
         private ObservableCollection<Project> _sharedProjectList;
+        private ObservableCollection<string> _autoCompleteAccounts;
 
         public ProjectsViewModel(
             IProjectRepository projectRepository,
@@ -34,6 +35,16 @@ namespace JiraClone.viewmodels
             _applicationState = applicationState;
             _ownedProjectList = new();
             _sharedProjectList = new();
+            _autoCompleteAccounts = new();
+        }
+
+        public void GetAccountsToShare()
+        {
+            _autoCompleteAccounts.Clear();
+            foreach (string accountName in _accountRepository.GetAllAccounts().Select(account => account.Login))
+            {
+                _autoCompleteAccounts.Add(accountName);
+            }
         }
 
         public void GetOwnedProjects()
@@ -147,6 +158,9 @@ namespace JiraClone.viewmodels
             if (loggedAccount.Id == account.Id)
                 return "Nie mo¿esz odebraæ dostêpu do projektu sobie";
 
+            if (project.AssignedAccounts.Select(accountInProject => accountInProject.Id == account.Id).ToList().Count == 0)
+                return "Podany u¿ytkownik nie jest przypisany";
+
             project.AssignedAccounts.Remove(account);
             _projectRepository.UpdateProject(project);
 
@@ -163,6 +177,11 @@ namespace JiraClone.viewmodels
         public ObservableCollection<Project> SharedProjectList
         {
             get => _sharedProjectList;
+        }
+
+        public ObservableCollection<string> AutoCompleteAccounts
+        {
+            get => _autoCompleteAccounts;
         }
     }
 }

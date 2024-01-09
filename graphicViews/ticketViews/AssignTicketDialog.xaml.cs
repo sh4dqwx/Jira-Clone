@@ -43,11 +43,18 @@ namespace JiraClone.graphicViews.ticketViews
 			}
 		}
 
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			_viewModel.GetAccountsToShare();
+		}
+
 		public AssignTicketDialog(TicketsViewModel viewModel, Ticket ticket)
 		{
 			InitializeComponent();
 			_viewModel = viewModel;
 			_ticket = ticket;
+			DataContext = _viewModel;
+			Loaded += OnLoaded;
 		}
 
 		public string Login { get; set; } = string.Empty;

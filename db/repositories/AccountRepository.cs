@@ -28,10 +28,10 @@ namespace JiraClone.db.repositories
             return _db.Accounts.Where(account => account.Email == email).FirstOrDefault();
         }
 
-		public Account? GetAccountById(int id)
-		{
-			return _db.Accounts.Where(account => account.Id == id).FirstOrDefault();
-		}
+        public Account? GetAccountById(int id)
+        {
+            return _db.Accounts.Where(account => account.Id == id).FirstOrDefault();
+        }
 
 		public List<Account> GetAllAccounts()
         {

@@ -21,6 +21,7 @@ namespace JiraClone.viewmodels
 		private IAccountRepository _accountRepository;
 		private ApplicationState _applicationState;
 		private ObservableCollection<KeyValuePair<string, List<Ticket>>> _statusList;
+		private ObservableCollection<string> _autoCompleteAccounts;
 
 		public TicketsViewModel(
 			ITicketRepository ticketRepository,
@@ -33,6 +34,17 @@ namespace JiraClone.viewmodels
 			_accountRepository = accountRepository;
 			_applicationState = applicationState;
 			_statusList = new();
+			_autoCompleteAccounts = new();
+		}
+
+		public void GetAccountsToShare()
+		{
+			_autoCompleteAccounts.Clear();
+			_autoCompleteAccounts.Add(Project.Owner.Login);
+			foreach (string accountName in Project.AssignedAccounts.Select(account => account.Login))
+			{
+				_autoCompleteAccounts.Add(accountName);
+			}
 		}
 
 		public void GetStatuses()
@@ -162,6 +174,11 @@ namespace JiraClone.viewmodels
 		public ObservableCollection<KeyValuePair<string, List<Ticket>>> StatusList
 		{
 			get { return _statusList; }
+		}
+
+		public ObservableCollection<string> AutoCompleteAccounts
+		{
+			get => _autoCompleteAccounts;
 		}
 
 		public Project Project { get; set; }

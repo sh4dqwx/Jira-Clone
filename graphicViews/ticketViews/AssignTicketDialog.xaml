@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JiraClone.graphicViews.ticketViews" xmlns:validators="clr-namespace:JiraClone.utils.validators"
+        xmlns:input="clr-namespace:System.Windows.Controls;assembly=DotNetProjects.Input.Toolkit"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="Przydziel użytkownika" Height="150" Width="400">
@@ -21,15 +22,20 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Login użytkownika:" />
-            <TextBox Grid.Column="1" x:Name="loginTextBox" Margin="5" VerticalContentAlignment="Center">
-                <TextBox.Text>
+            <input:AutoCompleteBox Grid.Column="1" x:Name="loginTextBox" Margin="5" VerticalContentAlignment="Center" ItemsSource="{Binding AutoCompleteAccounts}">
+                <input:AutoCompleteBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </input:AutoCompleteBox.ItemTemplate>
+                <input:AutoCompleteBox.Text>
                     <Binding Path="Login" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <validators:RequiredRule ValidatesOnTargetUpdated="True" />
                         </Binding.ValidationRules>
                     </Binding>
-                </TextBox.Text>
-                <TextBox.Style>
+                </input:AutoCompleteBox.Text>
+                <input:AutoCompleteBox.Style>
                     <Style>
                         <Style.Triggers>
                             <Trigger Property="Validation.HasError" Value="True">
@@ -37,8 +43,8 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
-                </TextBox.Style>
-            </TextBox>
+                </input:AutoCompleteBox.Style>
+            </input:AutoCompleteBox>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

@@ -68,6 +68,7 @@ namespace JiraClone.graphicViews.projectsViews
             if (icon.DataContext is not Project project) return;
 
             ShareProjectDialog shareProjectDialog = new(_viewModel);
+            shareProjectDialog.ProjectName = project.Name;
             shareProjectDialog.ShowDialog();
         }
 
@@ -77,6 +78,7 @@ namespace JiraClone.graphicViews.projectsViews
             if (icon.DataContext is not Project project) return;
 
             RevokeProjectDialog revokeProjectDialog = new(_viewModel);
+            revokeProjectDialog.ProjectName = project.Name;
             revokeProjectDialog.ShowDialog();
         }
 

@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JiraClone.graphicViews.projectsViews"
         xmlns:validation="clr-namespace:JiraClone.utils.validators"
+        xmlns:input="clr-namespace:System.Windows.Controls;assembly=DotNetProjects.Input.Toolkit"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         ResizeMode="NoResize"
-        Title="ShareProjectDialog" Height="250" Width="400">
+        Title="Udostępnij projekt" Height="250" Width="400">
 
     <Grid Margin="5" VerticalAlignment="Center">
         <Grid.RowDefinitions>
@@ -23,41 +24,21 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Nazwa projektu:" />
-            <TextBox Grid.Column="1" x:Name="nameTextBox" VerticalContentAlignment="Center">
-                <TextBox.Text>
-                    <Binding Path="ProjectName" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validation:RequiredRule ValidatesOnTargetUpdated="True" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-                <TextBox.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <Trigger Property="Validation.HasError" Value="True">
-                                <Setter Property="ToolBar.ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
-        </Grid>
-        <Grid Grid.Row="2" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Nazwa użytkownika:" />
-            <TextBox Grid.Column="1" x:Name="userTextBox" VerticalContentAlignment="Center">
-                <TextBox.Text>
+            <input:AutoCompleteBox Grid.Column="1" x:Name="userTextBox" VerticalContentAlignment="Center" ItemsSource="{Binding AutoCompleteAccounts}">
+                <input:AutoCompleteBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </input:AutoCompleteBox.ItemTemplate>
+                <input:AutoCompleteBox.Text>
                     <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <validation:RequiredRule ValidatesOnTargetUpdated="True" />
                         </Binding.ValidationRules>
                     </Binding>
-                </TextBox.Text>
-                <TextBox.Style>
+                </input:AutoCompleteBox.Text>
+                <input:AutoCompleteBox.Style>
                     <Style>
                         <Style.Triggers>
                             <Trigger Property="Validation.HasError" Value="True">
@@ -65,10 +46,10 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
-                </TextBox.Style>
-            </TextBox>
+                </input:AutoCompleteBox.Style>
+            </input:AutoCompleteBox>
         </Grid>
-        <Grid Grid.Row="3" Margin="5">
+        <Grid Grid.Row="2" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

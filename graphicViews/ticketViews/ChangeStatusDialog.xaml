@@ -21,24 +21,11 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Status:" />
-            <TextBox Grid.Column="1" x:Name="statusTextBox" VerticalContentAlignment="Center">
-                <TextBox.Text>
-                    <Binding Path="Status" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validation:RequiredRule ValidatesOnTargetUpdated="True" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-                <TextBox.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <Trigger Property="Validation.HasError" Value="True">
-                                <Setter Property="ToolBar.ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
+            <ComboBox Grid.Column="1" x:Name="statusComboBox" VerticalContentAlignment="Center" SelectedIndex="0">
+                <ComboBoxItem Content="TO DO" />
+                <ComboBoxItem Content="IN PROGRESS" />
+                <ComboBoxItem Content="DONE" />
+            </ComboBox>
         </Grid>
         <Grid Grid.Row="2" Margin="5">
             <Grid.ColumnDefinitions>
