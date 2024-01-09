@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JiraClone.db.dbmodels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,14 +15,12 @@ using System.Windows.Shapes;
 
 namespace JiraClone.graphicViews.projectsViews
 {
-    /// <summary>
-    /// Logika interakcji dla klasy ProjectDetailsDialog.xaml
-    /// </summary>
     public partial class ProjectDetailsDialog : Window
     {
-        public ProjectDetailsDialog()
+        public ProjectDetailsDialog(Project project)
         {
             InitializeComponent();
+            DataContext = project;
         }
     }
 }
