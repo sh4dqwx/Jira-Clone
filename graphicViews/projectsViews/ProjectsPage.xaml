@@ -32,73 +32,62 @@
             <Button Grid.Column="3" Content="Powrót" Margin="5" Padding="10" Click="OnGoBack" />
         </Grid>
         <Grid Grid.Row="1" Margin="15" >
-            <ItemsControl ItemsSource="{Binding ProjectsList}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <ItemsControl.ItemsPanel>
+            <ListBox  ItemsSource="{Binding OwnedProjectList}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SelectionChanged="OnSelect">
+                <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Rows="1" />
+                        <StackPanel Orientation="Vertical" />
                     </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <ListBox  ItemsSource="{Binding ProjectsList}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition Width="auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="[{0}] {1}">
-                                                    <Binding Path="Project.Code" />
-                                                    <Binding Path="Project.Name" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                        <Button Grid.Column="1" Margin="5" ToolTip="Szczegóły projektu" Click="OnShowDetails">
-                                            <Button.Template>
-                                                <ControlTemplate>
-                                                    <fa:FontAwesome Icon="Cog" />
-                                                </ControlTemplate>
-                                            </Button.Template>
-                                        </Button>
-                                        <Button Grid.Column="2" Margin="5" ToolTip="Udostępnij projekt" Click="OnAssignProject">
-                                            <Button.Template>
-                                                <ControlTemplate>
-                                                    <fa:FontAwesome Icon="UserPlus" />
-                                                </ControlTemplate>
-                                            </Button.Template>
-                                        </Button>
-                                        <Button Grid.Column="3" Margin="5" ToolTip="Odbierz projekt" Click="OnUnassignProject">
-                                            <Button.Template>
-                                                <ControlTemplate>
-                                                    <fa:FontAwesome Icon="Remove" />
-                                                </ControlTemplate>
-                                            </Button.Template>
-                                        </Button>
-                                        <Button Grid.Column="4" Margin="5" ToolTip="Usuń projekt" Click="OnRemoveProject">
-                                            <Button.Template>
-                                                <ControlTemplate>
-                                                    <fa:FontAwesome Icon="Trash" />
-                                                </ControlTemplate>
-                                            </Button.Template>
-                                        </Button>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="[{0}] {1}">
+                                        <Binding Path="Code" />
+                                        <Binding Path="Name" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <Button Grid.Column="1" Margin="5" ToolTip="Szczegóły projektu" Click="OnShowDetails">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <fa:FontAwesome Icon="Cog" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button Grid.Column="2" Margin="5" ToolTip="Udostępnij projekt" Click="OnAssignProject">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <fa:FontAwesome Icon="UserPlus" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button Grid.Column="3" Margin="5" ToolTip="Odbierz projekt" Click="OnUnassignProject">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <fa:FontAwesome Icon="Remove" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button Grid.Column="4" Margin="5" ToolTip="Usuń projekt" Click="OnRemoveProject">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <fa:FontAwesome Icon="Trash" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
-﻿using JiraClone.viewmodels;
+﻿using JiraClone.graphicViews.projectsViews;
+using JiraClone.viewmodels;
 using JiraClone.views.ProjectViews;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
@@ -21,7 +22,7 @@ namespace JiraClone.graphicViews
 {
     public partial class RegisterPage : Page
     {
-        //private ProjectsPage _projectsPage;
+        private ProjectsPage _projectsPage;
         private RegisterViewModel _viewModel;
 
         private bool AreInputsValid()
@@ -53,7 +54,7 @@ namespace JiraClone.graphicViews
 			}
 			else
             {
-                //NavigationService.Navigate(_projectsPage);
+                NavigationService.Navigate(_projectsPage);
             }
 		}
 
@@ -82,10 +83,10 @@ namespace JiraClone.graphicViews
             formError.Content = string.Empty;
         }
 
-        public RegisterPage(/*ProjectsPage projectsPage,*/ RegisterViewModel viewModel)
+        public RegisterPage(ProjectsPage projectsPage, RegisterViewModel viewModel)
         {
             InitializeComponent();
-            //_projectsPage = projectsPage;
+            _projectsPage = projectsPage;
             _viewModel = viewModel;
             Loaded += OnLoaded;
         }

@@ -10,7 +10,7 @@
 
     <Window.Resources>
         <converters:NullToDashConverter x:Key="NullToDashConverter" />
-        <converters:DataConverter x:Key="DataConverter" />
+        <converters:DateConverter x:Key="DateConverter" />
         <converters:NameSurnameConverter x:Key="NameSurnameConverter" />
         <converters:CountConverter x:Key="CountConverter" />
     </Window.Resources>
@@ -66,7 +66,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Data utworzenia zadania:" />
-            <TextBox Grid.Column="1" Margin="5" Text="{Binding CreationTimestamp, Converter={StaticResource DataConverter}}" VerticalContentAlignment="Center" IsEnabled="False" />
+            <TextBox Grid.Column="1" Margin="5" Text="{Binding CreationTimestamp, Converter={StaticResource DateConverter}}" VerticalContentAlignment="Center" IsEnabled="False" />
         </Grid>
         <Grid Grid.Row="5">
             <Grid.ColumnDefinitions>

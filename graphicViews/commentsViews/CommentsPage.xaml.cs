@@ -1,4 +1,5 @@
-﻿using JiraClone.viewmodels;
+﻿using JiraClone.db.dbmodels;
+using JiraClone.viewmodels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,13 @@ namespace JiraClone.graphicViews.commentsViews
         {
             InitializeComponent();
             _viewModel = viewModel;
+            DataContext = _viewModel;
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            _viewModel.GetComments();
         }
 
         private void OnAddComment(object sender, RoutedEventArgs e)
@@ -38,6 +46,11 @@ namespace JiraClone.graphicViews.commentsViews
             {
                 NavigationService.GoBack();
             }
+        }
+
+        public void SetTicket(Ticket ticket)
+        {
+            _viewModel.Ticket = ticket;
         }
     }
 }

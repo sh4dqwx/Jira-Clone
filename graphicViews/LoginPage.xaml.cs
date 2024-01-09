@@ -1,4 +1,5 @@
-﻿using JiraClone.viewmodels;
+﻿using JiraClone.graphicViews.projectsViews;
+using JiraClone.viewmodels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace JiraClone.graphicViews
 {
 	public partial class LoginPage : Page
 	{
-		//private ProjectsPage _projectsPage;
+		private ProjectsPage _projectsPage;
 		private LoginViewModel _viewModel;
 
 		private bool AreInputsValid()
@@ -44,7 +45,7 @@ namespace JiraClone.graphicViews
 			}
 			else
 			{
-				//NavigationService.Navigate(_projectPage);
+				NavigationService.Navigate(_projectsPage);
 			}
 		}
 
@@ -58,21 +59,15 @@ namespace JiraClone.graphicViews
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			NavigationService.Navigated += OnNavigated;
-		}
-
-		private void OnNavigated(object sender, NavigationEventArgs e)
-		{
-			if (e.Content is not LoginPage) return;
 			loginTextBox.Text = string.Empty;
 			passwordTextBox.Password = string.Empty;
 			formError.Content = string.Empty;
 		}
 
-		public LoginPage(/*ProjectsPage projectsPage,*/ LoginViewModel viewModel)
+		public LoginPage(ProjectsPage projectsPage, LoginViewModel viewModel)
 		{
 			InitializeComponent();
-			//_projectsPage = projectsPage;
+			_projectsPage = projectsPage;
 			_viewModel = viewModel;
 			Loaded += OnLoaded;
 		}

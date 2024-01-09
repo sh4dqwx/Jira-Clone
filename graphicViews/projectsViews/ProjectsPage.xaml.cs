@@ -25,14 +25,26 @@ namespace JiraClone.graphicViews.projectsViews
         private TicketsPage _ticketPage;
         public ProjectsPage(ProjectsViewModel viewModel, TicketsPage ticketsPage)
         {
-            _viewModel = viewModel;
-            _ticketPage = ticketsPage;
             InitializeComponent();
+			_viewModel = viewModel;
+			_ticketPage = ticketsPage;
+            DataContext = _viewModel;
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, EventArgs e)
+        {
+            _viewModel.GetOwnedProjects();
+            _viewModel.GetSharedProjects();
         }
 
         private void OnSelect(object sender, EventArgs e)
         {
-            //NavigationService.Navigate(_TicketPage);
+            if (sender is not ListBox projectList) return;
+            if (projectList.SelectedIndex < 0) return;
+
+            _ticketPage.SetProject(_viewModel.OwnedProjectList[projectList.SelectedIndex]);
+            NavigationService.Navigate(_ticketPage);
         }
 
         private void OnAddProject(object sender, EventArgs e)
@@ -87,5 +99,7 @@ namespace JiraClone.graphicViews.projectsViews
                 NavigationService.GoBack();
             }
         }
+
+        
     }
 }

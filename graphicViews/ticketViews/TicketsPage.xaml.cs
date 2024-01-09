@@ -28,8 +28,9 @@ namespace JiraClone.graphicViews.ticketViews
 		{
             if (sender is not ListBox status) return;
             if (status.DataContext is not KeyValuePair<string, List<Ticket>> tickets) return;
+			if (status.SelectedIndex < 0) return;
 
-			//_commentsPage.SetTicket(tickets.Value[status.SelectedIndex]);
+			_commentsPage.SetTicket(tickets.Value[status.SelectedIndex]);
 			NavigationService.Navigate(_commentsPage);
         }
 
@@ -102,14 +103,23 @@ namespace JiraClone.graphicViews.ticketViews
 			}
 		}
 
-		public TicketsPage(CommentsPage commentsPage, TicketsViewModel viewModel)
+		private void OnLoaded(object sender, EventArgs e)
+		{
+            _viewModel.GetStatuses();
+        }
+
+        public TicketsPage(CommentsPage commentsPage, TicketsViewModel viewModel)
 		{
 			InitializeComponent();
 			_commentsPage = commentsPage;
 			_viewModel = viewModel;
 			DataContext = _viewModel;
+			Loaded += OnLoaded;
+		}
 
-			_viewModel.GetStatuses();
+		public void SetProject(Project project)
+		{
+			_viewModel.Project = project;
 		}
 	}
 }
