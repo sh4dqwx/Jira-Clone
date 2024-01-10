@@ -31,8 +31,8 @@ namespace JiraClone
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            //if (e.Key == Key.I)
-            //    InterfaceController.CreateController().ChangeInterface();
+            if (Keyboard.IsKeyDown(Key.O) && Keyboard.Modifiers == ModifierKeys.Control)
+                InterfaceController.CreateController().ChangeInterface();
         }
     }
 }

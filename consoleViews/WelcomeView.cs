@@ -3,6 +3,7 @@ using JiraClone.utils.consoleViewParts;
 using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
 using System;
+using System.Windows.Input;
 
 namespace JiraClone.views
 {
@@ -42,7 +43,15 @@ namespace JiraClone.views
                     continue;
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-				UseKey(keyInfo);
+
+                if (keyInfo.Key == ConsoleKey.I && keyInfo.Modifiers == ConsoleModifiers.Control)
+				{
+                    InterfaceController.CreateController().ChangeInterface();
+					EndLoop();
+					return;
+				}
+
+                UseKey(keyInfo);
 			}
 		}
 	}

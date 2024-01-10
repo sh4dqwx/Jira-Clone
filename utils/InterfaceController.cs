@@ -55,10 +55,11 @@ namespace JiraClone.utils
         private const int SC_SIZE = 0xF000;
 
         private readonly MainWindow window;
+        private readonly WelcomeView console;
 
         private static InterfaceController? controller;
 
-        public static void CreateController(MainWindow? window = null, WelcomeView? console = null)
+        public static InterfaceController CreateController(MainWindow? window = null, WelcomeView? console = null)
         {
             if (controller == null)
             {
@@ -70,14 +71,17 @@ namespace JiraClone.utils
 
                 controller = new InterfaceController(window, console);
             }
+
+            return controller;
         }
 
         private InterfaceController(MainWindow window, WelcomeView console)
         {
             this.window = window;
+            this.console = console;
+            ShowConsole();
+            HideConsole();
             window.Show();
-            //ShowConsole();
-            //console.Start();
         }
 
         public void ChangeInterface()
@@ -86,11 +90,13 @@ namespace JiraClone.utils
             {
                 window.Hide();
                 ShowConsole();
+                console.Start();
             }
             else
             {
                 HideConsole();
                 window.Show();
+                window.Activate();
             }
         }
 

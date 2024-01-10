@@ -15,8 +15,9 @@ namespace JiraClone.utils.consoleViewParts.layouts
 		protected readonly object consoleLock = new();
 		private Thread loopThread;
 		private Action? actionForLoop;
+        protected Func<object>? nextView;
 
-		protected virtual void ResetView()
+        protected virtual void ResetView()
 		{
 			lock (consoleLock)
 			{
@@ -268,7 +269,7 @@ namespace JiraClone.utils.consoleViewParts.layouts
 		public void StartLoop(Action action)
 		{
 			if (actionForLoop != null || loopThread.IsAlive)
-				throw new Exception("Loop already started");
+				return;
 
 			actionForLoop = action;
 			if(loopThread.ThreadState == ThreadState.Unstarted)
