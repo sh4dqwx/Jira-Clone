@@ -1,4 +1,5 @@
-﻿using JiraClone.utils.consoleViewParts.layouts;
+﻿using JiraClone.utils;
+using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
 using JiraClone.utils.validators;
 using JiraClone.viewmodels;
@@ -54,7 +55,7 @@ namespace JiraClone.views.ProjectViews
             Console.WriteLine(e.PropertyName);
         }
 
-        public void Start()
+        public Func<object>? Start()
         {
             ResetView();
 			Print();
@@ -65,13 +66,27 @@ namespace JiraClone.views.ProjectViews
                     continue;
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+                if (keyInfo.Key == ConsoleKey.I && keyInfo.Modifiers == ConsoleModifiers.Control)
+                {
+                    InterfaceController.CreateController().ChangeInterface();
+                    EndLoop();
+                    return null;
+                }
+
                 UseKey(keyInfo);
 
                 if (closeFlag)
                 {
                     closeFlag = false;
                     ResetView();
-                    return;
+                    return null;
+                }
+                if (nextView != null)
+                {
+                    Func<object> funcToSend = nextView;
+                    nextView = null;
+                    return funcToSend;
                 }
             }
         }

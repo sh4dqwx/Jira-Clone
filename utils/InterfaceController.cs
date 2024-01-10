@@ -2,6 +2,7 @@
 using JiraClone.views;
 using Microsoft.Win32.SafeHandles;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -55,7 +56,8 @@ namespace JiraClone.utils
         private const int SC_SIZE = 0xF000;
 
         private readonly MainWindow window;
-        private readonly WelcomeView console;
+        private Func<object> currentConsoleView;
+        private Stack<Func<object>> consoleViewStack;
 
         private static InterfaceController? controller;
 
@@ -78,10 +80,33 @@ namespace JiraClone.utils
         private InterfaceController(MainWindow window, WelcomeView console)
         {
             this.window = window;
-            this.console = console;
+            currentConsoleView = console.Start;
+            consoleViewStack = new Stack<Func<object>>();
             ShowConsole();
             HideConsole();
             window.Show();
+        }
+
+        private void ConsoleController()
+        {
+            while (true)
+            {
+                var nextView = currentConsoleView();
+                if (nextView == null)
+                {
+                    if (window.IsVisible || consoleViewStack.Count == 0)
+                        return;
+
+                    Func<object> nextFunc = consoleViewStack.Pop();
+                    currentConsoleView = nextFunc;
+                }
+                else
+                {
+                    Func<object> nextFunc = (Func<object>)nextView;
+                    consoleViewStack.Push(currentConsoleView);
+                    currentConsoleView = nextFunc;
+                }
+            }
         }
 
         public void ChangeInterface()
@@ -90,7 +115,7 @@ namespace JiraClone.utils
             {
                 window.Hide();
                 ShowConsole();
-                console.Start();
+                ConsoleController();
             }
             else
             {

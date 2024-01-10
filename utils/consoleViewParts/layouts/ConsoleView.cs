@@ -249,21 +249,13 @@ namespace JiraClone.utils.consoleViewParts.layouts
 			}
         }
 
-        public void StartNewConsoleView(Action action)
+        public void StartNewConsoleView(Func<object> action)
 		{
 			Action? actionForLoop = this.actionForLoop;
 			if (loopThread.IsAlive)
 				EndLoop();
 
-            action();
-
-            ResetView();
-            Print();
-
-            if (actionForLoop != null && !loopThread.IsAlive)
-			{
-				StartLoop(actionForLoop);
-			}
+			nextView = action;
 		}
 
 		public void StartLoop(Action action)

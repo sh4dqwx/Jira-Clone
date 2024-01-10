@@ -1,4 +1,5 @@
 ﻿using JiraClone.db.dbmodels;
+using JiraClone.utils;
 using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
 using JiraClone.views.CommentViews;
@@ -55,7 +56,7 @@ namespace JiraClone.views.TicketViews
             base.ResetView();
         }
 
-        public void Start(Ticket ticket)
+        public Func<object>? Start(Ticket ticket)
         {
             currentTicket = ticket;
             ResetView();
@@ -67,13 +68,27 @@ namespace JiraClone.views.TicketViews
                     continue;
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+                if (keyInfo.Key == ConsoleKey.I && keyInfo.Modifiers == ConsoleModifiers.Control)
+                {
+                    InterfaceController.CreateController().ChangeInterface();
+                    EndLoop();
+                    return null;
+                }
+
                 UseKey(keyInfo);
 
                 if (closeFlag)
                 {
                     closeFlag = false;
                     ResetView();
-                    return;
+                    return null;
+                }
+                if (nextView != null)
+                {
+                    Func<object> funcToSend = nextView;
+                    nextView = null;
+                    return funcToSend;
                 }
             }
         }

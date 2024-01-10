@@ -1,4 +1,5 @@
 ﻿using JiraClone.db.dbmodels;
+using JiraClone.utils;
 using JiraClone.utils.consoleViewParts.layouts;
 using JiraClone.utils.consoleViewParts.options;
 using JiraClone.viewmodels;
@@ -78,7 +79,7 @@ namespace JiraClone.views.TicketViews
             Add(bottomMenu);
         }
 
-        public void Start(Project project)
+        public Func<object>? Start(Project project)
         {
             viewModel.Project = project;
             viewModel.GetStatuses();
@@ -91,15 +92,29 @@ namespace JiraClone.views.TicketViews
                     continue;
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+                if (keyInfo.Key == ConsoleKey.I && keyInfo.Modifiers == ConsoleModifiers.Control)
+                {
+                    InterfaceController.CreateController().ChangeInterface();
+                    EndLoop();
+                    return null;
+                }
+
                 UseKey(keyInfo);
 
 				if (closeFlag)
 				{
 					closeFlag = false;
 					ResetView();
-					return;
+					return null;
 				}
-			}
+                if (nextView != null)
+                {
+                    Func<object> funcToSend = nextView;
+                    nextView = null;
+                    return funcToSend;
+                }
+            }
         }
     }
 }

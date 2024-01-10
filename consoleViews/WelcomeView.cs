@@ -31,7 +31,7 @@ namespace JiraClone.views
 			Add(menu);
         }
 
-		public void Start()
+		public Func<object>? Start()
 		{
 			ResetView();
 			Print();
@@ -48,10 +48,16 @@ namespace JiraClone.views
 				{
                     InterfaceController.CreateController().ChangeInterface();
 					EndLoop();
-					return;
+					return null;
 				}
 
                 UseKey(keyInfo);
+				if(nextView != null)
+				{
+					Func<object> funcToSend = nextView;
+					nextView = null;
+					return funcToSend;
+				}
 			}
 		}
 	}
